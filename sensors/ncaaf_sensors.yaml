@@ -1,0 +1,1414 @@
+##
+## NCAA Standings
+###
+- platform: rest
+  scan_interval: 36000
+  name: NCAA Standings
+  unique_id: sensor.ncaa_standings
+  #resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events
+##
+## College Football Standings
+##
+- platform: rest
+  scan_interval: 36000
+  name: College Football Standings
+  unique_id: sensor.college_football_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+    - children      
+
+################################################ AP Poll #####################################
+##NCAA Men's Football AP Poll
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_poll_ap_top_25_all
+  unique_id: sensor.ncaaf_poll_ap_top_25_all
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes: 
+   - ranks
+   - droppedOut
+   - others
+################################################ AFCA Coaches Poll #####################################
+###NCAA Men's Football AFCA Coaches Poll        
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_poll_Coaches_top_25_all
+  unique_id: sensor.ncaaf_poll_Coaches_top_25_all
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][1]"
+  json_attributes: 
+   - ranks
+   - droppedOut
+   - others
+################################################ FCS Coaches#####################################
+##NCAA Men's Football FCS Coaches
+ 
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_poll_fcs_coaches_top_25_all
+  unique_id: sensor.ncaaf_poll_fcs_coaches_top_25_all
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][2]"
+  json_attributes: 
+   - ranks
+   - droppedOut
+   - others
+
+#####################
+##### Moving Sensors from Template to REST   
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_american_athletic
+  unique_id: sensor.ncaaf_conference_american_athletic
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['standings']"
+  json_attributes: 
+   - entries
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_atlantic_coast
+  unique_id: sensor.ncaaf_conference_atlantic_coast
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['standings']"
+  json_attributes: 
+   - entries
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_big_12
+  unique_id: sensor.ncaaf_conference_big_12
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[2]['standings']"
+  json_attributes: 
+   - entries
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_big_ten
+  unique_id: sensor.ncaaf_conference_big_ten
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[3]['standings']"
+  json_attributes: 
+   - entries
+   
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_conference_usa
+  unique_id: sensor.ncaaf_conference_conference_usa
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[4]['standings']"
+  json_attributes: 
+   - entries   
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_fbs_independents
+  unique_id: sensor.ncaaf_conference_fbs_independents
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[5]['standings']"
+  json_attributes: 
+   - entries     
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_mid_american
+  unique_id: sensor.ncaaf_conference_mid_american
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[6]['standings']"
+  json_attributes: 
+   - entries   
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_mountain_west
+  unique_id: sensor.ncaaf_conference_mountain_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[7]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_pac12
+  unique_id: sensor.ncaaf_conference_pac12
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[8]['standings']"
+  json_attributes: 
+   - entries   
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_southeastern
+  unique_id: sensor.ncaaf_conference_southeastern
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[9]['standings']"
+  json_attributes: 
+   - entries   
+
+   
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_sun_belt_east
+  unique_id: sensor.ncaaf_conference_sun_belt_east
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[10]['children'][0]['standings']"
+  json_attributes: 
+   - entries
+   
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_conference_sun_belt_conference_west
+  unique_id: sensor.ncaaf_conference_sun_belt_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[10]['children'][1]['standings']"
+  json_attributes: 
+   - entries   
+   
+
+ 
+
+#######  Just playinng the sensor above is similar to the sensor below      
+##
+## NCAA Football Scoreboard for Top 25
+###
+- platform: rest
+  scan_interval: 36000
+  name: NCAAf Games 
+  unique_id: sensor.ncaaf_games
+  #resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings
+  #resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=4
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+  
+      
+##
+## NCAA Football Rankings
+###
+- platform: rest
+  scan_interval: 36000
+  name: NCAAf rank 
+  unique_id: sensor.ncaaf_rank
+  #resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - rankings
+      
+  
+      
+########
+##NCAA Football League schedules
+####
+##### Big 12sensor.big_12_conference
+- platform: rest
+  scan_interval: 36000
+  name: NCAAf Big 12 Games 
+  unique_id: sensor.ncaaf_big_12_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=4
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events 
+       
+##### SEC
+- platform: rest
+  scan_interval: 36000
+  name: NCAAf SEC Games 
+  unique_id: sensor.ncaaf_sec_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=8
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events 
+       
+##### ACC
+- platform: rest
+  scan_interval: 36000
+  name: NCAAf ACC Games 
+  unique_id: sensor.ncaaf_acc_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=1
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+      
+##
+## NCAA Teams
+## Big 12 Conference
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ARIZ"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "University of Arizona"
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_university_of_arizona
+  unique_id: sensor.ncaaf_schedule_big_12_university_of_arizona
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ARIZ/schedule
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+      
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ASU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Arizona State University"
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_arizona_state_university
+  unique_id: sensor.ncaaf_schedule_big_12_arizona_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ASU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "BAY"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Baylor University"
+  
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_baylor_university
+  unique_id: sensor.ncaaf_schedule_big_12_baylor_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/BAY/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "BYU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Brigham Young University"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_brigham_young_university
+  unique_id: sensor.ncaaf_schedule_big_12_brigham_young_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/BYU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UCF"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "University of Central Florida"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_university_of_central_florida
+  unique_id: sensor.ncaaf_schedule_big_12_university_of_central_florida
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/UCF/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CIN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "University of Cincinnati"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_university_of_cincinnati
+  unique_id: sensor.ncaaf_schedule_big_12_university_of_cincinnati
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/CIN/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "COLO"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "University of Colorado Boulder"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_university_colorado
+  unique_id: sensor.ncaaf_schedule_big_12_university_colorado
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/COLO/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "HOU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "University of Houston"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_university_of_houston
+  unique_id: sensor.ncaaf_schedule_big_12_university_of_houston
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/HOU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ISU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Iowa State University"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_iowa_state_university
+  unique_id: sensor.ncaaf_schedule_big_12_iowa_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ISU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "KU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "University of Kansas"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_univeristy_of_kansas
+  unique_id: sensor.ncaaf_schedule_big_12_univeristy_of_kansas
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/KU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "KSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Kansas State University"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_kansas_state_university
+  unique_id: sensor.ncaaf_schedule_big_12_kansas_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/KSU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "OKST"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Oklahoma State University"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_oklahoma_state_university
+  unique_id: sensor.ncaaf_schedule_big_12_oklahoma_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/OKST/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TCU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Texas Christian University"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_texas_christian_university
+  unique_id: sensor.ncaaf_schedule_big_12_texas_christian_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/TCU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TTU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "Texas Tech University"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_texas_tech_university
+  unique_id: sensor.ncaaf_schedule_big_12_texas_tech_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/TTU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UTAH"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "University of Utah"
+
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_university_of_utah
+  unique_id: sensor.ncaaf_schedule_big_12_university_of_utah
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/UTAH/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WVU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 4
+  name: "West Virginia University"
+  
+- platform: rest
+  scan_interval: 36000
+  name: ncaaf_schedule_big_12_west_virginia_university
+  unique_id: sensor.ncaaf_schedule_big_12_west_virginia_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/WVU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+##
+## NCAA Teams
+## SEC Conference
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UGA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Georgia"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UK"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Kentucky"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TENN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Tennessee"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ALA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Alabama"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ARK"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Arkansas"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "Aub"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "Auburn University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "FLA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Florida"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "LSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "Louisiana State University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MISS"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Mississippi"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MSST"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "Mississippi State University" 
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MIZ"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Missouri"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "OKU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of Oklahoma"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "OU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "University of South Carolina"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TEX"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "Univerisity of Texas at Austin"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TA&M"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "Texas AM University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "VAN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 8
+  name: "Vanderbilt University"
+##
+## NCAA Teams
+## Big 10  
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ILL"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Illinois"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "IU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "Indiana University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "IOWA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Iowa"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MD"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Maryland"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "Michigan State University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MICH"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Michigan"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MINN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Minnesota"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NEB"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Nebraska"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "Northwestern University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "OSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "Ohio State University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ORE"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name:  "University of Oregon"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "PSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "Penn State University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "PUR"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "Purdue University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "RUTG"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "Rutgers University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UCLA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of California Los Angeles"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "USC"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Southern California"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WASH"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Washington"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WIS"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 5
+  name: "University of Wisconsin"
+##
+## NCAA Teams
+## ACC
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "BC"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Boston College"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CAL"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "University of California Berkeley"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CLEM"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Clemson University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "DUKE"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Duke University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "FSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Florida State University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "GT"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Georgia Institute of Technology"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "LOU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "University of Louisville"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MIA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "University of Miami"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UNC"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "University of North Carolina"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NCSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "North Carolina State University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NDU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "University of Notre Dame"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "PITT"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "University of Pittsburgh"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "SMU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Southern Methodist University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "SYR"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Syracuse"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UVA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "University of Virginia"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "VT"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Virginia Polytechnic"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WAKE"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Wake Forest University"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "STAN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 1
+  name: "Stanford University"
+  
+##
+## NCAA Teams
+## Moutain West 
+##
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "BOIS"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Boise State Broncos"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WYO"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Wyoming Cowboys"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "USU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Utah State Aggies"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UNLV"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "UNLV Rebels"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "SJSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "San José State Spartans"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "SDSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "San Diego State Aztecs"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UNM"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "New Mexico Lobos"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NEV"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Nevada Wolf Pack"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "HAW"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Hawaii Rainbow Warriors"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "FRES"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Fresno State Bulldogs"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Colorado State Rams"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "AFA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 17
+  name: "Air Force Falcons"
+##
+## NCAA Teams
+## FBS Independent
+##
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CONN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 18
+  name: "UConn Huskies"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ND"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 18
+  name: "Notre Dame Fighting Irish"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MASS"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 18
+  name: "Massachusetts Minutemen"
+  
+##
+## NCAA Teams
+## American
+##
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CLT"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Charlotte 49ers"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ARMY"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Army Black Knights"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UTSA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "UTSA Roadrunners"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UAB"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "UAB Blazers"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TLSA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Tulsa Golden Hurricane"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TULN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Tulane Green Wave"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TEM"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Temple Owls"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "USF"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "South Florida Bulls"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "RICE"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Rice Owls"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UNT"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "North Texas Mean Green"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NAVY"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Navy Midshipmen"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MEM"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Memphis Tigers"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "FAU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "Florida Atlantic Owls"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ECU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 151
+  name: "East Carolina Pirates"
+
+## NCAA Teams
+## Conference USA
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WKU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Western Kentucky Hilltoppers"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UTEP"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "UTEP Miners"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "SHSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Sam Houston Bearkats"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NMSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "New Mexico State Aggies"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MTSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Middle Tennessee Blue Raiders"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "LT"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Louisiana Tech Bulldogs"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "LIB"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Liberty Flames"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "KENN"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Kennesaw State Owls"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "JVST"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Jacksonville State Gamecocks"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "FIU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 12
+  name: "Florida International Panthers"
+
+## NCAA Teams
+## Mid American 
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CMU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Central Michigan Chippewas"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "BUFF"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Buffalo Bulls"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "BGSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Bowling Green Falcons"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "BALL"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Ball State Cardinals"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WMU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Western Michigan Broncos"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TOL"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Toledo Rockets"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "OHIO"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Ohio Bobcats"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "NIU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Northern Illinois Huskies"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "M-OH"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Miami (OH) RedHawks"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "KENT"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Kent State Golden Flashes"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "AKR"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Akron Zips"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "EMU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 15
+  name: "Eastern Michigan Eagles"
+## NCAA Teams
+## Pac-12
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "WSU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 9
+  name: Washington State Cougars
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ORST"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 9
+  name: Oregon State Beavers 
+
+## NCAA Teams
+## Sun Belt
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ARST"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Arkansas State Red Wolves"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ULM"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "UL Monroe Warhawks"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TROY"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Troy Trojans"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "TXST"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Texas State Bobcats"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "USM"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Southern Miss Golden Eagles"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "USA"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "South Alabama Jaguars"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "APP"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Appalachian State Mountaineers"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "ODU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Old Dominion Monarchs"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "MRSH"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Marshall Thundering Herd"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "UL"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Louisiana Ragin' Cajuns"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "JMU"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "James Madison Dukes"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "GAST"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Georgia State Panthers"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "GASO"
+  sport_path: football   
+  league_path: "college-football"  
+  conference_id: 37
+  name: "Georgia Southern Eagles"
+- platform: teamtracker
+  league_id: "NCAAF"
+  team_id: "CCU"
+  sport_path: football
+  league_path: "college-football"   
+  conference_id: 37
+  name: "Coastal Carolina Chanticleers"

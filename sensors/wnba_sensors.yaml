@@ -1,0 +1,74 @@
+## 
+## WNBA Teams
+##
+- platform: teamtracker
+  league_id: WNBA
+  team_id: NY
+  name: New York Liberty
+- platform: teamtracker
+  league_id: WNBA
+  team_id: IND
+  name: Indiana Fever
+- platform: teamtracker
+  league_id: WNBA
+  team_id: SUN
+  name: Connecticut Sun
+- platform: teamtracker
+  league_id: WNBA
+  team_id: CHI
+  name: Chicago Sky
+- platform: teamtracker
+  league_id: WNBA
+  team_id: ATL
+  name: Atlanta Dream
+- platform: teamtracker
+  league_id: WNBA
+  team_id: WSH
+  name: Washington Mystics
+- platform: teamtracker
+  league_id: WNBA
+  team_id: MIN
+  name: Minnesota Lynx
+- platform: teamtracker
+  league_id: WNBA
+  team_id: SEA
+  name: Seattle Storm
+- platform: teamtracker
+  league_id: WNBA
+  team_id: LV
+  name: Las Vegas Aces
+- platform: teamtracker
+  league_id: WNBA
+  team_id: PHX
+  name: Phoenix Mercury
+- platform: teamtracker
+  league_id: WNBA
+  team_id: LA
+  name: Los Angelese Sparks
+- platform: teamtracker
+  league_id: WNBA
+  team_id: DAL
+  name: Dallas Wings
+
+###
+## WNBA Standings
+##
+- platform: rest
+  scan_interval: 36000
+  name: WNBA Standings
+  unique_id: sensor_wnba_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+      
+## WNBA Playoffs
+##
+- platform: rest
+  scan_interval: 36000
+  name: WNBA Playoffs
+  unique_id: sensor.wnba_playoffs
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=3&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
