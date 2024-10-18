@@ -969,7 +969,7 @@ views:
                                       - type: custom:expander-card
                                         child-margin-top: 0.6em
                                         padding: 0
-                                        title: Brigham Youngh University
+                                        title: Brigham Young University
                                         title-card-button-overlay: true
                                         title-card-clickable: true
                                         expanded: false
