@@ -3,9 +3,7 @@
 ## Yaml and dashboard configuration for Sports Scores.  
 I orginally found Kbrowns original code because I was trying to get a sports ticker setup and ran across the community site that he started.  That is why you will see marquee text scrolling on some of the dashboards.  
 
-My goal was to have a single place to look at scores quickly thorugh HA.  This is a work in progress and based on the excellent work Kbrown started and others have contributed to.  I am just riding coat-tails, go to the thread below to see those who are working to make this project great.
-
-Good place for information - https://community.home-assistant.io/t/sports-standings-and-scores/547094
+My goal was to have a single place to look at scores quickly thorugh HA.  This is a work in progress and based on the excellent work Kbrown started and others have contributed to.  I am just riding coat-tails, go to the thread below to see those who are working to make this project great - https://community.home-assistant.io/t/sports-standings-and-scores/547094
 
 I would also encourage reviewing the:
   - HA-Teamtracker Card (https://github.com/vasqued2/ha-teamtracker )
