@@ -1,0 +1,94 @@
+###########################
+############## Racing
+
+- platform: rest
+  scan_interval: 36000
+  name: f1_driver_standings
+  unique_id: sensor.f1_driver_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/racing/f1/standings?seasontype=1&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['standings']"
+  json_attributes: 
+   - entries
+   
+- platform: rest
+  scan_interval: 36000
+  name: f1_constructor_standings
+  unique_id: sensor.f1_constructor_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/racing/f1/standings?seasontype=1&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['standings']"
+  json_attributes: 
+   - entries
+
+- platform: rest
+  scan_interval: 36000
+  name: f1_scoreboard
+  unique_id: sensor.f1_scoreboard
+  resource: https://site.api.espn.com/apis/site/v2/sports/racing/f1/scoreboard?seasontype=2&level=3
+  value_template: "{{ now() }}"
+  #json_attributes_path: "$."
+  #json_attributes_path: "$"
+  json_attributes:
+    - leagues
+
+
+###########################
+############## Using ergast
+   
+
+- platform: rest
+  scan_interval: 36000
+  name: f1_driver_standings_ergast
+  unique_id: sensor.f1_driver_standings_ergast
+  resource: https://api.jolpi.ca/ergast/f1/current/driverstandings.json
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.MRData.StandingsTable.StandingsLists[0]"
+  json_attributes:
+    - DriverStandings
+
+- platform: rest
+  scan_interval: 36000
+  name: f1_races_ergast
+  unique_id: sensor.f1_races_ergast
+  resource: https://api.jolpi.ca/ergast/f1/2024/races.json
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.MRData.RaceTable"
+  json_attributes:
+    - Races
+##
+## Formula 1 Constructors Standings ehcah
+###
+- platform: rest
+  scan_interval: 36000
+  name: f1_constructor_standings_monsterbandit
+  unique_id: sensor.f1_constructor_standings_monsterbandit
+  resource: https://api.jolpi.ca/ergast/f1/current/constructorstandings.json
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.MRData.StandingsTable.StandingsLists[0]"
+  json_attributes: 
+   - ConstructorStandings
+   
+  
+###########################
+############## NASCAR
+- platform: rest
+  scan_interval: 36000
+  name: nascar_premier_driver_standings
+  unique_id: sensor.nascar_premier_driver_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/racing/nascar-premier/standings?seasontype=1&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['standings']"
+  json_attributes: 
+   - entries
+   
+- platform: teamtracker
+  league_id: "F1"
+  team_id: "DH"
+  name: "F1_McLaren"
+  
+- platform: teamtracker
+  league_id: "F1"
+  team_id: "JK"
+  name: "F1_Ferrari"
+

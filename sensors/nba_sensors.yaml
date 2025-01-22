@@ -1,3 +1,71 @@
+##
+## NBA Standings
+##
+- platform: rest
+  scan_interval: 36000
+  name: NBA Standings
+  unique_id: sensor.nba_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+
+- platform: rest
+  scan_interval: 36000
+  name: NBA Eastern Atlantic
+  unique_id: sensor.nba_eastern_atlantic
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: NBA Eastern Central
+  unique_id: sensor.nba_eastern_central
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][1]['standings']"
+  json_attributes: 
+   - entries 
+- platform: rest
+  scan_interval: 36000
+  name: NBA Eastern Southeast
+  unique_id: sensor.nba_eastern_southeast
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][2]['standings']"
+  json_attributes: 
+   - entries 
+- platform: rest
+  scan_interval: 36000
+  name: NBA Western Northwest
+  unique_id: sensor.nba_western_northwest
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][0]['standings']"
+  json_attributes: 
+   - entries 
+- platform: rest
+  scan_interval: 36000
+  name: NBA Western Pacific
+  unique_id: sensor.nba_western_pacific
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][1]['standings']"
+  json_attributes: 
+   - entries 
+- platform: rest
+  scan_interval: 36000
+  name: NBA Western Southwest
+  unique_id: sensor.nba_western_southwest
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][2]['standings']"
+  json_attributes: 
+   - entries 
+
+
 ## 
 ## NBA Teams
 ##
@@ -121,15 +189,3 @@
   league_id: NBA
   team_id: MEM
   name: Memphis Grizzlies
-
-##
-## NBA Standings
-##
-- platform: rest
-  scan_interval: 36000
-  name: NBA Standings
-  unique_id: sensor.nba_standings
-  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes:
-      - children

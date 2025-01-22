@@ -1,3 +1,91 @@
+##
+## MLB Standings
+##
+- platform: rest
+  scan_interval: 36000
+  name: MLB Standings
+  unique_id: sensor.mlb_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+
+- platform: rest
+  scan_interval: 36000
+  name: MLB Standings Post Season
+  unique_id: sensor.mlb_standings_post_season
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=3&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+- platform: rest
+  scan_interval: 36000
+  name: MLB American East
+  unique_id: sensor.mlb_american_east
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: MLB American Central
+  unique_id: sensor.mlb_american_central
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][1]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: MLB American West
+  unique_id: sensor.mlb_american_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][2]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: MLB National East
+  unique_id: sensor.mlb_national_east
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: MLB National Central
+  unique_id: sensor.mlb_national_central
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][1]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: MLB National West
+  unique_id: sensor.mlb_national_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][2]['standings']"
+  json_attributes: 
+   - entries   
+
+##
+## Schedule
+##
+- platform: rest
+  scan_interval: 36000
+  name: MLB Schedule
+  unique_id: sensor.mlb_schedule
+  resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+     - events
+  
+
 ###
 ## MLB Teams
 ##
@@ -122,68 +210,3 @@
   team_id: TB
   name: Tampa Bay Rays
 
-##
-## MLB Standings
-##
-- platform: rest
-  scan_interval: 36000
-  name: MLB Standings
-  unique_id: sensor.mlb_standings
-  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes:
-      - children
-      
-##
-## Wildcards
-##
-- platform: rest
-  scan_interval: 36000
-  name: "MLB Wildcard"
-  unique_id: mlb_wildcard
-  icon: mdi:baseball
-  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?region=us&lang=en&contentorigin=espn&type=3&level=2&sort=playoffseed%3Aasc%2Cpoints%3Adesc%2Cgamesplayed%3Aasc%2Crotwins%3Adesc&seasontype=2
-  value_template: "{{ now() }}"  
-  json_attributes:
-      - children
-      - overall      
-##
-## Playoff Standings
-##
-- platform: rest
-  scan_interval: 36000
-  name: "MLB PO Standings"
-  unique_id: mlb_po_standings
-  icon: mdi:baseball
-  resource: https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?region=us&lang=en&contentorigin=espn&type=3&level=3&sort=playoffseed:asc,points:desc,gamesplayed:asc,rotwins:desc&seasontype=2
-  value_template: "{{ now() }}"
-  json_attributes:
-      - children
-      - overall
-      
-##
-## Playoff Standings - Postseason
-##
-- platform: rest
-  scan_interval: 36000
-  name: "MLB Standings Postseason"
-  unique_id: mlb_standings_postseason
-  icon: mdi:baseball
-  resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?limit=1000&dates=
-  value_template: "{{ now() }}" 
-  json_attributes:
-      - leagues
-  
-##
-## Schedule
-##
-- platform: rest
-  # every 24 hours
-  scan_interval: 86400
-  name: "MLB Schedule"
-  unique_id: mlb_schedule
-  resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard
-  value_template: "{{ now() }}"
-  json_attributes:
-      - events
-  

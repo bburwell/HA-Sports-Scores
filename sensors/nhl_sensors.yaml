@@ -1,4 +1,111 @@
 ##
+## NHL Standings
+##
+- platform: rest
+  scan_interval: 86400
+  name: NHL Standings
+  unique_id: sensor.nhl_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+##
+## NHL Wildcard
+##
+- platform: rest
+  scan_interval: 86400
+  name: NHL Wildcard
+  unique_id: sensor.nhl_wildcard
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?region=us&lang=en&contentorigin=espn&type=3&level=2&sort=playoffseed%3Aasc%2Cpoints%3Adesc%2Cgamesplayed%3Aasc%2Crotwins%3Adesc&seasontype=2
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+      - overall
+
+
+
+###
+### NHL Divisions
+###
+
+
+- platform: rest
+  scan_interval: 604800
+  name: NHL West Central
+  unique_id: sensor.nhl_west_central
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+  
+
+- platform: rest
+  scan_interval: 604800
+  name: NHL West Pacific
+  unique_id: sensor.nhl_west_pacific
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][1]['standings']"
+  json_attributes: 
+   - entries   
+  
+
+- platform: rest
+  scan_interval: 604800
+  name: NHL East Atlantic
+  unique_id: sensor.nhl_east_atlantic
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+  
+
+- platform: rest
+  scan_interval: 604800
+  name: NHL East Metropolitan
+  unique_id: sensor.nhl_east_metropolitan
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][1]['standings']"
+  json_attributes: 
+   - entries   
+
+- platform: rest
+  scan_interval: 86400
+  name: starstest2_schedule_regular_season
+  unique_id: sensor.starstest2_schedule_regular_season
+  resource: https://site.api.espn.com/apis/personalized/v2/scoreboard/header?sport=hockey&league=nhl&team=dal?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$['sports'][0]['leagues'][0]"
+  json_attributes: 
+   - events
+
+#- platform: rest
+  #scan_interval: 86400
+  #name: Dallas_stars_test_schedule_regular_season
+  #unique_id: sensor.dallas_stars_test_schedule_regular_season
+  #resource: http://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams/dal/schedule?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes: 
+   #- team
+   #- events   
+    
+#- platform: rest
+  #scan_interval: 604800
+  #name: Dallas Stars Standings
+  #unique_id: sensor.nhl_dallas_stars_standings
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[1]['children'][0]['standings']"
+  #json_attributes: 
+   #- entries   
+  #attributes:
+    #entries: "{{ state_attr('sensor.nhl_standings','children')[1]['children'][0]['standings']['entries'][1] }}"
+
+
+
+#
 ##  NHL Teams
 ##
 - platform: teamtracker
@@ -37,10 +144,22 @@
   league_id: NHL
   team_id: NJ
   name: New Jersey Devils
+  
 - platform: teamtracker
   league_id: NHL
   team_id: DAL
   name: Dallas Stars
+  
+- platform: rest
+  scan_interval: 86400
+  name: nhl_schedule_dallas_stars
+  unique_id: sensor.nhl_schedule_dallas_stars
+  resource: https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams/dal/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+      
 - platform: teamtracker
   league_id: NHL
   team_id: CBJ
@@ -130,39 +249,3 @@
   team_id: CHI
   name: Chicago Blackhawks
   
-##
-## NHL Standings
-##
-- platform: rest
-  scan_interval: 36000
-  name: NHL Standings
-  unique_id: sensor.nhl_standings
-  #resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?region=us&lang=en&contentorigin=espn&type=3&level=2&sort=playoffseed%3Aasc%2Cpoints%3Adesc%2Cgamesplayed%3Aasc%2Crotwins%3Adesc&seasontype=2
-  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes:
-      - children
-##
-## NHL Wildcard
-##
-- platform: rest
-  scan_interval: 36000
-  name: NHL Wildcard
-  unique_id: sensor.nhl_wildcard
-  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?region=us&lang=en&contentorigin=espn&type=3&level=2&sort=playoffseed%3Aasc%2Cpoints%3Adesc%2Cgamesplayed%3Aasc%2Crotwins%3Adesc&seasontype=2
-  value_template: "{{ now() }}"
-  json_attributes:
-      - children
-      - overall
-
-##
-## Starting Goalies
-##
-- platform: rest
-  name: nhl_starting_goalies
-  scan_interval: 3600
-  resource: https://www.dailyfaceoff.com/_next/data/AARRTVjTYQ3P1ZXMqUh-M/starting-goalies.json
-  value_template: "{{ value_json.pageProps.date }}"
-  json_attributes_path: "$.pageProps"
-  json_attributes:
-    - data       

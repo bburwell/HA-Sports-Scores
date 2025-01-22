@@ -1,3 +1,63 @@
+###
+## WNBA Standings
+##
+- platform: rest
+  scan_interval: 36000
+  name: WNBA Standings
+  unique_id: sensor_wnba_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+
+## WNBA Playoffs
+##
+- platform: rest
+  scan_interval: 36000
+  name: WNBA Playoffs
+  unique_id: sensor.wnba_playoffs
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=3&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+      
+- platform: rest
+  scan_interval: 36000
+  name: WNBA Eastern Conference
+  unique_id: sensor.wnba_eastern_conference
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: WNBA Western Conference
+  unique_id: sensor.wnba_western_conference
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['children'][1]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: WNBA East Playoffs
+  unique_id: sensor.wnba_east_playoffs
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=3&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+- platform: rest
+  scan_interval: 36000
+  name: WNBA West Playoffs
+  unique_id: sensor.wnba_west_playoffs
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=3&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['children'][1]['standings']"
+  json_attributes: 
+   - entries 
+
 ## 
 ## WNBA Teams
 ##
@@ -49,26 +109,3 @@
   league_id: WNBA
   team_id: DAL
   name: Dallas Wings
-
-###
-## WNBA Standings
-##
-- platform: rest
-  scan_interval: 36000
-  name: WNBA Standings
-  unique_id: sensor_wnba_standings
-  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes:
-      - children
-      
-## WNBA Playoffs
-##
-- platform: rest
-  scan_interval: 36000
-  name: WNBA Playoffs
-  unique_id: sensor.wnba_playoffs
-  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/wnba/standings?seasontype=3&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes:
-      - children

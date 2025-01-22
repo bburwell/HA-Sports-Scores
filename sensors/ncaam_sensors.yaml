@@ -1,0 +1,1376 @@
+##
+## NCAA Standings
+###
+- platform: rest
+  scan_interval: 86400
+  name: NCAAM Standings
+  unique_id: sensor.ncaam_standings
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events
+##
+## College Basketball Standings
+##
+- platform: rest
+  scan_interval: 86400
+  name: College Basketball Standings
+  unique_id: sensor.college_Basketball_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+    - children   
+
+##
+## NCAA Basketball Rankings
+###
+- platform: rest
+  scan_interval: 86400
+  name: NCAAM rank 
+  unique_id: sensor.ncaam_rank
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - rankings
+        
+
+################################################ AP Poll #####################################
+##NCAA Men's Basketball AP Poll
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_poll_ap_top_25_all
+  unique_id: sensor.ncaam_poll_ap_top_25_all
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes: 
+   - ranks
+   - droppedOut
+   - others
+################################################ AFCA Coaches Poll #####################################
+###NCAA Men's Basketball AFCA Coaches Poll        
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_poll_Coaches_top_25_all
+  unique_id: sensor.ncaam_poll_Coaches_top_25_all
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][1]"
+  json_attributes: 
+   - ranks
+   - droppedOut
+   - others
+   
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_american_athletic
+  unique_id: sensor.ncaam_conference_american_athletic
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[2]['standings']"
+  json_attributes: 
+   - entries
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_atlantic_coast
+  unique_id: sensor.ncaam_conference_atlantic_coast
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[4]['standings']"
+  json_attributes: 
+   - entries
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_big_12
+  unique_id: sensor.ncaam_conference_big_12
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[5]['standings']"
+  json_attributes: 
+   - entries
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_big_ten
+  unique_id: sensor.ncaam_conference_big_ten
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[9]['standings']"
+  json_attributes: 
+   - entries
+   
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_conference_usa
+  unique_id: sensor.ncaam_conference_conference_usa
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[12]['standings']"
+  json_attributes: 
+   - entries   
+
+#- platform: rest
+  #scan_interval: 86400
+  #name: ncaam_conference_fbs_independents
+  #unique_id: sensor.ncaam_conference_fbs_independents
+  #resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[5]['standings']"
+  #json_attributes: 
+   #- entries     
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_mid_american
+  unique_id: sensor.ncaam_conference_mid_american
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[16]['standings']"
+  json_attributes: 
+   - entries   
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_mountain_west
+  unique_id: sensor.ncaam_conference_mountain_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[19]['standings']"
+  json_attributes: 
+   - entries   
+#- platform: rest
+  #scan_interval: 86400
+  #name: ncaam_conference_pac12
+  #unique_id: sensor.ncaam_conference_pac12
+  #resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[8]['standings']"
+  #json_attributes: 
+   #- entries   
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_southeastern
+  unique_id: sensor.ncaam_conference_southeastern
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[23]['standings']"
+  json_attributes: 
+   - entries   
+
+   
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_conference_sun_belt_east
+  unique_id: sensor.ncaam_conference_sun_beltst
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[28]['standings']"
+  json_attributes: 
+   - entries
+    
+########
+##NCAA basketball League schedules
+####
+##### Big 12sensor.big_12_conference
+- platform: rest
+  scan_interval: 86400
+  name: ncaam Big 12 Games 
+  unique_id: sensor.ncaam_big_12_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=8
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events 
+       
+##### SEC
+- platform: rest
+  scan_interval: 86400
+  name: ncaam SEC Games 
+  unique_id: sensor.ncaam_sec_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=23
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events 
+       
+##### ACC
+- platform: rest
+  scan_interval: 86400
+  name: ncaam ACC Games 
+  unique_id: sensor.ncaam_acc_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=2
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+      
+##### Big 10
+- platform: rest
+  scan_interval: 86400
+  name: ncaam Big 10 Games 
+  unique_id: sensor.ncaam_big_10_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=7
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+      
+##
+## NCAA Teams
+## Big 12 Conference
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ARIZ"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam University of Arizona"
+  
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_university_of_arizona
+  unique_id: sensor.ncaam_schedule_big_12_university_of_arizona
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/ARIZ/schedule
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+      
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ASU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Arizona State University"
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_arizona_state_university
+  unique_id: sensor.ncaam_schedule_big_12_arizona_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/ASU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "BAY"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Baylor University"
+  
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_baylor_university
+  unique_id: sensor.ncaam_schedule_big_12_baylor_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/BAY/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "BYU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Brigham Young University"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_brigham_young_university
+  unique_id: sensor.ncaam_schedule_big_12_brigham_young_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/BYU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UCF"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam University of Central Florida"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_university_of_central_florida
+  unique_id: sensor.ncaam_schedule_big_12_university_of_central_florida
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/UCF/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "CIN"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam University of Cincinnati"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_university_of_cincinnati
+  unique_id: sensor.ncaam_schedule_big_12_university_of_cincinnati
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/CIN/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "COLO"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam University of Colorado Boulder"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_university_colorado
+  unique_id: sensor.ncaam_schedule_big_12_university_colorado
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/COLO/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "HOU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam University of Houston"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_university_of_houston
+  unique_id: sensor.ncaam_schedule_big_12_university_of_houston
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/HOU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ISU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Iowa State University"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_iowa_state_university
+  unique_id: sensor.ncaam_schedule_big_12_iowa_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/ISU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "KU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam University of Kansas"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_univeristy_of_kansas
+  unique_id: sensor.ncaam_schedule_big_12_univeristy_of_kansas
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/KU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "KSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Kansas State University"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_kansas_state_university
+  unique_id: sensor.ncaam_schedule_big_12_kansas_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/KSU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "OKST"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Oklahoma State University"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_oklahoma_state_university
+  unique_id: sensor.ncaam_schedule_big_12_oklahoma_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/OKST/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TCU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Texas Christian University"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_texas_christian_university
+  unique_id: sensor.ncaam_schedule_big_12_texas_christian_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/TCU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TTU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam Texas Tech University"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_texas_tech_university
+  unique_id: sensor.ncaam_schedule_big_12_texas_tech_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/TTU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UTAH"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam University of Utah"
+
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_university_of_utah
+  unique_id: sensor.ncaam_schedule_big_12_university_of_utah
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/UTAH/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WVU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 8
+  name: "ncaam West Virginia University"
+  
+- platform: rest
+  scan_interval: 86400
+  name: ncaam_schedule_big_12_west_virginia_university
+  unique_id: sensor.ncaam_schedule_big_12_west_virginia_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/WVU/schedule?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - team
+      - events 
+
+##
+## NCAA Teams
+## SEC Conference
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UGA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Georgia"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UK"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Kentucky"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TENN"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Tennessee"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ALA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Alabama"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ARK"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Arkansas"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "Aub"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam Auburn University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "FLA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Florida"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "LSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam Louisiana State University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MISS"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Mississippi"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MSST"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam Mississippi State University" 
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MIZ"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Missouri"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "OKU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of Oklahoma"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "OU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam University of South Carolina"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TEX"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam Univerisity of Texas at Austin"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TA&M"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam Texas AM University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "VAN"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 23
+  name: "ncaam Vanderbilt University"
+##
+## NCAA Teams
+## Big 10  
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ILL"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Illinois"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "IU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam Indiana University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "IOWA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Iowa"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MD"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Maryland"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam Michigan State University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MICH"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Michigan"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MINN"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Minnesota"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NEB"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Nebraska"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam Northwestern University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "OSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam Ohio State University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ORE"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Oregon"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "PSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam Penn State University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "PUR"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam Purdue University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "RUTG"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam Rutgers University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UCLA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of California Los Angeles"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "USC"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Southern California"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WASH"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Washington"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WIS"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 7
+  name: "ncaam University of Wisconsin"
+##
+## NCAA Teams
+## ACC
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "BC"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Boston College"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "CAL"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam University of California Berkeley"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "CLEM"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Clemson University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "DUKE"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Duke University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "FSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Florida State University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "GT"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Georgia Institute of Technology"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "LOU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam University of Louisville"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MIA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam University of Miami"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UNC"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam University of North Carolina"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NCSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam North Carolina State University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NDU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam University of Notre Dame"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "PITT"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam University of Pittsburgh"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "SMU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Southern Methodist University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "SYR"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Syracuse"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UVA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam University of Virginia"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "VT"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Virginia Polytechnic"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WAKE"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Wake Forest University"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "STAN"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 2
+  name: "ncaam Stanford University"
+  
+##
+## NCAA Teams
+## Moutain West 
+##
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "BOIS"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Boise State Broncos"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WYO"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Wyoming Cowboys"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "USU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Utah State Aggies"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UNLV"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam UNLV Rebels"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "SJSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam San José State Spartans"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "SDSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam San Diego State Aztecs"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UNM"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam New Mexico Lobos"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NEV"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Nevada Wolf Pack"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "HAW"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Hawaii Rainbow Warriors"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "FRES"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Fresno State Bulldogs"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "CSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Colorado State Rams"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "AFA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 44
+  name: "ncaam Air Force Falcons"
+###
+### NCAA Teams
+### FBS Independent
+###
+#- platform: teamtracker
+  #league_id: "NCAAM"
+  #team_id: "CONN"
+  #sport_path: basketball   
+  #league_path: "mens-college-basketball"  
+  #conference_id: 18
+  #name: "ncaam UConn Huskies"
+#- platform: teamtracker
+  #league_id: "NCAAM"
+  #team_id: "ND"
+  #sport_path: basketball   
+  #league_path: "mens-college-basketball"  
+  #conference_id: 18
+  #name: "ncaam Notre Dame Fighting Irish"
+#- platform: teamtracker
+  #league_id: "NCAAM"
+  #team_id: "MASS"
+  #sport_path: basketball   
+  #league_path: "mens-college-basketball"  
+  #conference_id: 18
+  #name: "ncaam Massachusetts Minutemen"
+  
+##
+## NCAA Teams
+## American
+##
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "CLT"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Charlotte 49ers"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ARMY"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Army Black Knights"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UTSA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam UTSA Roadrunners"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UAB"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam UAB Blazers"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TLSA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Tulsa Golden Hurricane"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TULN"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Tulane Green Wave"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TEM"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Temple Owls"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "USF"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam South Florida Bulls"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "RICE"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Rice Owls"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UNT"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam North Texas Mean Green"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NAVY"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Navy Midshipmen"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MEM"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Memphis Tigers"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "FAU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam Florida Atlantic Owls"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ECU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 62
+  name: "ncaam East Carolina Pirates"
+
+## NCAA Teams
+## Conference USA
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WKU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Western Kentucky Hilltoppers"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UTEP"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam UTEP Miners"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "SHSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Sam Houston Bearkats"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NMSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam New Mexico State Aggies"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MTSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Middle Tennessee Blue Raiders"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "LT"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Louisiana Tech Bulldogs"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "LIB"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Liberty Flames"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "KENN"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Kennesaw State Owls"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "JVST"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Jacksonville State Gamecocks"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "FIU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 11
+  name: "ncaam Florida International Panthers"
+
+## NCAA Teams
+## Mid American 
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "CMU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Central Michigan Chippewas"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "BUFF"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Buffalo Bulls"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "BGSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Bowling Green Falcons"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "BALL"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Ball State Cardinals"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WMU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Western Michigan Broncos"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TOL"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Toledo Rockets"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "OHIO"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Ohio Bobcats"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "NIU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Northern Illinois Huskies"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "M-OH"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Miami (OH) RedHawks"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "KENT"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Kent State Golden Flashes"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "AKR"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Akron Zips"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "EMU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 14
+  name: "ncaam Eastern Michigan Eagles"
+## NCAA Teams
+## Pac-12
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "WSU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 21
+  name: Washington State Cougars
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ORST"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 21
+  name: Oregon State Beavers 
+
+## NCAA Teams
+## Sun Belt
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ARST"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Arkansas State Red Wolves"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ULM"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam UL Monroe Warhawks"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TROY"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Troy Trojans"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "TXST"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Texas State Bobcats"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "USM"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Southern Miss Golden Eagles"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "USA"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam South Alabama Jaguars"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "APP"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Appalachian State Mountaineers"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "ODU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Old Dominion Monarchs"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "MRSH"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Marshall Thundering Herd"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "UL"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Louisiana Ragin' Cajuns"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "JMU"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam James Madison Dukes"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "GAST"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Georgia State Panthers"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "GASO"
+  sport_path: basketball   
+  league_path: "mens-college-basketball"  
+  conference_id: 27
+  name: "ncaam Georgia Southern Eagles"
+- platform: teamtracker
+  league_id: "NCAAM"
+  team_id: "CCU"
+  sport_path: basketball
+  league_path: "mens-college-basketball"   
+  conference_id: 27
+  name: "ncaam Coastal Carolina Chanticleers"
+

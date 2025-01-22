@@ -1,17 +1,112 @@
 ##
+## NFL Playoff Standings
+##
+- platform: rest
+  name: NFL Playoff Standings
+  unique_id: sensor.nfl_playoff_standings
+  resource: http://192.168.100.226:8123/local/nfl_standings.json
+  value_template: "{{ now() }}"  
+  json_attributes:
+    - NFL_Data
+    
+    
+
+
+##
 ## NFL Standings
 ##
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Standings
   unique_id: sensor.nfl_standings
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
   json_attributes:
       - children
+      
+- platform: rest
+  scan_interval: 604800
+  name: NFL AFC East
+  unique_id: sensor.nfl_afc_east
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][0]['standings']"
+  json_attributes: 
+   - entries   
+
+- platform: rest
+  scan_interval: 604800
+  name: NFL AFC North
+  unique_id: sensor.nfl_afc_north
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][1]['standings']"
+  json_attributes: 
+   - entries 
+   
+- platform: rest
+  scan_interval: 604800
+  name: NFL AFC South
+  unique_id: sensor.nfl_afc_south
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][2]['standings']"
+  json_attributes: 
+   - entries 
+   
+- platform: rest
+  scan_interval: 604800
+  name: NFL AFC West
+  unique_id: sensor.nfl_afc_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['children'][3]['standings']"
+  json_attributes: 
+   - entries 
+   
+- platform: rest
+  scan_interval: 604800
+  name: NFL NFC East
+  unique_id: sensor.nfl_nfc_east
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][0]['standings']"
+  json_attributes: 
+   - entries 
+   
+- platform: rest
+  scan_interval: 604800
+  name: NFL NFC North
+  unique_id: sensor.nfl_nfc_north
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][1]['standings']"
+  json_attributes: 
+   - entries 
+   
+- platform: rest
+  scan_interval: 604800
+  name: NFL NFC South
+  unique_id: sensor.nfl_nfc_south
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][2]['standings']"
+  json_attributes: 
+   - entries 
+   
+- platform: rest
+  scan_interval: 604800
+  name: NFL NFC West
+  unique_id: sensor.nfl_nfc_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['children'][3]['standings']"
+  json_attributes: 
+   - entries 
+
 ###NFL Schedules
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Buffalo_Bills
   unique_id: sensor.nfl_schedule_buffalo_bills
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/2/schedule?seasontype=2&type=0&level=3
@@ -19,7 +114,7 @@
   json_attributes:
       - events
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Chicago Bears
   unique_id: sensor.nfl_schedule_chicago_bears
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/3/schedule?seasontype=2&type=0&level=3
@@ -28,7 +123,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Cincinnati Bengals
   unique_id: sensor.nfl_schedule_cincinnati_bengals
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/4/schedule?seasontype=2&type=0&level=3
@@ -37,7 +132,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Clevland Browns
   unique_id: sensor.nfl_schedule_clevland_browns
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/5/schedule?seasontype=2&type=0&level=3
@@ -46,7 +141,7 @@
       - events      
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Dallas Cowboys
   unique_id: sensor.nfl_schedule_dallas_cowboys
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/6/schedule?seasontype=2&type=0&level=3
@@ -55,7 +150,7 @@
       - events    
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Denver Broncos
   unique_id: sensor.nfl_schedule_denver_broncos
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/7/schedule?seasontype=2&type=0&level=3
@@ -64,7 +159,7 @@
       - events
       
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Detroit Lions
   unique_id: sensor.nfl_schedule_detroit_lions
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/8/schedule?seasontype=2&type=0&level=3
@@ -73,7 +168,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Green Bay Packers
   unique_id: sensor.nfl_schedule_green_bay_packers
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/9/schedule?seasontype=2&type=0&level=3
@@ -82,7 +177,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Tennessee Titans
   unique_id: sensor.nfl_schedule_tennessee_titans
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/10/schedule?seasontype=2&type=0&level=3
@@ -91,7 +186,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Indianapolis Colts
   unique_id: sensor.nfl_schedule_indianapolis_colts
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/11/schedule?seasontype=2&type=0&level=3
@@ -100,7 +195,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Kansas City Chiefs
   unique_id: sensor.nfl_schedule_kansas_city_chiefs
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/12/schedule?seasontype=2&type=0&level=3
@@ -109,7 +204,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Las Vegas Raiders
   unique_id: sensor.nfl_schedule_las_vegas_raiders
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/13/schedule?seasontype=2&type=0&level=3
@@ -118,7 +213,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Los Angeles Rams
   unique_id: sensor.nfl_schedule_los_angeles_rams
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/14/schedule?seasontype=2&type=0&level=3
@@ -127,7 +222,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Miami Dolphins
   unique_id: sensor.nfl_schedule_miami_dolphins
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/15/schedule?seasontype=2&type=0&level=3
@@ -136,7 +231,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Minnesota Vikings
   unique_id: sensor.nfl_schedule_minnesota_vikings
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/16/schedule?seasontype=2&type=0&level=3
@@ -145,7 +240,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule New England Patriots
   unique_id: sensor.nfl_schedule_new_england_patriots
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/17/schedule?seasontype=2&type=0&level=3
@@ -154,7 +249,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule New Orleans Saints
   unique_id: sensor.nfl_schedule_new_orleans_saints
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/18/schedule?seasontype=2&type=0&level=3
@@ -163,7 +258,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule New York Giants
   unique_id: sensor.nfl_schedule_new_york_giants
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/19/schedule?seasontype=2&type=0&level=3
@@ -172,7 +267,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule New York Jets
   unique_id: sensor.nfl_schedule_new_york_jets
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/20/schedule?seasontype=2&type=0&level=3
@@ -181,7 +276,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Philadelphia Eagles
   unique_id: sensor.nfl_schedule_philadelphia_eagles
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/21/schedule?seasontype=2&type=0&level=3
@@ -190,7 +285,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Arizona Cardinals
   unique_id: sensor.nfl_schedule_arizona_cardinals
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/22/schedule?seasontype=2&type=0&level=3
@@ -199,7 +294,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Pittsburgh Steelers
   unique_id: sensor.nfl_schedule_pittsburgh_steelers
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/23/schedule?seasontype=2&type=0&level=3
@@ -208,7 +303,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Los Angeles Chargers
   unique_id: sensor.nfl_schedule_los_angeles_chargers
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/24/schedule?seasontype=2&type=0&level=3
@@ -217,7 +312,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule San Francisco 49ers
   unique_id: sensor.nfl_schedule_san_francisco_49ers
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/25/schedule?seasontype=2&type=0&level=3
@@ -226,7 +321,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Seattle Seahawks
   unique_id: sensor.nfl_schedule_seattle_seahawks
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/26/schedule?seasontype=2&type=0&level=3
@@ -235,7 +330,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Tampa Bay Buccaneers
   unique_id: sensor.nfl_schedule_tampa_bay_buccaneers
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/27/schedule?seasontype=2&type=0&level=3
@@ -244,7 +339,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Washington Commanders
   unique_id: sensor.nfl_schedule_washington_commanders
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/28/schedule?seasontype=2&type=0&level=3
@@ -253,7 +348,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Carolina Panthers
   unique_id: sensor.nfl_schedule_carolina_panthers
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/29/schedule?seasontype=2&type=0&level=3
@@ -262,7 +357,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Jacksonville Jaguars
   unique_id: sensor.nfl_schedule_jacksonville_jaguars
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/30/schedule?seasontype=2&type=0&level=3
@@ -271,7 +366,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Baltimore Ravens
   unique_id: sensor.nfl_schedule_baltimore_ravens
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/33/schedule?seasontype=2&type=0&level=3
@@ -280,7 +375,7 @@
       - events
 
 - platform: rest
-  scan_interval: 36000
+  scan_interval: 604800
   name: NFL Schedule Houston Texans
   unique_id: sensor.nfl_schedule_houston_texans
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/30/schedule?seasontype=2&type=0&level=3
