@@ -1,7 +1,7 @@
 # Ha-Sports-Scores
 
 ## Yaml and dashboard configuration for Sports Scores.  
-I orginally found Kbrowns original code because I was trying to get a sports ticker setup and ran across this site.  That is why you will marquee text scrolling on some of the dashboards.  
+I orginally found Kbrowns original code because I was trying to get a sports ticker setup and ran across the community site that he started.  That is why you will see marquee text scrolling on some of the dashboards.  
 
 My goal was to have a single place to look at scores quickly thorugh HA.  This is a work in progress and based on the excellent work Kbrown started and others have contributed to.  I am just riding coat-tails, go to the thread below to see those who are working to make this project great.
 
