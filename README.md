@@ -32,7 +32,25 @@ I have added the configuration.yaml section that I use to call the sensors.
 I create Sandbox dashboards to test what I am trying to create without messing up my existing dashboards.  Because of that I have also included the sandbox code I use and you will see in the sensors/dashboards.  Some of it is commented out, some isn't used, and some are placeholders.  I am including the code because I am lazy ;) and figured some may want to explore some of the items I have done.
 
 ### Troubleshooting
-Lots of good info in the thread above on trouble-shooting and I may add a section here later.
+Lots of good info in the thread above on trouble-shooting and I may add more later.
+
+What I will say is when you run into problems try to figure where some of the basics firsts.
+1. Make sure that the configuration yamls are correct and check your logs.  HA needs everything pretty and will let you know in logs (most of the time) where it is having a problem.
+2. Double-check your configuration against my config, kbrown's or others that may have contributed to the community thread above.
+3. Use the Home Assistant Developer tools (states and template) mostly to check your sensors and see if the data is in the sensor and use template to test code if it isn't showing up in your dashboard.
+   ![image](https://github.com/user-attachments/assets/7594977f-8e22-4c73-9988-e5a324181485)
+   Here is an example when I wanted to scroll the data that was included in the nhl_starting_goalies sensor.  I tested in the Template first.
+   ![image](https://github.com/user-attachments/assets/ef3367b7-24fa-4f68-bcbf-8b7bd78caa83)
+   You can see that I am using that datat with marquee wrapped around to scroll across the header
+   ![image](https://github.com/user-attachments/assets/31ca9dfb-bc37-4102-ac53-2eed7c740eaf)
+
+5. If there isn't data in the sensor but you know it is setup correctly, take a look at Settings->Devices & Services->Entities.  You can see if there is an error or possibly a duplicate.  There have been times that I made a change and HA created a 2nd, duplicate sensor and threw a _2 at the end of it.  If this happens, delete the original and then go in and edit the entity and remove the _2.
+   Here is what an error looks like as an example
+   ![image](https://github.com/user-attachments/assets/20d56dc5-4b5e-4932-8719-b53bd70fb886)
+6. Be patient on the intial load - if may take a bit to populate the sensor the first time.
+7. Sometimes ESPN changes their formatting and you will most like need to go in and change the decluttering template.
+8. Ask questions on the community but please use the formatting tools for your code, and show what isn't working.  A bunch of us can test quickly in our environment and possibly help.
+9. 99% of the people on the community want to help.  Harsh words may be language translation thing or if they are being mean the village normally rises up.
 
 ### Pictures
 Here are a couple pics of the dashboards:
