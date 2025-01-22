@@ -1,0 +1,2765 @@
+decluttering_templates:
+  ncaa_top25_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 2%;'
+        tbody tr td:nth-child(3): 'width: 1%;'
+        tbody tr td:nth-child(4): 'width: 2%;'
+        tbody tr td:nth-child(n+5): 'width: .5%;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+        tbody tr:nth-child([[bye]]): 'border-bottom: 2px solid crimson!important;'
+        tbody tr:nth-child([[team5]]): 'background-color: dodgerblue; color: white;'
+        tbody tr:nth-child([[team6]]): 'background-color: navy; color: white;'
+        tbody tr:nth-child([[team7]]): 'background-color: #43C6DB; color: white;'
+        tbody tr:nth-child([[team8]]): 'background-color: #357EC7; color: white;'
+        tbody tr:nth-child([[team9]]): 'background-color: #357EC7; color: white;'
+        tbody tr:nth-child([[team10]]): 'background-color: #43C6DB; color: white;'
+        tbody tr:nth-child([[team11]]): 'background-color: navy; color: white;'
+        tbody tr:nth-child([[team12]]): 'background-color: dodgerblue; color: white;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: entries+
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Rank
+          data: '[[attribute]]'
+          modify: x.current
+        - name: Up-Down
+          data: '[[attribute]]'
+          modify: |-
+            if (x.current == x.previous)
+              '<ha-icon icon="mdi:minus" >'
+            else if (x.current =="0")
+              '<ha-icon icon="mdi:bomb" style="color:red;" >'
+            else if (x.previous == "0")
+              '<div><ha-icon icon="mdi:hand-clap" style="color:blue;"></ha-icon>&nbsp;' +  "New " + '</div>';
+            else if (x.current > x.previous)
+              '<div><ha-icon icon="mdi:arrow-down" style="color:red;"></ha-icon>&nbsp;' +  "Dn "+ (x.current - x.previous) + '</div>';
+            else if (x.current < x.previous)
+              '<div><ha-icon icon="mdi:arrow-up" style="color:green;"></ha-icon>&nbsp;' + "Up "+ (x.previous - x.current) + '</div>';
+        - name: Record
+          data: '[[attribute]]'
+          modify: x.recordSummary
+        - name: Team
+          data: '[[attribute]]'
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.nickname + '</div>'
+        - name: 1st Place Votes
+          data: '[[attribute]]'
+          modify: x.firstPlaceVotes
+        - name: Previous Rank
+          data: '[[attribute]]'
+          modify: x.previous
+        - name: Points
+          data: '[[attribute]]'
+          modify: x.points
+  ncaa_conference_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1100px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 3%; background-color: green; color: white;'
+        tbody tr td:nth-child(3): 'width: 5%;'
+        tbody tr td:nth-child(4): 'width: 5%;'
+        tbody tr td:nth-child(5): 'width: 5%;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: formattedTime-
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Game Time
+          data: '[[attribute]]'
+          modify: |-
+            let content = '';
+            let dateTime = new Date(x.date);
+            let formattedDate = dateTime.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+             });
+            let formattedTime = dateTime.toLocaleTimeString('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true
+             });
+
+              content = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">` + formattedDate + "  " + formattedTime + `</div>`
+                
+              content;
+        - name: Teams
+          data: '[[attribute]]'
+          modify: x.shortName
+        - name: Home Team
+          data: '[[attribute]]'
+          modify: |-
+            if (x.competitions[0].competitors[0].curatedRank.current <= 25) { 
+             '<div><img src="' + x.competitions[0].competitors[0].team.logo + '" style="height: 20px;vertical-align:middle;">&nbsp;' + x.competitions[0].competitors[0].team.displayName + ' <span style="color:green;">( #' + x.competitions[0].competitors[0].curatedRank.current + ')</span> ' + '(' + x.competitions[0].competitors[0].records[0].summary + ')' + '</div>'
+            } else {           
+             '<div><img src="' + x.competitions[0].competitors[0].team.logo + '"style="height: 20px;vertical-align:middle;">&nbsp;' + x.competitions[0].competitors[0].team.displayName + "(" + x.competitions[0].competitors[0].records[0].summary +")" +'</div>'
+            } 
+        - name: Away Team
+          data: '[[attribute]]'
+          modify: |-
+            if (x.competitions[0].competitors[1].curatedRank.current <= 25) { 
+             '<div><img src="' + x.competitions[0].competitors[1].team.logo + '" style="height: 20px;vertical-align:middle;">&nbsp;' + x.competitions[0].competitors[1].team.displayName + ' <span style="color:green;">( #' + x.competitions[0].competitors[1].curatedRank.current + ')</span> ' + '(' + x.competitions[0].competitors[1].records[0].summary + ')' + '</div>'
+            } else {           
+             '<div><img src="' + x.competitions[0].competitors[1].team.logo + '"style="height: 20px;vertical-align:middle;">&nbsp;' + x.competitions[0].competitors[1].team.displayName + "(" + x.competitions[0].competitors[1].records[0].summary +")" +'</div>'
+            }  
+        - name: Site
+          data: '[[attribute]]'
+          modify: >-
+            x.competitions[0].venue.fullName + " " +
+            x.competitions[0].venue.address.city +"," +
+            x.competitions[0].venue.address.state
+  ncaa_team_schedules:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1000px;'
+        tbody tr td:first-child: 'width: 5%;'
+        tbody tr td:nth-child(2): 'width: 5%;'
+        tbody tr td:nth-child(3): 'width: 5%;'
+        tbody tr td:nth-child(4): 'width: 5%;'
+        tbody tr td:nth-child(n+5): 'width: .5%;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: events+
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Game Time
+          data: '[[events]]'
+          modify: x.date.split('T')[0]
+        - name: Teams
+          data: '[[events]]'
+          modify: x.shortName
+        - name: Home Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[0].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[0].team.displayName + '</div>'
+        - name: Away Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[1].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[1].team.displayName + '</div>'
+  ncaa_team_schedules_2:
+    card:
+      type: custom:flex-table-card
+      title: name
+      css:
+        table+: 'padding: 0px; width: 1200px;'
+        tbody tr td:first-child: 'width: 5%;'
+        tbody tr td:nth-child(2): 'width: 5%;'
+        tbody tr td:nth-child(n+2): 'width: 5%;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+        tbody tr td:nth-child(4): 'background-color: mintcream; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+            }
+          $: |
+            .card-header {
+              padding-top: 6px!important;
+              padding-bottom: 4px!important;
+              font-size: 14px!important;
+              line-height: 14px!important;
+              font-weight: bold!important;
+            }
+      sort_by: events+
+      entities:
+        include:
+          - '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Game Date
+          data: '[[events]]'
+          modify: x.date.split('T')[0]
+        - name: Teams
+          data: '[[events]]'
+          modify: x.shortName
+        - name: Away Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[1].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[1].team.displayName + '</div>'
+        - name: Final Score (Away-Home)
+          data: '[[events]]'
+          modify: |-
+            if (typeof x !== 'undefined' &&
+                typeof x.competitions[0].competitors[0].score !== 'undefined' &&
+                typeof x.competitions[0].competitors[1].score !== 'undefined') {
+              let content = '';
+              let icon = '<ha-icon icon="mdi:minus" style="fill:white;"></ha-icon>';
+              let home_score = x.competitions[0].competitors[0].score.value;
+              let away_score = x.competitions[0].competitors[1].score.value;
+
+
+              if (home_score > away_score) {
+                content = `<div style="font-size:20px;color:red;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:green;">${home_score}</div>`;
+              } else if (home_score < away_score) {
+                content = `<div style="font-size:20px;color:green;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:red;">${home_score}</div>`;
+              } else {
+                content = `<div style="font-size:20px;color:black;">${away_score}-${home_score}</div>`;
+              }
+                            
+              content = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">` +
+                content +
+                `</div>`
+                
+              content;
+            } else {
+              '';
+            }
+        - name: Home Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[0].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[0].team.displayName + '</div>'
+        - name: Attendance
+          data: '[[events]]'
+          modify: x.competitions[0].attendance
+  ncaa_standings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1000px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 5%;'
+        tbody tr td:nth-child(n+3): 'width: 2%;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+        tbody tr td:nth-child(6): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by:
+        - SEED+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: SEED
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'SEED').displayValue
+          hidden: true
+        - name: Seed
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'SEED').displayValue
+        - name: Team with rank
+          data: entries
+          modify: |-
+            if (x.team.rank <= 25) {
+              '<div><img src="' + x.team.logos[0].href + '" style="height: 20px;vertical-align:middle;">&nbsp;' + x.team.displayName + "(" + x.team.rank +")" + '</div>' 
+            } else {
+               '<div><img src="' + x.team.logos[0].href + '" style="height: 20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>' 
+            }
+        - name: Overall
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'overall') !==
+            'undefined' ){x.stats.find(y=>y["abbreviation"] ==
+            'overall').displayValue}else{'-'}
+        - name: GB
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'GB') !== 'undefined'
+            ){x.stats.find(y=>y["abbreviation"] == 'GB').displayValue}else{'-'}
+        - name: Wins-Losses
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.name == 'overall') !== 'undefined'
+            ){x.stats.find(y=>y["name"] == 'overall').displayValue}else{'-'}
+        - name: Conf Record
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CONF') !== 'undefined'
+            ){x.stats.find(y=>y["abbreviation"] ==
+            'CONF').displayValue}else{'-'}
+        - name: Streak
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'STRK') !== 'undefined'
+            ){x.stats.find(y=>y["abbreviation"] == 'STRK').value}else{'-'}
+  cfp_ranking_card:
+    card:
+      type: custom:mushroom-template-card
+      entity: '[[entity]]'
+      primary: >
+        {% set rankings = state_attr('[[entity]]', 'teams') %} {% for ranking in
+        rankings %}
+          {% if ranking.CFP_ranking | int == [[CFP_ranking]] %}
+            {{ ranking.CFP_ranking }}. {{ ranking.team.nickname }} {{ ranking.team.name }}
+          {% endif %}
+        {% endfor %} 
+      card_mod:
+        style: |
+          ha-card {
+            {% set rankings = state_attr('[[entity]]', 'teams') %}
+            {% for ranking in rankings %}
+              {% if ranking.CFP_ranking | int == [[CFP_ranking]] %}
+                background: url({{ ranking.team.logos[0].href }}) no-repeat right center;
+                background-size: contain;
+                color: white;
+                border: 2px solid #{{ ranking.team.color }};
+                border-radius: 10px;
+                padding: 10px;
+              {% endif %}
+            {% endfor %}
+          }
+  vs_card:
+    card:
+      type: custom:mushroom-template-card
+      primary: |
+        [[vs_text]] [[venue]]
+      card_mod:
+        style: |
+
+          ha-card {   
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            text-align: left; 
+            font-size: 12px; 
+            color: black; 
+            border: 2.5px solid green; 
+            border-radius: 10px; 
+            padding: 5px; 
+            height: 70px; 
+            width: 125px;
+            background: url('[[logo]]') no-repeat center;
+            background-size: cover;
+            margin: 0 auto;
+          }
+  ncaa_cfp_top25_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 2%;'
+        tbody tr td:nth-child(3): 'width: 1%;'
+        tbody tr td:nth-child(4): 'width: 2%;'
+        tbody tr td:nth-child(n+5): 'width: .5%;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+        tbody tr:nth-child([[bye]]): 'border-bottom: 2px solid crimson!important;'
+        tbody tr:nth-child([[team5]]): 'background-color: dodgerblue; color: white;'
+        tbody tr:nth-child([[team6]]): 'background-color: navy; color: white;'
+        tbody tr:nth-child([[team7]]): 'background-color: #43C6DB; color: white;'
+        tbody tr:nth-child([[team8]]): 'background-color: #357EC7; color: white;'
+        tbody tr:nth-child([[team9]]): 'background-color: #357EC7; color: white;'
+        tbody tr:nth-child([[team10]]): 'background-color: #43C6DB; color: white;'
+        tbody tr:nth-child([[team11]]): 'background-color: navy; color: white;'
+        tbody tr:nth-child([[team12]]): 'background-color: dodgerblue; color: white;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: entries+
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: CFP Rank
+          data: '[[attribute]]'
+          modify: x.CFP_ranking
+        - name: Team
+          data: '[[attribute]]'
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.nickname + '</div>'
+        - name: Conference
+          data: '[[attribute]]'
+          modify: x.team.groups.shortName
+        - name: Conference Seed
+          data: '[[attribute]]'
+          modify: x.conference_ranking
+  game_stats:
+    card:
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+      card_param: cards
+      filter:
+        template: |
+          {%- for team in integration_entities("teamtracker") -%}
+            {%- if state_attr(team, "league") == "[[sport]]" -%}
+            {%- if states(team) == "[[status]]" -%}
+            {%- if state_attr(team, "team_homeaway") == "home" -%}
+            {%- if team in state_attr('sensor.nfl_red_zone','teams') -%}
+              {{{"type": "custom:teamtracker-card",
+                "entity": team,
+                "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                "home_side": "right"}}},
+            {%- else -%}
+              {{{"type": "custom:teamtracker-card",
+                "entity": team,
+                "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                "home_side": "right"}}},
+            {%- endif -%}
+            {%- endif -%}
+            {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
+  ncaaf_conference_game_stats:
+    card:
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+      card_param: cards
+      filter:
+        template: >
+          {%- set sensor_type = 'ncaaf' -%} {%- set team_names =
+          state_attr('[[team_names]]','team_names').split(', ') -%} 
+
+          {%- for team in state_attr('[[group]]','entity_id') -%} 
+            {%- if team.startswith('[[sensor_type]]') and state_attr(team, "team_homeaway") == "home" and state_attr(team, "opponent_abbr") in team_names -%} 
+                   {{{"type": "custom:teamtracker-card","entity": team,
+                   "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px; border: 2px solid blue; background-color: rgba(224, 247, 250, 0.1); }"},
+                   "home_side": "right",}}},
+            {%- elif team.startswith('[[sensor_type]]') and state_attr(team, "team_homeaway") == "home" -%} 
+                   {{{"type": "custom:teamtracker-card","entity": team,
+                   "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                   "home_side": "right",}}},
+            {%- elif team.startswith('[[sensor_type]]') and state_attr(team, "team_homeaway") != "home" and state_attr(team, "opponent_abbr") not in team_names  -%}   
+                   {{{"type": "custom:teamtracker-card","entity": team,
+                   "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                   "home_side": "right",}}},
+            {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
+  ncaa_top_25_game_stats:
+    card:
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+      card_param: cards
+      filter:
+        template: >
+          {%- set top_25_teams =
+          state_attr('[[team_names]]','team_names').split(', ') -%}
+
+          {%- for team in integration_entities('teamtracker') -%}
+            {%- set team_abbr = state_attr(team, 'team_abbr') -%}
+            {%- set opponent_abbr = state_attr(team, 'opponent_abbr') -%}
+            {%- set team_homeaway = state_attr(team, 'team_homeaway') -%}
+            
+            {%- if state_attr(team, 'league') == '[[sport]]' -%}
+
+              {%- if team_abbr in top_25_teams and team_homeaway == "home" and opponent_abbr in top_25_teams -%}                                                          
+                {{{"type": "custom:teamtracker-card","entity": team,"card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px; border: 2px solid red; background-color: rgba(224, 247, 250, 0.1); }"},
+                   "home_side": "right",}}},
+              {%- elif team_abbr in top_25_teams and team_homeaway == "home" and opponent_abbr not in top_25_teams -%}  
+                {{{"type": "custom:teamtracker-card","entity": team,"card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px; border: 2px solid blue; background-color: rgba(224, 247, 250, 0.1); }"},
+                "home_side": "right",}}},
+              {%- elif team_abbr in top_25_teams and team_homeaway != "home" and opponent_abbr not in top_25_teams  -%}      
+                {{{"type": "custom:teamtracker-card","entity": team,"card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px; border: 2px solid green; background-color: rgba(224, 247, 250, 0.1); }"},
+                 "home_side": "right",}}},
+              {%- endif -%}
+            
+            {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
+views:
+  - theme: Backend-selected
+    title: Sports
+    type: panel
+    icon: mdi:strategy
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: black;
+                color: silver;
+                border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+                border-width: 2px;
+                border-style: solid;
+                overflow: hidden;
+                width: 20%;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': black
+            '--mdc-tab-text-label-color-default': silver
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: NCAA
+                icon: mdi:school
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  card_mod: null
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 10%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                  tabs:
+                    - attributes:
+                        label: NCAA Football
+                        icon: mdi:football
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Top 25 Standings (CFP-AP-Coaches-FCS Polls)
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[1]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[1]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: sensor.ncaaf_poll_ap_top_25_all
+                                          - attribute: ranks
+                                          - bye: 0
+                                          - team5: 0
+                                          - team6: 0
+                                          - team7: 0
+                                          - team8: 0
+                                          - team9: 0
+                                          - team10: 0
+                                          - team11: 0
+                                          - team12: 0
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: NCAA Dropped Out Top 25 AP Poll
+                                          - entity: sensor.ncaaf_poll_ap_top_25_all
+                                          - attribute: droppedOut
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: NCAA Others Top 25 AP Poll
+                                          - entity: sensor.ncaaf_poll_ap_top_25_all
+                                          - attribute: others
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[2]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[2]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: sensor.ncaaf_poll_Coaches_top_25_all
+                                          - attribute: ranks
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Dropped Out Top 25 AFCA Coaches
+                                              Poll
+                                          - entity: sensor.ncaaf_poll_Coaches_top_25_all
+                                          - attribute: droppedOut
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Others Getting Votes 25 AFCA
+                                              Coaches Poll
+                                          - entity: sensor.ncaaf_poll_Coaches_top_25_all
+                                          - attribute: others
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[3]['headline'] }} -  {{
+                                          as_timestamp(state_attr('sensor.ncaaf_rank',
+                                          'rankings')[3]['date']) |
+                                          timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: sensor.ncaaf_poll_fcs_coaches_top_25_all
+                                          - attribute: ranks
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: NCAA Dropped Out Top 25 FCS Coaches Poll
+                                          - entity: sensor.ncaaf_poll_fcs_coaches_top_25_all
+                                          - attribute: droppedOut
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Others Getting Votes FCS Coaches
+                                              Poll
+                                          - entity: sensor.ncaaf_poll_fcs_coaches_top_25_all
+                                          - attribute: others
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[4]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[4]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: sensor.ncaa_afca_div_ii_football_top_25
+                                          - attribute: ranks
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[5]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[5]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: >-
+                                              sensor.ncaa_afca_div_iii_coaches_poll_football_top_25
+                                          - attribute: ranks
+                            - attributes:
+                                label: Big 12
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA Big 12 Conference
+                                          - entity: sensor.ncaaf_big_12_games
+                                          - attribute: events
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.big_12_conference_teams_group
+                                          - team_names: sensor.ncaaf_team_names_big_12
+                                          - sensor_type: sensor.ncaaf
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Big 12 Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: Big 12 Conference
+                                              - entity: sensor.ncaaf_conference_big_12
+                                              - attribute: entries
+                                      - type: markdown
+                                        content: >
+                                          <h1>Team
+                                          Schedules</h1>                                         
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Arizona State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_arizona_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_arizona_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Arizona
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_arizona
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_arizona
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Baylor University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_baylor_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_baylor_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Brigham Young University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_brigham_young_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_brigham_young_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Central Floriida
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_central_florida
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_central_florida
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Cincinnati
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_cincinnati
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_cincinnati
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Colorado Boulder
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_colorado
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_colorado
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Houston
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_houston
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_houston
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Iowa State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_iowa_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_iowa_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Kansas
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_univeristy_of_kansas
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_univeristy_of_kansas
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Kansas State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_kansas_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_kansas_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Oklahoma State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_oklahoma_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_oklahoma_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Texas Christian University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_texas_christian_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_texas_christian_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Texas Tech University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_texas_tech_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_texas_tech_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Utah
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_utah
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_university_of_utah
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: West Virginia University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_west_virginia_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaf_schedule_big_12_west_virginia_university
+                                              - events: events
+                                              - team: team
+                            - attributes:
+                                label: SEC
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA SEC Conference
+                                          - entity: sensor.ncaaf_sec_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>SEC conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.sec_conference_teams_group
+                                          - team_names: sensor.ncaaf_team_names_sec
+                                          - sensor_type: sensor.ncaaf
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: SEC Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: SEC Conference
+                                              - entity: sensor.ncaaf_conference_southeastern
+                                              - attribute: entries
+                            - attributes:
+                                label: ACC
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA ACC Conference
+                                          - entity: sensor.ncaaf_acc_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>ACC conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.acc_conference_teams_group
+                                          - team_names: sensor.ncaaf_team_names_acc
+                                          - sensor_type: sensor.ncaaf
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Acc Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: SEC Conference
+                                              - entity: sensor.ncaaf_conference_atlantic_coast
+                                              - attribute: entries
+                            - attributes:
+                                label: Big 10
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA SEC Conference
+                                          - entity: sensor.ncaaf_big_10_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>Big 10 conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.big_10_conference_teams_group
+                                          - team_names: sensor.ncaaf_team_names_big_10
+                                          - sensor_type: sensor.ncaaf
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Big 10 Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: Big 10 Conference
+                                              - entity: sensor.ncaaf_conference_big_ten
+                                              - attribute: entries
+                            - attributes:
+                                label: Pre,Live,Post NCAAF Conference Games
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAF
+                                          - sport_path: football
+                                          - league_path: college-football
+                                          - conferenceid: 4
+                                          - status: IN
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAF
+                                          - sport_path: football
+                                          - league_path: college-football
+                                          - conferenceid: 4
+                                          - status: PRE
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAF
+                                          - sport_path: football
+                                          - league_path: college-football
+                                          - conferenceid: 4
+                                          - status: POST
+                                          - conference: '4'
+                            - attributes:
+                                label: Top 25 Games
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h3>Ranked vs Ranked (red)              
+                                          Home
+                                          Game(Blue)                             
+                                          Away Game (Green) </h3>  
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top_25_game_stats
+                                        variables:
+                                          - team_names: sensor.ncaaf_team_names_t25
+                                          - sport: NCAAF
+                            - attributes:
+                                label: Playoffs/Bowls Placeholder
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[0]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[0]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_cfp_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: sensor.ncaaf_cfp_rankings
+                                          - attribute: teams
+                                          - bye: 4
+                                          - team5: 5
+                                          - team6: 6
+                                          - team7: 7
+                                          - team8: 8
+                                          - team9: 9
+                                          - team10: 10
+                                          - team11: 11
+                                          - team12: 12
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h3>CFP Playoff Bracket </h3>  
+                                      - square: false
+                                        columns: 4
+                                        type: grid
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 1
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 2
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 3
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 4
+                                        title: 1st Round Bye
+                                      - square: false
+                                        columns: 4
+                                        type: grid
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 8
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 7
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 6
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 5
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: >-
+                                                  @ {{
+                                                  state_attr('sensor.ncaaf_cfp_rankings','teams')[7]['team']['location'] 
+                                                  }} 
+                                              - logo: ''
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: ''
+                                              - logo: >-
+                                                  {{
+                                                  state_attr('sensor.ncaaf_cfp_rankings','teams')[6]['team']['logos'][0].href  
+                                                  }}
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: >-
+                                                  @ {{
+                                                  state_attr('sensor.ncaaf_cfp_rankings','teams')[5]['team']['location'] 
+                                                  }}
+                                              - logo: ''
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: >-
+                                                  @ {{
+                                                  state_attr('sensor.ncaaf_cfp_rankings','teams')[4]['team']['location'] 
+                                                  }}
+                                              - logo: >-
+                                                  {{
+                                                  state_attr('sensor.ncaaf_cfp_rankings','teams')[4]['team']['logos'][0].href  
+                                                  }}
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 9
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 10
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 11
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 12
+                                        title: Playoff 1st Round
+                                      - square: false
+                                        columns: 4
+                                        type: grid
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 1
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 2
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 3
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 4
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: Tuesday December 31, 2024
+                                              - venue: ''
+                                              - logo: >-
+                                                  https://images.sidearmdev.com/convert?url=https%3a%2f%2fdxbhsrqyrr690.cloudfront.net%2fsidearm.nextgen.sites%2fcollegefootballplayoff.sidearmsports.com%2fimages%2f2022%2f8%2f9%2fVrbo_Fiesta_Bowl_NEW.png&type=webp
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: ''
+                                              - logo: >-
+                                                  https://images.sidearmdev.com/convert?url=https%3a%2f%2fdxbhsrqyrr690.cloudfront.net%2fsidearm.nextgen.sites%2fcollegefootballplayoff.sidearmsports.com%2fimages%2f2021%2f8%2f7%2flogo_ny6_peachbowl.png&type=webp
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: ''
+                                              - logo: >-
+                                                  https://images.sidearmdev.com/convert?url=https%3a%2f%2fdxbhsrqyrr690.cloudfront.net%2fsidearm.nextgen.sites%2fcollegefootballplayoff.sidearmsports.com%2fimages%2f2023%2f8%2f30%2fRose-Bowl-Game-Prudential.png&type=webp
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: ''
+                                              - logo: >-
+                                                  https://images.sidearmdev.com/convert?url=https%3a%2f%2fdxbhsrqyrr690.cloudfront.net%2fsidearm.nextgen.sites%2fcollegefootballplayoff.sidearmsports.com%2fimages%2f2022%2f9%2f8%2fNY6_Allstate_Sugar_Bowl.png&type=webp
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == TBD %}
+                                              8/9.  {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                {{ ranking.team.logos[0].href }} {%
+                                                endif %} {% endfor %}) no-repeat right
+                                                center; background-size: contain; /*
+                                                Adjust this value to scale the image */
+                                                color: white; /* Adjust text color for
+                                                better visibility */ border: 2px solid
+                                                {% set rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                #{{ ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == TBD %}
+                                              7/10.  {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                {{ ranking.team.logos[0].href }} {%
+                                                endif %} {% endfor %}) no-repeat right
+                                                center; background-size: contain; /*
+                                                Adjust this value to scale the image */
+                                                color: white; /* Adjust text color for
+                                                better visibility */ border: 2px solid
+                                                {% set rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                #{{ ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == TBD %}
+                                              6/11.  {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                {{ ranking.team.logos[0].href }} {%
+                                                endif %} {% endfor %}) no-repeat right
+                                                center; background-size: contain; /*
+                                                Adjust this value to scale the image */
+                                                color: white; /* Adjust text color for
+                                                better visibility */ border: 2px solid
+                                                {% set rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                #{{ ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == TBD %}
+                                              5/12.  {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                {{ ranking.team.logos[0].href }} {%
+                                                endif %} {% endfor %}) no-repeat right
+                                                center; background-size: contain; /*
+                                                Adjust this value to scale the image */
+                                                color: white; /* Adjust text color for
+                                                better visibility */ border: 2px solid
+                                                {% set rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == TBD %}
+                                                #{{ ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                        title: Playoff QuarterFinals
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4> Playoff Semifinals and National
+                                          Championship</h4>
+                                      - square: false
+                                        columns: 2
+                                        type: grid
+                                        cards:
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == 1 %} 1. 
+                                              {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 1 %} {{
+                                                ranking.team.logos[0].href }} {% endif
+                                                %} {% endfor %}) no-repeat right center;
+                                                background-size: contain; /* Adjust this
+                                                value to scale the image */ color:
+                                                white; /* Adjust text color for better
+                                                visibility */ border: 2px solid {% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 1 %} #{{
+                                                ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == 2 %} 2. 
+                                              {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 2 %} {{
+                                                ranking.team.logos[0].href }} {% endif
+                                                %} {% endfor %}) no-repeat right center;
+                                                background-size: contain; /* Adjust this
+                                                value to scale the image */ color:
+                                                white; /* Adjust text color for better
+                                                visibility */ border: 2px solid {% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 2 %} #{{
+                                                ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: ''
+                                              - logo: >-
+                                                  https://images.sidearmdev.com/convert?url=https%3a%2f%2fdxbhsrqyrr690.cloudfront.net%2fsidearm.nextgen.sites%2fcollegefootballplayoff.sidearmsports.com%2fimages%2f2021%2f8%2f7%2flogo_ny6_orangebowl.png&type=webp
+                                          - type: custom:decluttering-card
+                                            template: vs_card
+                                            variables:
+                                              - vs_text: ''
+                                              - venue: ''
+                                              - logo: >-
+                                                  https://images.sidearmdev.com/convert?url=https%3a%2f%2fdxbhsrqyrr690.cloudfront.net%2fsidearm.nextgen.sites%2fcollegefootballplayoff.sidearmsports.com%2fimages%2f2021%2f8%2f7%2flogo_ny6_cottonbowl.png&type=webp
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == 3 %} 3. 
+                                              {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 3 %} {{
+                                                ranking.team.logos[0].href }} {% endif
+                                                %} {% endfor %}) no-repeat right center;
+                                                background-size: contain; /* Adjust this
+                                                value to scale the image */ color:
+                                                white; /* Adjust text color for better
+                                                visibility */ border: 2px solid {% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 3 %} #{{
+                                                ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == 4 %} 4. 
+                                              {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 4 %} {{
+                                                ranking.team.logos[0].href }} {% endif
+                                                %} {% endfor %}) no-repeat right center;
+                                                background-size: contain; /* Adjust this
+                                                value to scale the image */ color:
+                                                white; /* Adjust text color for better
+                                                visibility */ border: 2px solid {% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 4 %} #{{
+                                                ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                        title: Playoff SemiFinals
+                                      - square: false
+                                        columns: 1
+                                        type: grid
+                                        cards:
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == 1 %} 1. 
+                                              {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 1 %} {{
+                                                ranking.team.logos[0].href }} {% endif
+                                                %} {% endfor %}) no-repeat right center;
+                                                background-size: contain; /* Adjust this
+                                                value to scale the image */ color:
+                                                white; /* Adjust text color for better
+                                                visibility */ border: 2px solid {% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 1 %} #{{
+                                                ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                          - type: custom:mushroom-template-card
+                                            primary: VS
+                                            card_mod:
+                                              style: >
+                                                ha-card { display: flex; align-items:
+                                                center; justify-content: center; 
+                                                text-align: center; font-size: 24px;
+                                                color: black; border: 2px solid black;
+                                                border-radius: 10px; padding:
+                                                10px;height: 50px; }
+                                          - type: custom:mushroom-template-card
+                                            entity: sensor.ncaaf_poll_cfp_top_25_all
+                                            primary: >
+                                              {% set rankings =
+                                              state_attr('sensor.ncaaf_cfp_rankings',
+                                              'teams') %} {% for ranking in rankings
+                                              %} {% if ranking.CFP_ranking == 2 %} 2. 
+                                              {{ ranking.team.nickname }} {{
+                                              ranking.team.name }} {% endif %} {%
+                                              endfor %}
+                                            card_mod:
+                                              style: >
+                                                ha-card { background: url({% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 2 %} {{
+                                                ranking.team.logos[0].href }} {% endif
+                                                %} {% endfor %}) no-repeat right center;
+                                                background-size: contain; /* Adjust this
+                                                value to scale the image */ color:
+                                                white; /* Adjust text color for better
+                                                visibility */ border: 2px solid {% set
+                                                rankings =
+                                                state_attr('sensor.ncaaf_cfp_rankings',
+                                                'teams') %} {% for ranking in rankings
+                                                %} {% if ranking.CFP_ranking == 2 %} #{{
+                                                ranking.team.color }} {% endif %} {%
+                                                endfor %}; border-radius: 10px; /*
+                                                Optional: Add rounded corners */
+                                                padding: 10px; /* Optional: Add padding
+                                                inside the card */ }
+                                        title: National Championship
+                            - attributes:
+                                label: Testing All Bowls
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[0]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[0]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_cfp_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: sensor.ncaaf_cfp_rankings
+                                          - attribute: teams
+                                          - bye: 4
+                                          - team5: 5
+                                          - team6: 6
+                                          - team7: 7
+                                          - team8: 8
+                                          - team9: 9
+                                          - team10: 10
+                                          - team11: 11
+                                          - team12: 12
+                    - attributes:
+                        label: NCAA Basketball
+                        icon: mdi:basketball
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: >-
+                                  NCAA Basketball Top 25 Standings
+                                  (AP-Coaches-FCS Polls)
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaam_rank',
+                                          'rankings')[0]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaam_rank','rankings')[0]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: NCAA Basketball Top 25 AFCA AP Poll
+                                          - entity: sensor.ncaam_poll_ap_top_25_all
+                                          - attribute: ranks
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Basketball Dropped Out Top 25 AP
+                                              Poll
+                                          - entity: sensor.ncaam_poll_ap_top_25_all
+                                          - attribute: droppedOut
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Basketball Others Getting Votes 25
+                                              AP Poll
+                                          - entity: sensor.ncaam_poll_ap_top_25_all
+                                          - attribute: others
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaam_rank',
+                                          'rankings')[1]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaam_rank','rankings')[1]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: NCAA Basketball Top 25 AFCA Coaches Poll
+                                          - entity: sensor.ncaam_poll_Coaches_top_25_all
+                                          - attribute: ranks
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Basketball Dropped Out Top 25 AFCA
+                                              Coaches Poll
+                                          - entity: sensor.ncaam_poll_Coaches_top_25_all
+                                          - attribute: droppedOut
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Basketball Others Getting Votes 25
+                                              AFCA Coaches Poll
+                                          - entity: sensor.ncaam_poll_Coaches_top_25_all
+                                          - attribute: others
+                            - attributes:
+                                label: Big 12
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA Big 12 Conference
+                                          - entity: sensor.ncaam_big_12_games
+                                          - attribute: events
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.big_12_conference_teams_group
+                                          - team_names: sensor.ncaam_team_names_big_12
+                                          - sensor_type: sensor.ncaam
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Big 12 Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: Big 12 Conference
+                                              - entity: sensor.ncaam_conference_big_12
+                                              - attribute: entries
+                                              - sensor_type: sensor.ncaam
+                                      - type: markdown
+                                        content: >
+                                          <h1>Team
+                                          Schedules</h1>                                         
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Arizona State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_arizona_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_arizona_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Arizona
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_arizona
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_arizona
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Baylor University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_baylor_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_baylor_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Brigham Young University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_brigham_young_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_brigham_young_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Central Floriida
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_central_florida
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_central_florida
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Cincinnati
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_cincinnati
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_cincinnati
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Colorado Boulder
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_colorado
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_colorado
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Houston
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_houston
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_houston
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Iowa State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_iowa_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_iowa_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Kansas
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_univeristy_of_kansas
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_univeristy_of_kansas
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Kansas State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_kansas_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_kansas_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Oklahoma State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_oklahoma_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_oklahoma_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Texas Christian University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_texas_christian_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_texas_christian_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Texas Tech University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_texas_tech_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_texas_tech_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Utah
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_utah
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_university_of_utah
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: West Virginia University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_west_virginia_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaam_schedule_big_12_west_virginia_university
+                                              - events: events
+                                              - team: team
+                            - attributes:
+                                label: SEC
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA SEC Conference
+                                          - entity: sensor.ncaam_sec_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>SEC conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.sec_conference_teams_group
+                                          - team_names: sensor.ncaam_team_names_sec
+                                          - sensor_type: sensor.ncaam
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: SEC Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: SEC Conference
+                                              - entity: sensor.ncaam_conference_southeastern
+                                              - attribute: entries
+                            - attributes:
+                                label: ACC
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA ACC Conference
+                                          - entity: sensor.ncaam_acc_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>ACC conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.acc_conference_teams_group
+                                          - team_names: sensor.ncaam_team_names_acc
+                                          - sensor_type: sensor.ncaam
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Acc Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: SEC Conference
+                                              - entity: sensor.ncaam_conference_atlantic_coast
+                                              - attribute: entries
+                            - attributes:
+                                label: Big 10
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA Big 10 Conference
+                                          - entity: sensor.ncaam_big_10_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>Big 10 conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.big_10_conference_teams_group
+                                          - team_names: sensor.ncaaf_team_names_big_10
+                                          - sensor_type: sensor.ncaam
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Big 10 Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: Big 10 Conference
+                                              - entity: sensor.ncaam_conference_big_ten
+                                              - attribute: entries
+                            - attributes:
+                                label: Pre,Live,Post NCAAM Conference Games
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAM
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: IN
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAM
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: PRE
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAM
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: POST
+                                          - conference: '4'
+                            - attributes:
+                                label: Top 25 Games
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h3>Ranked vs Ranked (red)              
+                                          Home
+                                          Game(Blue)                             
+                                          Away Game (Green) </h3>  
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top_25_game_stats
+                                        variables:
+                                          - team_names: sensor.ncaam_team_names_t25
+                                          - sport: NCAAM
+title: NCAA Sports Standings and Scores
