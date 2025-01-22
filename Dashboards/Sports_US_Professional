@@ -1,0 +1,2233 @@
+decluttering_templates:
+  wnba_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 1%;'
+        tbody tr td:nth-child(3): 'width: 8%;'
+        tbody tr td:nth-child(n+4): 'width: 2%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(4): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: entries+
+      entities:
+        include: '[[included_entities]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - hidden: true
+          data: entries
+          modify: '[[sort]]'
+        - name: C
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){x.stats.find(y=>y.abbreviation ==
+            'CLINCH').displayValue}else{'-'}
+        - name: Seed
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'SEED') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation == 'SEED').displayValue}else{'-'}
+        - name: Team
+          data: entries
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+        - name: Overall
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'Total').displayValue
+        - name: W
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'W').displayValue
+        - name: L
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L').displayValue
+        - name: GB
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'GB').displayValue
+        - name: HOME
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'HOME').displayValue
+        - name: AWAY
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'AWAY').displayValue
+        - name: DIV
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'DIV').displayValue
+        - name: CONF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'CONF').displayValue
+        - name: PPG
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PPG').displayValue
+        - name: OPP PPG
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'OPP PPG').displayValue
+        - name: DIFF
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'DIFF').displayValue
+        - name: STRK
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'STRK').displayValue
+        - name: <div>L10</div>
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'L10') !== 'undefined'
+            ){x.stats.find(y=>y["abbreviation"] == 'L10').summary}else{'-'}
+  wnba_playoffs_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 1%;'
+        tbody tr td:nth-child(3): 'width: 8%;'
+        tbody tr td:nth-child(n+4): 'width: 2%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(4): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: entries+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: Seed
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'SEED') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation == 'SEED').displayValue}else{'-'}
+        - name: Team
+          data: entries
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+        - name: W
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'W').displayValue
+        - name: L
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L').displayValue
+  nhl_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 20%;'
+        tbody tr td:nth-child(n+3): 'width: 5%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      sort_by: entries-
+      columns:
+        - hidden: true
+          data: '[[attribute]]'
+          modify: '[[sort]]'
+        - name: <div>C</div>
+          data: '[[attribute]]'
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){x.stats.find(y=>y.abbreviation ==
+            'CLINCH').displayValue}else{'-'}  
+        - name: Team
+          data: '[[attribute]]'
+          modify: >-
+            '<div><a href="' + x.team.links[0].href + '" target="_blank"><img
+            src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;"></a>&nbsp;' + x.team.displayName +
+            '</div>'  
+        - name: <div>GP</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'GP').displayValue
+        - name: <div>W</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'W').displayValue
+        - name: <div>L</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'L').displayValue
+        - name: <div>OTL</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'OTL').displayValue
+        - name: <div>PTS</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'PTS').displayValue
+        - name: <div>RW</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'RW').displayValue
+        - name: <div>ROW</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'ROW').displayValue
+        - name: <div>SOW</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'SOW').displayValue
+        - name: <div>SOL</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'SOL').displayValue
+        - name: <div>HOME</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'HOME').displayValue
+        - name: <div>AWAY</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'AWAY').displayValue
+        - name: <div>GF</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'GF').displayValue
+        - name: <div>GA</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'GA').displayValue
+        - name: <div>DIFF</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'DIFF').displayValue
+        - name: <div>L10</div>
+          data: '[[attribute]]'
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'L10') !== 'undefined'
+            ){x.stats.find(y=>y["abbreviation"] == 'L10').summary}else{'-'}
+        - name: <div>STRK</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'STRK').displayValue
+  sos_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 2000px;'
+        tbody tr td:first-child: 'width: 2px;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      entities:
+        include: '[[entity]]'
+      sort_by: sos.dataRows-
+      columns:
+        - name: SOS
+          data: '[[attribute]]'
+          modify: |-
+            if (x[8] > 3 ){
+                '<div style="display:none;">'+ x[8] + '</div>' + '<div style="background-color:lightgreen;text-align:center">' + x[8] + '</div>'; }
+            else if (x[8] < 3) {
+                '<div style="display:none;">'+ x[8] + '</div>' + '<div style="background-color:lightcoral;text-align:center"">' + x[8] + '</div>'; }
+            else {
+                '<div style="display:none;">'+ x[8] + '</div>' + '<div style=";text-align:center">' + x[8] +'</div>'}
+        - name: Team
+          data: '[[attribute]]'
+          modify: >-
+            '<div><img src="' + x[0].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + x[0].team.name
+            + ' (' + parseFloat(2*x[0].team.wins + x[0].team.overtimeLosses) +
+            ')</div>'
+        - name: Monday
+          data: '[[attribute]]'
+          modify: >-
+            if(x[1]){'<div><img src="' + x[1].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + (x[1].home ? ''
+            : '@ ') + x[1].team.name + ' (' + parseFloat(2*x[1].team.wins +
+            x[1].team.overtimeLosses) + ')</div>'}else{'<div
+            style="text-align:center">---</div>'}
+        - name: Tuesday
+          data: '[[attribute]]'
+          modify: >-
+            if(x[2]){'<div><img src="' + x[2].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + (x[2].home ? ''
+            : '@ ') + x[2].team.name + ' (' + parseFloat(2*x[2].team.wins +
+            x[2].team.overtimeLosses) + ')</div>'}else{'<div
+            style="text-align:center">---</div>'}
+        - name: Wednesday
+          data: '[[attribute]]'
+          modify: >-
+            if(x[3]){'<div><img src="' + x[3].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + (x[3].home ? ''
+            : '@ ') + x[3].team.name + ' (' + parseFloat(2*x[3].team.wins +
+            x[3].team.overtimeLosses) + ')</div>'}else{'<div
+            style="text-align:center">---</div>'}
+        - name: Thursday
+          data: '[[attribute]]'
+          modify: >-
+            if(x[4]){'<div><img src="' + x[4].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + (x[4].home ? ''
+            : '@ ') + x[4].team.name + ' (' + parseFloat(2*x[4].team.wins +
+            x[4].team.overtimeLosses) + ')</div>'}else{'<div
+            style="text-align:center">---</div>'}
+        - name: Friday
+          data: '[[attribute]]'
+          modify: >-
+            if(x[5]){'<div><img src="' + x[5].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + (x[5].home ? ''
+            : '@ ') + x[5].team.name + ' (' + parseFloat(2*x[5].team.wins +
+            x[5].team.overtimeLosses) + ')</div>'}else{'<div
+            style="text-align:center">---</div>'}
+        - name: Saturday
+          data: '[[attribute]]'
+          modify: >-
+            if(x[6]){'<div><img src="' + x[6].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + (x[6].home ? ''
+            : '@ ') + x[6].team.name + ' (' + parseFloat(2*x[6].team.wins +
+            x[6].team.overtimeLosses) + ')</div>'}else{'<div
+            style="text-align:center">---</div>'}
+        - name: Sunday
+          data: '[[attribute]]'
+          modify: >-
+            if(x[7]){'<div><img src="' + x[7].team.logo + '"
+            style="height:20px;vertical-align:middle;">&nbsp;' + (x[7].home ? ''
+            : '@ ') + x[7].team.name + ' (' + parseFloat(2*x[7].team.wins +
+            x[7].team.overtimeLosses) + ')</div>'}else{'<div
+            style="text-align:center">---</div>'}
+  mlb_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 20%;'
+        tbody tr td:nth-child(n+3): 'width: 5%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(6): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      entities:
+        include: '[[entity]]'
+      sort_by: entries-
+      columns:
+        - hidden: true
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value
+        - name: C
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){x.stats.find(y=>y.abbreviation ==
+            'CLINCH').displayValue}else{'-'}
+        - name: Team
+          data: entries
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+        - name: GP
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'GP').displayValue
+        - name: W
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'W').displayValue
+        - name: L
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L').displayValue
+        - name: PCT
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value.toFixed(2)
+        - name: GB
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'GB').displayValue
+        - name: HOME
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'Home').displayValue
+        - name: AWAY
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'AWAY').displayValue
+        - name: RS
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'RS').displayValue
+        - name: RA
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'RA').displayValue
+        - name: DIFF
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'DIFF').displayValue
+        - name: L10
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'L10').displayValue
+        - name: STRK
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'STRK').displayValue
+  nfl_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 15%;'
+        tbody tr td:nth-child(n+3): 'width: 4%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: entries-
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - hidden: true
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value.toFixed(2)
+        - name: C
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){x.stats.find(y=>y.abbreviation ==
+            'CLINCH').displayValue}else{'-'}
+        - name: Team
+          data: entries
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+        - name: GP
+          data: entries
+          modify: >-
+            x.stats.find(y=>y.abbreviation == 'L').value +
+            x.stats.find(y=>y.abbreviation == 'W').value +
+            x.stats.find(y=>y.abbreviation == 'T').value
+        - name: W
+          data: entries
+          modify: x.stats.find(y=>y["abbreviation"] == 'W').value
+        - name: L
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L').value
+        - name: T
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'T').value
+        - name: PCT
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value.toFixed(2)
+        - name: HOME
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'HOME').displayValue
+        - name: AWAY
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'AWAY').displayValue
+        - name: DIV
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'DIV').displayValue
+        - name: CONF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'CONF').displayValue
+        - name: PF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'PF').displayValue
+        - name: PA
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'PA').displayValue
+        - name: DIFF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'DIFF').displayValue
+        - name: STRK
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'STRK').displayValue
+  nfl_team_schedules:
+    card:
+      type: custom:flex-table-card
+      title: name
+      css:
+        table+: 'padding: 0px; width: 1200px;'
+        tbody tr td:first-child: 'width: 5%;'
+        tbody tr td:nth-child(2): 'width: 5%;'
+        tbody tr td:nth-child(n+2): 'width: 5%;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+        tbody tr td:nth-child(4): 'background-color: mintcream; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+            }
+          $: |
+            .card-header {
+              padding-top: 6px!important;
+              padding-bottom: 4px!important;
+              font-size: 14px!important;
+              line-height: 14px!important;
+              font-weight: bold!important;
+            }
+      sort_by: events+
+      entities:
+        include:
+          - '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Game Date
+          data: '[[events]]'
+          modify: x.date.split('T')[0]
+        - name: Teams
+          data: '[[events]]'
+          modify: x.shortName
+        - name: Away Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[1].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[1].team.displayName + '</div>'
+        - name: Final Score (Away-Home)
+          data: '[[events]]'
+          modify: |-
+            if (typeof x !== 'undefined' &&
+                typeof x.competitions[0].competitors[0].score !== 'undefined' &&
+                typeof x.competitions[0].competitors[1].score !== 'undefined') {
+              let content = '';
+              let icon = '<ha-icon icon="mdi:minus" style="fill:white;"></ha-icon>';
+              let home_score = x.competitions[0].competitors[0].score.value;
+              let away_score = x.competitions[0].competitors[1].score.value;
+
+
+              if (home_score > away_score) {
+                content = `<div style="font-size:20px;color:red;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:green;">${home_score}</div>`;
+              } else if (home_score < away_score) {
+                content = `<div style="font-size:20px;color:green;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:red;">${home_score}</div>`;
+              } else {
+                content = `<div style="font-size:20px;color:black;">${away_score}-${home_score}</div>`;
+              }
+                            
+              content = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">` +
+                content +
+                `</div>`
+                
+              content;
+            } else {
+              '';
+            }
+        - name: Home Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[0].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[0].team.displayName + '</div>'
+        - name: Passing Leader
+          data: '[[events]]'
+          modify: x.competitions[0].leaders.passingLeader.leaders.displayName
+        - name: Rushing Leader
+          data: '[[events]]'
+          modify: x.competitions[0].leaders.rushingLeader.leaders.displayName
+  nfl_settings_2:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 15%;'
+        tbody tr td:nth-child(n+3): 'width: 4%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+            }
+          $: |
+            .card-header {
+              padding-top: 6px!important;
+              padding-bottom: 4px!important;
+              font-size: 14px!important;
+              line-height: 14px!important;
+              font-weight: bold!important;
+            }
+            .home-field-clinch {
+              background-color: navy;
+              color: white;
+            }
+            .clinch {
+              background-color: lightblue;
+              color: white;
+            }
+            .eliminated {
+              background-color: pink;
+              color: white;
+            }
+            .no-decision {
+              background-color: inherit;
+              color: inherit;
+            }
+      sort_by: entries-
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - hidden: true
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value.toFixed(2)
+        - name: C
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){
+              x.stats.find(y=>y.abbreviation == 'CLINCH').displayValue
+            }else{
+              '-'
+            }
+          class: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){
+              let clinchValue = x.stats.find(y=>y.abbreviation == 'CLINCH').displayValue;
+              if(clinchValue == 'y') {
+                return 'home-field-clinch';
+              } else if(clinchValue == 'x') {
+                return 'clinch';
+              } else if(clinchValue == 'e') {
+                return 'eliminated';
+              } else {
+                return 'no-decision';
+              }
+            }else{
+              return 'no-decision';
+            }
+        - name: Team
+          data: entries
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+        - name: GP
+          data: entries
+          modify: >-
+            x.stats.find(y=>y.abbreviation == 'L').value +
+            x.stats.find(y=>y.abbreviation == 'W').value +
+            x.stats.find(y=>y.abbreviation == 'T').value
+        - name: W
+          data: entries
+          modify: x.stats.find(y=>y["abbreviation"] == 'W').value
+        - name: L
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L').value
+        - name: T
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'T').value
+        - name: PCT
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value.toFixed(2)
+        - name: HOME
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'HOME').displayValue
+        - name: AWAY
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'AWAY').displayValue
+        - name: DIV
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'DIV').displayValue
+        - name: CONF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'CONF').displayValue
+        - name: PF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'PF').displayValue
+        - name: PA
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'PA').displayValue
+        - name: DIFF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'DIFF').displayValue
+        - name: STRK
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'STRK').displayValue
+  nba_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 20%;'
+        tbody tr td:nth-child(n+3): 'width: 6%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(5): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: entries+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - hidden: true
+          data: entries
+          modify: '[[sort]]'
+        - name: C
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){x.stats.find(y=>y.abbreviation ==
+            'CLINCH').displayValue}else{'-'}
+        - name: Team
+          data: entries
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+        - name: W
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'W').displayValue
+        - name: L
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L').displayValue
+        - name: GB
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'GB').displayValue
+        - name: HOME
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'HOME').displayValue
+        - name: AWAY
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'AWAY').displayValue
+        - name: DIV
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'DIV').displayValue
+        - name: CONF
+          data: entries
+          modify: x.stats.find(y=>y.shortDisplayName == 'CONF').displayValue
+        - name: PPG
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PPG').displayValue
+        - name: OPP PPG
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'OPP PPG').displayValue
+        - name: DIFF
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'DIFF').displayValue
+        - name: STRK
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'STRK').displayValue
+        - name: L10
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L10').displayValue
+  game_stats:
+    card:
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: masonry
+        width: 200px
+        max-columns: 5
+      card_param: cards
+      filter:
+        template: |
+          {%- for team in integration_entities("teamtracker") -%}
+            {%- if state_attr(team, "league") == "[[sport]]" -%}
+              {%- if states(team) == "[[status]]" -%}
+                {%- if state_attr(team, "team_homeaway") == "home" -%}
+                  {%- if states('sensor.nfl_red_zone') and team in state_attr('sensor.nfl_red_zone', 'teams') -%}
+                    {{{"type": "custom:teamtracker-card",
+                      "entity": team,
+                      "card_mod": {"style": "ha-card {\n\n    color:  black; \n    background-color:  #ffcccc; \n    box-shadow: 0 0 10px 5px red;\n}\n"},
+                      "home_side": "right"}}},
+                  {%- else -%}
+                    {{{"type": "custom:teamtracker-card",
+                      "entity": team, 
+                      "home_side": "right"}}},
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
+  game_stats_old:
+    card:
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: masonry
+        width: 200px
+        max-columns: 5
+      card_param: cards
+      filter:
+        template: |
+          {%- for team in integration_entities("teamtracker") -%}
+            {%- if state_attr(team, "league") == "[[sport]]" -%}
+            {%- if states(team) == "[[status]]" -%}
+            {%- if state_attr(team, "team_homeaway") == "home" -%}
+            {%- if team in state_attr('sensor.nfl_red_zone','teams') -%}
+              {{{"type": "custom:teamtracker-card",
+                "entity": team,
+                "card_mod": {"style": "ha-card {\n\n    color:  black; \n    background-color:  #ffcccc; \n    box-shadow: 0 0 10px 5px red;\n}\n"},
+                "home_side": "right"}}},
+            {%- else -%}
+              {{{"type": "custom:teamtracker-card",
+                "entity": team, 
+                "home_side": "right"}}},
+            {%- endif -%}
+            {%- endif -%}
+            {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
+views:
+  - theme: Backend-selected
+    title: Sports
+    type: panel
+    icon: mdi:strategy
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': blue
+            '--mdc-tab-text-label-color-default': white
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: NHL
+                icon: mdi:hockey-puck
+                background-image: >-
+                  url(https://media.d3.nhle.com/image/private/t_q-best/prd/assets/nhl/logos/nhl_shield_on_dark_kl1omz);
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  styles:
+                    '--mdc-theme-primary': blue
+                    '--mdc-tab-text-label-color-default': white
+                    '--mdc-typography-button-font-size': 12px
+                  tabs:
+                    - attributes:
+                        label: Standings
+                        icon: mdi:ballot
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                               background: black;
+                               border-color: silver;
+                               border-width: 2px;
+                               border-top-left-radius: 20px;
+                               border-top-right-radius: 20px;
+                               border-style: solid;
+                               overflow: hidden;
+                               width: 15%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': green
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Divisional
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Eastern Atlantic
+                                      - entity: sensor.nhl_east_atlantic
+                                      - attribute: entries
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                          - sensor.nhl_wildcard
+                                          - sensor.nhl_wildcard_standings
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Eastern Metropolitan
+                                      - entity: sensor.nhl_east_metropolitan
+                                      - attribute: entries
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                          - sensor.nhl_wildcard
+                                          - sensor.nhl_wildcard_standings
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: West Central
+                                      - entity: sensor.nhl_west_central
+                                      - attribute: entries
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                          - sensor.nhl_wildcard
+                                          - sensor.nhl_wildcard_standings
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: West Pacific
+                                      - entity: sensor.nhl_west_pacific
+                                      - attribute: entries
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                          - sensor.nhl_wildcard
+                                          - sensor.nhl_wildcard_standings
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                            - attributes:
+                                label: Conference
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Eastern
+                                      - entity: sensor.nhl_east_*
+                                      - attribute: entries
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                          - sensor.nhl_wildcard
+                                          - sensor.nhl_wildcard_standings
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Western
+                                      - entity: sensor.nhl_west_*
+                                      - attribute: entries
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                          - sensor.nhl_wildcard
+                                          - sensor.nhl_wildcard_standings
+                            - attributes:
+                                label: Overall
+                              card:
+                                type: custom:decluttering-card
+                                template: nhl_settings
+                                variables:
+                                  - title: Overall
+                                  - entity: sensor.nhl_*
+                                  - attribute: entries
+                                  - excluded_entities:
+                                      - sensor.nhl_starting_goalies
+                                      - sensor.nhl_wildcard
+                                      - sensor.nhl_wildcard_standings
+                                  - sort: >-
+                                      x.stats.find(y=>y.shortDisplayName ==
+                                      'PTS').value
+                            - attributes:
+                                label: Wildcard
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: markdown
+                                    content: |
+                                      <h2>Eastern Conference</h2>
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Atlantic Leaders
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: east_atlantic_top
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Metropolitan Leaders
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: east_metropolitan_top
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Wildcards
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: east_wildcard
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: In The Hunt
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: east_hunt
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Eliminated
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: east_eliminated
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: markdown
+                                    content: |
+                                      <h2>Western Conference</h2>
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Central Leaders
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: west_central_top
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Pacific Leaders
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: west_pacific_top
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Wildcards
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: west_wildcard
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: In The Hunt
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: west_hunt
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value
+                                  - type: custom:decluttering-card
+                                    template: nhl_settings
+                                    variables:
+                                      - title: Eliminated
+                                      - entity: sensor.nhl_wildcard_standings
+                                      - attribute: west_eliminated
+                                      - excluded_entities:
+                                          - sensor.nhl_starting_goalies
+                                      - sort: >-
+                                          x.stats.find(y=>y.shortDisplayName ==
+                                          'PTS').value                   
+                    - attributes:
+                        label: Live,Pre, Post NHL Conference Games
+                        icon: mdi:hockey-sticks
+                      card:
+                        type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: markdown
+                                content: |
+                                  <h1>NHL Games Live</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NHL
+                                  - status: IN
+                              - type: markdown
+                                content: |
+                                  <h1>NHL Games Coming-up</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NHL
+                                  - status: PRE
+                              - type: markdown
+                                content: |
+                                  <h1>NHL Games Completed</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NHL
+                                  - status: POST
+                    - attributes:
+                        label: SOS
+                        icon: mdi:calendar-blank
+                      card:
+                        type: custom:decluttering-card
+                        template: sos_settings
+                        variables:
+                          - title: NHL Strength of Schedule
+                          - entity: sensor.hockey_strength_of_schedule
+                          - attribute: sos.dataRows
+                    - attributes:
+                        label: Starting Goalies
+                        icon: mdi:strategy
+                      card:
+                        type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                card_mod:
+                                  style: |
+                                    ha-card {
+                                        overflow: hidden;
+                                        width: 600px;
+                                        height: 20px;
+                                    }
+                                    $: |
+                                        .card-header {
+                                           padding: 2px 0px 8px 4px!important;
+                                           font-size: 12px!important;
+                                           line-height: 12px!important;
+                                           font-weight: bold!important;
+                                         }
+                                name: >
+
+                                  [[[ let details =
+                                  states['sensor.nhl_starting_goalies'].attributes.data;
+                                  let news = ""; for (let i = 0; i <
+                                  details.length; i++) { if
+                                  (details[i].homeNewsFantasyDetails) { news =
+                                  details[i].homeNewsFantasyDetails; break; } }
+                                  return `<div id='news-marquee'><marquee
+                                  scrollamount='10'> <span style='color:
+                                  white;'> ${news}</span></marquee></div>`; ]]]
+                              - type: custom:flex-table-card
+                                title: Starting Goalies
+                                css:
+                                  table+: 'padding: 0px; width: 1600px;'
+                                  tbody tr:hover: >-
+                                    background-color: green!important;
+                                    color:white!important;
+                                  tbody tr td:nth-child(10): 'background-color: green; color: white;'
+                                card_mod:
+                                  style: |
+                                    ha-card {
+                                        overflow: auto;
+                                    }
+                                    $: |
+                                        .card-header {
+                                           padding: 2px 0px 8px 4px!important;
+                                           font-size: 16px!important;
+                                           line-height: 18px!important;
+                                           font-weight: bold!important;
+                                         }
+                                entities:
+                                  include: sensor.nhl_starting_goalies
+                                columns:
+                                  - name: Date
+                                    data: data
+                                    modify: x.date
+                                  - name: HOME
+                                    data: data
+                                    modify: >-
+                                      '<div><img src="' + x.homeTeamLogoSvg + '"
+                                      style="height:
+                                      20px;vertical-align:middle;">&nbsp;' +
+                                      x.homeTeamName + '</div>'
+                                  - name: GOALIE
+                                    data: data
+                                    modify: x.homeGoalieName
+                                  - name: RANK
+                                    data: data
+                                    modify: >-
+                                      if(x.homeGoaliePositionRank === null
+                                      ){'None'}else{x.homeGoaliePositionRank}
+                                  - name: W
+                                    data: data
+                                    modify: >-
+                                      if(x.homeGoalieWins === null
+                                      ){'0'}else{x.homeGoalieWins}
+                                  - name: L
+                                    data: data
+                                    modify: >-
+                                      if(x.homeGoalieLosses === null
+                                      ){'0'}else{x.homeGoalieLosses}
+                                  - name: OTL
+                                    data: data
+                                    modify: >-
+                                      if(x.homeGoalieOvertimeLosses === null
+                                      ){'0'}else{x.homeGoalieOvertimeLosses}
+                                  - name: SO
+                                    data: data
+                                    modify: >-
+                                      if(x.homeGoalieShutouts === null
+                                      ){'0'}else{x.homeGoalieShutouts}
+                                  - name: SVP
+                                    data: data
+                                    modify: >-
+                                      Number(x.homeGoalieSavePercentage).toFixed(3)
+                                  - name: GAA
+                                    data: data
+                                    modify: >-
+                                      Number(x.homeGoalieGoalsAgainstAvg).toFixed(2)
+                                  - name: PICK
+                                    data: data
+                                    modify: |-
+                                      switch(true){
+                                        case (x.homeGoalieGoalsAgainstAvg == 0) || (x.awayGoalieGoalsAgainstAvg == 0) :
+                                          '<div style="text-align:center;"><ha-icon icon="mdi:crosshairs-question"></div>';
+                                           break;
+                                        case (x.homeGoalieGoalsAgainstAvg - x.awayGoalieGoalsAgainstAvg) > 0:
+                                          '<div style="text-align:center;"><ha-icon icon="mdi:arrow-right"></div>';
+                                          break;
+                                        case (x.homeGoalieGoalsAgainstAvg - x.awayGoalieGoalsAgainstAvg) < 0:
+                                          '<div style="text-align:center;"><ha-icon icon="mdi:arrow-left"></div>';
+                                          break;
+                                        default:
+                                          '<div style="text-align:center;"><ha-icon icon="mdi:arrow-all"></div>';
+                                        }
+                                  - name: AWAY
+                                    data: data
+                                    modify: >-
+                                      '<div><img src="' + x.awayTeamLogoSvg + '"
+                                      style="height:
+                                      20px;vertical-align:middle;">&nbsp;' +
+                                      x.awayTeamName + '</div>'
+                                  - name: GOALIE
+                                    data: data
+                                    modify: x.awayGoalieName
+                                  - name: RANK
+                                    data: data
+                                    modify: >-
+                                      if(x.awayGoaliePositionRank == null
+                                      ){'None'}else{x.awayGoaliePositionRank}
+                                  - name: W
+                                    data: data
+                                    modify: >-
+                                      if(x.awayGoalieWins === null
+                                      ){'0'}else{x.awayGoalieWins}
+                                  - name: L
+                                    data: data
+                                    modify: >-
+                                      if(x.awayGoalieLosses === null
+                                      ){'0'}else{x.awayGoalieLosses}
+                                  - name: OTL
+                                    data: data
+                                    modify: >-
+                                      if(x.awayGoalieOvertimeLosses === null
+                                      ){'0'}else{x.awayGoalieOvertimeLosses}
+                                  - name: SO
+                                    data: data
+                                    modify: >-
+                                      if(x.awayGoalieShutouts === null
+                                      ){'0'}else{x.awayGoalieShutouts}
+                                  - name: SVP
+                                    data: data
+                                    modify: >-
+                                      Number(x.awayGoalieSavePercentage).toFixed(3)
+                                  - name: GAA
+                                    data: data
+                                    modify: >-
+                                      Number(x.awayGoalieGoalsAgainstAvg).toFixed(2)
+            - attributes:
+                label: NFL
+                icon: mdi:football
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  styles:
+                    '--mdc-theme-primary': green
+                    '--mdc-tab-text-label-color-default': silver
+                    '--mdc-typography-button-font-size': 12px
+                  tabs:
+                    - attributes:
+                        label: Standings
+                        icon: mdi:ballot
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 15%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': green
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Divisional
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: American Football Conference East
+                                      - entity: sensor.nfl_afc_east
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: American Football Conference North
+                                      - entity: sensor.nfl_afc_north
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: American Football Conference South
+                                      - entity: sensor.nfl_afc_south
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: American Football Conference West
+                                      - entity: sensor.nfl_afc_west
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: National Football Conference East
+                                      - entity: sensor.nfl_nfc_east
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: National Football Conference North
+                                      - entity: sensor.nfl_nfc_north
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: National Football Conference South
+                                      - entity: sensor.nfl_nfc_south
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings_2
+                                    variables:
+                                      - title: National Football Conference West
+                                      - entity: sensor.nfl_nfc_west
+                            - attributes:
+                                label: Conference
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings
+                                    variables:
+                                      - title: American Football Conference
+                                      - entity: sensor.nfl_afc_*
+                                  - type: custom:decluttering-card
+                                    template: nfl_settings
+                                    variables:
+                                      - title: National Football Conference
+                                      - entity: sensor.nfl_nfc_*
+                            - attributes:
+                                label: Overall
+                              card:
+                                type: custom:decluttering-card
+                                template: nfl_settings
+                                variables:
+                                  - title: Overall
+                                  - entity: sensor.nfl_*_*
+                                  - excluded_entities:
+                                      - sensor.nfl_red_zone
+                                      - sensor.nfl_standings
+                                      - sensor.nfl_teams
+                            - attributes:
+                                label: Schedules
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: markdown
+                                    content: |
+                                      <h1>Team
+                                        Schedules</h1>                                         
+                                  - type: custom:expander-card
+                                    child-margin-top: 0.6em
+                                    padding: 0
+                                    title: Denver Broncos
+                                    title-card-button-overlay: true
+                                    title-card-clickable: true
+                                    expanded: false
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_team_schedules
+                                        variables:
+                                          - title: Teams
+                                          - entity: sensor.nfl_schedule_*
+                                          - events: events
+                                          - team: team
+                                          - abbreviation: abbreviation
+                            - attributes:
+                                label: NFL Playoffs
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaf_rank',
+                                          'rankings')[0]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[0]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_cfp_top25_settings
+                                        variables:
+                                          - title: ''
+                                          - entity: sensor.ncaaf_cfp_rankings
+                                          - attribute: teams
+                                          - bye: 4
+                                          - team5: 5
+                                          - team6: 6
+                                          - team7: 7
+                                          - team8: 8
+                                          - team9: 9
+                                          - team10: 10
+                                          - team11: 11
+                                          - team12: 12
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h3>NFL Playoffs </h3>  
+                                      - square: false
+                                        columns: 4
+                                        type: grid
+                                        cards:
+                                          - type: custom:config-template-card
+                                            entities:
+                                              - sensor.nfl_afc_east
+                                            card:
+                                              type: custom:button-card
+                                              name: >
+                                                [[[ const entries =
+                                                states['sensor.nfl_afc_east'].attributes.entries;
+                                                let lowestGB =
+                                                Math.min(...entries.map(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value)));
+                                                let team = entries.find(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value) ===
+                                                lowestGB); return team.team.displayName;
+                                                ]]]
+                                              entity_picture: >
+                                                [[[ const entries =
+                                                states['sensor.nfl_afc_east'].attributes.entries;
+                                                let lowestGB =
+                                                Math.min(...entries.map(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value)));
+                                                let team = entries.find(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value) ===
+                                                lowestGB); return
+                                                team.team.logos[0].href;  ]]]
+                                              show_icon: true
+                                          - type: custom:config-template-card
+                                            entities:
+                                              - sensor.nfl_afc_east
+                                            card:
+                                              type: custom:button-card
+                                              name: >
+                                                [[[  const entries =
+                                                states['sensor.nfl_afc_east'].attributes.entries;
+                                                let lowestGB =
+                                                Math.min(...entries.map(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value)));
+                                                let team = entries.find(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value) ===
+                                                lowestGB); return team.team.displayName;
+                                                ]]]
+                                              entity_picture: >
+                                                [[[  const entries =
+                                                states['sensor.nfl_afc_east'].attributes.entries;
+                                                let lowestGB =
+                                                Math.min(...entries.map(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value)));
+                                                let team = entries.find(entry =>
+                                                parseFloat(entry.stats.find(stat =>
+                                                stat.abbreviation === 'GB').value) ===
+                                                lowestGB); return
+                                                team.team.logos[0].href; ]]]
+                                              show_icon: true
+                                              card_mod:
+                                                style: |
+                                                  ha-card {
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                    height: 150px; /* Adjust the height as needed */
+                                                    }
+                                                  .button-card-main {
+                                                    display: flex;
+                                                    align-items: center;
+                                                  }
+                                                  .button-card-icon {
+                                                     width: 50px; /* Adjust the size of the logo as needed */
+                                                     height: 50px; /* Adjust the size of the logo as needed */
+                                                     margin-right: 10px;
+                                                   }
+                                                  .button-card-name {
+                                                     font-size: 20px; /* Adjust the font size as needed */
+                                                   }
+                                          - type: custom:mushroom-template-card
+                                            primary: >
+                                              {% set entries =
+                                              state_attr('sensor.nfl_afc_west','entries')
+                                              %}  {% set lowest_id_team = entries |
+                                              map(attribute='team') |
+                                              map(attribute='id') | map('int') | min
+                                              %}  {% set team = entries |
+                                              selectattr('team.id', 'equalto',
+                                              lowest_id_team|string) | first %}  {{
+                                              team.team.displayName }}       
+                                          - type: custom:mushroom-template-card
+                                            primary: >
+                                              {% set entries =
+                                              state_attr('sensor.nfl_afc_north',
+                                              'entries') %} {% set lowest_id_team =
+                                              entries | map(attribute='team') |
+                                              map(attribute='id') | map('int') | min
+                                              %} {% set team = entries |
+                                              selectattr('team.id', 'equalto',
+                                              lowest_id_team|string) | first %} {{
+                                              team.team.displayName }}       
+                                          - type: custom:mushroom-template-card
+                                            primary: >
+                                              {% set entries =
+                                              state_attr('sensor.nfl_afc_south',
+                                              'entries') %} {% set lowest_id_team =
+                                              entries | map(attribute='team') |
+                                              map(attribute='id') | map('int') | min
+                                              %} {% set team = entries |
+                                              selectattr('team.id', 'equalto',
+                                              lowest_id_team|string) | first %} {{
+                                              team.team.displayName }}       
+                                        title: 1st Round Bye
+                                      - square: false
+                                        columns: 4
+                                        type: grid
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 5
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 6
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 7
+                                          - type: custom:decluttering-card
+                                            template: cfp_ranking_card
+                                            variables:
+                                              - entity: sensor.ncaaf_cfp_rankings
+                                              - CFP_ranking: 8
+                    - attributes:
+                        label: Live, Pre, Post NFL Conference Games
+                        icon: mdi:football
+                      card:
+                        type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: markdown
+                                content: |
+                                  <h1>NFL Games Live</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NFL
+                                  - status: IN
+                              - type: markdown
+                                content: |
+                                  <h1>NFL Games Coming-up</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NFL
+                                  - status: PRE
+                              - type: markdown
+                                content: |
+                                  <h1>NFL Games Completed</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NFL
+                                  - status: POST
+            - attributes:
+                label: MLB
+                icon: mdi:baseball
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  styles:
+                    '--mdc-theme-primary': green
+                    '--mdc-tab-text-label-color-default': silver
+                    '--mdc-typography-button-font-size': 12px
+                  tabs:
+                    - attributes:
+                        label: Standings
+                        icon: mdi:ballot
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 15%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': green
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Divisional
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: American League East
+                                      - entity: sensor.mlb_american_east
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: American League Central
+                                      - entity: sensor.mlb_american_central
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: American League West
+                                      - entity: sensor.mlb_american_west
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: National League East
+                                      - entity: sensor.mlb_national_east
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: National League Central
+                                      - entity: sensor.mlb_national_central
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: National League West
+                                      - entity: sensor.mlb_national_west
+                            - attributes:
+                                label: Conference
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: Americal League
+                                      - entity: sensor.mlb_american_*
+                                  - type: custom:decluttering-card
+                                    template: mlb_settings
+                                    variables:
+                                      - title: National League
+                                      - entity: sensor.mlb_national_*
+                            - attributes:
+                                label: Overall
+                              card:
+                                type: custom:decluttering-card
+                                template: mlb_settings
+                                variables:
+                                  - title: Overall
+                                  - entity: sensor.mlb_*_*
+                            - attributes:
+                                label: Playoffs
+                              card:
+                                type: markdown
+                                content: coming soon!
+                    - attributes:
+                        label: Live, Pre, Post MLB Conference Games
+                        icon: mdi:baseball
+                      card:
+                        type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: markdown
+                                content: |
+                                  <h1>MLB Games Live</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: MLB
+                                  - status: IN
+                              - type: markdown
+                                content: |
+                                  <h1>MLB Games Coming-up</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: MLB
+                                  - status: PRE
+                              - type: markdown
+                                content: |
+                                  <h1>MLB Games Completed</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: MLB
+                                  - status: POST
+            - attributes:
+                label: WNBA
+                icon: mdi:basketball
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  styles:
+                    '--mdc-theme-primary': green
+                    '--mdc-tab-text-label-color-default': silver
+                    '--mdc-typography-button-font-size': 12px
+                  tabs:
+                    - attributes:
+                        label: Standings
+                        icon: mdi:ballot
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 15%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': green
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Divisional
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: wnba_settings
+                                    variables:
+                                      - title: Eastern Conference
+                                      - included_entities:
+                                          - sensor.wnba_eastern_conference
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                                  - type: custom:decluttering-card
+                                    template: wnba_settings
+                                    variables:
+                                      - title: Western Conference
+                                      - included_entities:
+                                          - sensor.wnba_western_conference
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                            - attributes:
+                                label: Overall
+                              card:
+                                type: custom:decluttering-card
+                                template: wnba_settings
+                                variables:
+                                  - title: Overall
+                                  - included_entities:
+                                      - sensor.wnba_eastern_conference
+                                      - sensor.wnba_western_conference
+                                  - excluded_entities:
+                                      - sensor.wnba_west_playoffs
+                                      - sensor.wnba_east_playoffs
+                                  - sort: >-
+                                      x.stats.find(y=>y.abbreviation ==
+                                      'SEED').value
+                            - attributes:
+                                label: Playoffs
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: wnba_playoffs_settings
+                                    variables:
+                                      - title: Eastern Conference Playoffs
+                                      - entity: sensor.wnba_east_playoffs
+                                  - type: custom:decluttering-card
+                                    template: wnba_playoffs_settings
+                                    variables:
+                                      - title: Western Conference Playoffs
+                                      - entity: sensor.wnba_west_playoffs
+                    - attributes:
+                        label: Live, Pre,Post WNBA Conference Games
+                        icon: mdi:basketball
+                      card:
+                        type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: markdown
+                                content: |
+                                  <h1>WNBA Games Live</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: WNBA
+                                  - status: IN
+                              - type: markdown
+                                content: |
+                                  <h1>WNBA Games Coming-up</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: WNBA
+                                  - status: PRE
+                              - type: markdown
+                                content: |
+                                  <h1>WNBA Games Completed</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: WNBA
+                                  - status: POST
+            - attributes:
+                label: NBA
+                icon: mdi:basketball
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  styles:
+                    '--mdc-theme-primary': green
+                    '--mdc-tab-text-label-color-default': silver
+                    '--mdc-typography-button-font-size': 12px
+                  tabs:
+                    - attributes:
+                        label: Standings
+                        icon: mdi:ballot
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 15%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': green
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Divisional
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Eastern Conference Atlantic
+                                      - entity: sensor.nba_eastern_atlantic
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Eastern Conference Central
+                                      - entity: sensor.nba_eastern_central
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Eastern Conference Southeast
+                                      - entity: sensor.nba_eastern_southeast
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Western Conference Northwest
+                                      - entity: sensor.nba_western_northwest
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Western Conference Pacific
+                                      - entity: sensor.nba_western_pacific
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Western Conference Southwest
+                                      - entity: sensor.nba_western_southwest
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                            - attributes:
+                                label: Conference
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Eastern Conference
+                                      - entity: sensor.nba_eastern_*
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                                  - type: custom:decluttering-card
+                                    template: nba_settings
+                                    variables:
+                                      - title: Western Conference
+                                      - entity: sensor.nba_western_*
+                                      - sort: >-
+                                          x.stats.find(y=>y.abbreviation ==
+                                          'GB').value
+                            - attributes:
+                                label: Overall
+                              card:
+                                type: custom:decluttering-card
+                                template: nba_settings
+                                variables:
+                                  - title: Overall
+                                  - entity: sensor.nba_*_*
+                                  - sort: >-
+                                      x.stats.find(y=>y.abbreviation ==
+                                      'GB').value
+                            - attributes:
+                                label: Playoffs
+                              card:
+                                type: markdown
+                                content: coming soon!
+                    - attributes:
+                        label: Live, Pre, Post NBA Conference Games
+                        icon: mdi:basketball-hoop
+                      card:
+                        type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: markdown
+                                content: |
+                                  <h1>NBA Games Live</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NBA
+                                  - status: IN
+                              - type: markdown
+                                content: |
+                                  <h1>NBA Games Coming-up</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NBA
+                                  - status: PRE
+                              - type: markdown
+                                content: |
+                                  <h1>NBA Games Completed</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: NBA
+                                  - status: POST
+title: Sports Standings and Scores
