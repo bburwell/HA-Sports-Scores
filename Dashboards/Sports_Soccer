@@ -1,0 +1,815 @@
+decluttering_templates:
+  soccer_standings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%; border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 10%;'
+        tbody tr td:nth-child(3): 'width: 3%;'
+        tbody tr td:nth-child(n+4): 'width: 1%;'
+        tbody tr td:nth-child(5): 'color: green;'
+        tbody tr td:nth-child(6): 'color: yellow;'
+        tbody tr td:nth-child(7): 'color: red;'
+        tbody tr td:nth-child(8): 'background-color: green; color: white;'
+        tbody tr:nth-child([[relegation]]): 'border-bottom: 2px solid crimson!important;'
+        tbody tr:nth-child([[near-out]]): 'border-bottom: 2px solid yellow!important;'
+        tbody tr:nth-child([[in-running]]): 'border-bottom: 2px solid dodgerblue!important;'
+        tbody tr:nth-child([[promotion]]): 'border-bottom: 2px solid green!important;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by:
+        - entries+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: Rank
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'R')
+            !=='undefined'){x.stats.find(y=>y.abbreviation ==
+            'R').displayValue}else{'-'}                   
+        - name: Team
+          data: entries
+          modify: |-
+            if (typeof x.team.logos !== 'undefined')
+              '<div><img src="' + x.team.logos[0].href + '" style="height:20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+            else
+              '<div><span style="display: inline-block;width: 20px;"></span>&nbsp;' + x.team.displayName + '</div>'
+        - name: Record
+          data: entries
+          hidden: false
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'Total') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation == 'Total').displayValue}else{'-'}
+        - name: Games Played
+          data: entries
+          hidden: false
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'GP') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation == 'GP').displayValue}else{'-'}
+        - name: Wins
+          data: entries
+          hidden: false
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'W') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation == 'W').displayValue}else{'-'}
+        - name: Draws
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'D') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation == 'D').displayValue}else{'-'}
+        - name: Losses
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'L') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation ==
+            'L').displayValue}else{'-'}        
+        - name: Points
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'P') !== 'undefined'
+            ){x.stats.find(y=>y.abbreviation == 'P').displayValue}else{'-'}
+          align: center
+  game_stats:
+    card:
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+      card_param: cards
+      filter:
+        template: |
+          {%- for team in integration_entities("teamtracker") -%}
+            {%- if state_attr(team, "league") == "[[sport]]" -%}
+            {%- if states(team) == "[[status]]" -%}
+            {%- if state_attr(team, "team_homeaway") == "home" -%}
+            {%- if team in state_attr('sensor.nfl_red_zone','teams') -%}
+              {{{"type": "custom:teamtracker-card",
+                "entity": team,
+                "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                "home_side": "right"}}},
+            {%- else -%}
+              {{{"type": "custom:teamtracker-card",
+                "entity": team,
+                "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                "home_side": "right"}}},
+            {%- endif -%}
+            {%- endif -%}
+            {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
+  european_soccer_game_stats:
+    card:
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+      card_param: cards
+      filter:
+        template: >
+          {%- set team_names =
+          state_attr('[[team_names]]','team_names').split(', ') -%} 
+
+          {%- for team in state_attr('[[group]]','entity_id') -%}
+           {%- if states(team) == "[[status]]" -%}
+            {%- if state_attr(team, "team_homeaway") == "home" and state_attr(team, "opponent_abbr") in team_names -%} 
+                   {{{"type": "custom:teamtracker-card","entity": team,
+                   "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px; border: 2px solid blue; background-color: rgba(224, 247, 250, 0.1); }"},
+                   "home_side": "right",}}},
+            {%- elif state_attr(team, "team_homeaway") == "home" -%} 
+                   {{{"type": "custom:teamtracker-card","entity": team,
+                   "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                   "home_side": "right",}}},
+            {%- elif state_attr(team, "team_homeaway") != "home" and state_attr(team, "opponent_abbr") not in team_names  -%}   
+                   {{{"type": "custom:teamtracker-card","entity": team,
+                   "card_mod": {"style": "ha-card { font-size: .7em; line-height: .7em; width: 280px;}"},
+                   "home_side": "right",}}},
+            {%- endif -%}
+           {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
+views:
+  - theme: Backend-selected
+    title: Sports
+    type: panel
+    icon: mdi:strategy
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: black;
+                color: silver;
+                border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+                border-width: 2px;
+                border-style: solid;
+                overflow: hidden;
+                width: 20%;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': black
+            '--mdc-tab-text-label-color-default': silver
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: Soccer
+                icon: mdi:school
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  card_mod: null
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 10%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                  tabs:
+                    - attributes:
+                        label: Leagues
+                        icon: mdi:football
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Premier League (EPL)
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>EPL Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: EPL Standings
+                                          - entity: sensor.soccer_english_premier_league
+                                          - attribute: entries
+                                          - promotion: 0
+                                          - in-running: 6
+                                          - near-out: 15
+                                          - relegation: 17
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Pre,Live,Post EPL
+                                          Games</h1>                            
+                                      - type: markdown
+                                        content: |
+                                          <h1>EPL Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: EPL
+                                          - sport_path: soccer
+                                          - group: group.eng_1
+                                          - team_names: sensor.soccer_team_names_premier_league
+                                          - status: IN
+                                      - type: markdown
+                                        content: |
+                                          <h1>EPL Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: EPL
+                                          - sport_path: soccer
+                                          - group: group.eng_1
+                                          - team_names: sensor.soccer_team_names_premier_league
+                                          - status: PRE
+                                      - type: markdown
+                                        content: |
+                                          <h1>EPL Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: EPL
+                                          - sport_path: soccer
+                                          - group: group.eng_1
+                                          - team_names: sensor.soccer_team_names_premier_league
+                                          - status: POST
+                            - attributes:
+                                label: Championship League
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>Championship League Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: Championship League
+                                          - entity: >-
+                                              sensor.soccer_english_league_championship
+                                          - attribute: entries
+                                          - promotion: 2
+                                          - in-running: 6
+                                          - near-out: 19
+                                          - relegation: 21
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Pre,Live,Post Championship League
+                                          Games</h1>
+                                      - type: markdown
+                                        content: |
+                                          <h1>Championship Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.2
+                                          - sport_path: soccer
+                                          - group: group.eng_2
+                                          - team_names: >-
+                                              sensor.soccer_team_names_championship_league
+                                          - status: IN
+                                      - type: markdown
+                                        content: |
+                                          <h1>Championship Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.2
+                                          - sport_path: soccer
+                                          - group: group.eng_2
+                                          - team_names: >-
+                                              sensor.soccer_team_names_championship_league
+                                          - status: PRE
+                                      - type: markdown
+                                        content: |
+                                          <h1>Championship Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.2
+                                          - sport_path: soccer
+                                          - group: group.eng_2
+                                          - team_names: >-
+                                              sensor.soccer_team_names_championship_league
+                                          - status: POST
+                            - attributes:
+                                label: English League 1
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>English League 1 Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: English League 1 Standings
+                                          - entity: sensor.soccer_english_league_one
+                                          - attribute: entries
+                                          - promotion: 2
+                                          - in-running: 6
+                                          - near-out: 18
+                                          - relegation: 20
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Pre,Live,Post English League 1
+                                          Games</h1>
+                                      - type: markdown
+                                        content: |
+                                          <h1>English League 1 Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.3
+                                          - group: group.eng_3
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_league_one
+                                          - sport_path: soccer
+                                          - status: IN
+                                      - type: markdown
+                                        content: >
+                                          <h1>English League 1 Games
+                                          Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.3
+                                          - group: group.eng_3
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_league_one
+                                          - sport_path: soccer
+                                          - status: PRE
+                                      - type: markdown
+                                        content: >
+                                          <h1>English League 1 Games
+                                          Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.3
+                                          - group: group.eng_3
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_league_one
+                                          - sport_path: soccer
+                                          - status: POST
+                            - attributes:
+                                label: English League 2
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>English League 2 Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: English League 2 Standings
+                                          - entity: sensor.soccer_english_league_two
+                                          - attribute: entries
+                                          - promotion: 3
+                                          - in-running: 7
+                                          - near-out: 18
+                                          - relegation: 22
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Pre,Live,Post English League 2
+                                          Games</h1>
+                                      - type: markdown
+                                        content: |
+                                          <h1>English League 2 Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.4
+                                          - sport_path: soccer
+                                          - group: group.eng_4
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_league_two
+                                          - status: IN
+                                      - type: markdown
+                                        content: >
+                                          <h1>English League 2 Games
+                                          Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.4
+                                          - sport_path: soccer
+                                          - group: group.eng_4
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_league_two
+                                          - status: PRE
+                                      - type: markdown
+                                        content: >
+                                          <h1>English League 2 Games
+                                          Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.4
+                                          - sport_path: soccer
+                                          - group: group.eng_4
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_league_two
+                                          - status: POST
+                            - attributes:
+                                label: English National League
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>English National League
+                                          Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: English National League Standings
+                                          - entity: sensor.soccer_english_national_league
+                                          - attribute: entries
+                                          - promotion: 1
+                                          - in-running: 7
+                                          - near-out: 18
+                                          - relegation: 20
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Pre,Live,Post English National
+                                          League Games</h1>
+                                      - type: markdown
+                                        content: >
+                                          <h1>English National League Games
+                                          Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.5
+                                          - sport_path: soccer
+                                          - group: group.eng_5
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_national_league
+                                          - status: IN
+                                      - type: markdown
+                                        content: >
+                                          <h1>English National League Games
+                                          Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: eng.5
+                                          - sport_path: soccer
+                                          - group: group.eng_5
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_national_league
+                                          - status: PRE
+                                      - type: markdown
+                                        content: >
+                                          <h1>English National League Games
+                                          Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: MLS
+                                          - sport_path: soccer
+                                          - group: group.eng_5
+                                          - team_names: >-
+                                              sensor.soccer_team_names_english_national_league
+                                          - status: POST
+                            - attributes:
+                                label: Bundesliga
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: Bundesliga Standings
+                                          - entity: sensor.soccer_bundesliga
+                                          - attribute: entries
+                                          - promotion: 0
+                                          - in-running: 0
+                                          - near-out: 15
+                                          - relegation: 16
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>Pre,Live,Post Bundesliga Games</h1>
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: BUND
+                                          - sport_path: soccer
+                                          - group: group.ger_1
+                                          - team_names: sensor.soccer_team_names_bundesliga
+                                          - status: IN
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: BUND
+                                          - sport_path: soccer
+                                          - group: group.ger_1
+                                          - team_names: sensor.soccer_team_names_bundesliga
+                                          - status: PRE
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: BUND
+                                          - sport_path: soccer
+                                          - group: group.ger_1
+                                          - team_names: sensor.soccer_team_names_bundesliga
+                                          - status: POST
+                            - attributes:
+                                label: Bundesliga 2
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga.2 Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: Bundesliga.2 Standings
+                                          - entity: sensor.soccer_bundesliga_two
+                                          - attribute: entries
+                                          - promotion: 2
+                                          - in-running: 3
+                                          - near-out: 0
+                                          - relegation: 0
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Pre,Live,Post Bundesliga.2
+                                          Games</h1>
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga.2 Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: Bungd.2
+                                          - sport_path: soccer
+                                          - group: group.ger_2
+                                          - team_names: sensor.soccer_team_names_bundesliga_two
+                                          - status: IN
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga.2 Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: Bund.2
+                                          - sport_path: soccer
+                                          - group: group.ger_2
+                                          - team_names: sensor.soccer_team_names_bundesliga_two
+                                          - status: PRE
+                                      - type: markdown
+                                        content: |
+                                          <h1>Bundesliga.2 Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: european_soccer_game_stats
+                                        variables:
+                                          - sport: Bund.2
+                                          - sport_path: soccer
+                                          - group: group.ger_2
+                                          - team_names: sensor.soccer_team_names_bundesliga_two
+                                          - status: POST
+                            - attributes:
+                                label: MLS
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>MLS Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: MLS Western Conference Standings
+                                          - entity: sensor.soccer_mls_western_conference
+                                          - attribute: entries
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: MLS Eastern Conference Standings
+                                          - entity: sensor.soccer_mls_eastern_conference
+                                          - attribute: entries
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>Pre,Live,Post MLS Games</h1>
+                                      - type: markdown
+                                        content: |
+                                          <h1>MLS Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: MLS
+                                          - sport_path: soccer
+                                          - group: group.eng_3
+                                          - status: IN
+                                      - type: markdown
+                                        content: |
+                                          <h1>MLS Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: MLS
+                                          - sport_path: soccer
+                                          - group: group.eng_3
+                                          - status: PRE
+                                      - type: markdown
+                                        content: |
+                                          <h1>MLS Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: MLS
+                                          - sport_path: soccer
+                                          - group: group.eng_3
+                                          - status: POST
+                            - attributes:
+                                label: USA NWSL
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>USA NWSL Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: soccer_standings
+                                        variables:
+                                          - title: MLS Western Conference Standings
+                                          - entity: sensor.soccer_usanwsl
+                                          - attribute: entries
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>Pre,Live,Post USA NWSL  Games</h1>
+                                      - type: markdown
+                                        content: |
+                                          <h1>USA NWSL  Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NWSL
+                                          - sport_path: soccer
+                                          - group: group.eng_3
+                                          - status: IN
+                                      - type: markdown
+                                        content: |
+                                          <h1>USA NWSL  Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NWSL
+                                          - sport_path: soccer
+                                          - group: group.eng_3
+                                          - status: PRE
+                                      - type: markdown
+                                        content: |
+                                          <h1>USA NWSL  Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NWSL
+                                          - sport_path: soccer
+                                          - group: group.eng_3
+                                          - status: POST
+title: Soccer Sports Standings and Scores
