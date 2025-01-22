@@ -11,7 +11,7 @@ I would also encourage reviewing the:
   - Card-mod (https://github.com/thomasloven/lovelace-card-mod)
   - Formula One Card (https://community.home-assistant.io/t/formula-one-card/476902)
     
-They are all a big part of this project.
+They are all a part of this project.
            
 ## Setup vs Kbrowns
 My setup has changed from Kbrowns in that he uses Templates (which work for most sports) where I moved most to REST sensors.  The reason was that NCAA conferences sometimes exhausted the limits and wouldn't return anything.  In the sensors directory I have the sensors I populate and are broken out, where possible, by sport.
