@@ -17,10 +17,25 @@ They are all a part of this project.
 My setup has changed from Kbrowns in that he uses Templates (which work for most sports) where I moved most to REST sensors.  The reason was that NCAA conferences sometimes exhausted the limits and wouldn't return anything.  In the sensors directory I have the sensors I populate and are broken out, where possible, by sport.
 
 ### Dashboards directory has the following dashboard code: 
-- US Sports (NHL/NFL/NBA/WNBA)
+- US Sports (NHL/NFL/MLB/NBA/WNBA)
 - Soccer (Premier/Championship/English League 1/English League 2/ENL/Budesliga/Bundesliga2/MSL/NWSL)
 - US College NCAA (Mens Football/Mens Basketball)
 - Racing - F1/NASCAR
+
+### Sensors directory has the following sesnsor yaml's broken up by sport: 
+- US Sports
+  - nhl_sensors.yaml
+  - nfl_sensors.yaml
+  - mlb_sensors.yaml
+  - nba_sensors.yaml
+  - wnba_sensors.yaml
+- Soccer
+  - soccer_sensors.yaml includes all -Premier/Championship/English League 1/English League 2/ENL/Budesliga/Bundesliga2/MSL/NWSL
+- US College NCAA
+  - ncaaf_sensors.yaml (Mens Football)
+  - ncaam_sensors.yaml (Mens Basketball)
+- Racing
+  - racing_sensors.yaml (F1/NASCAR)
   
 ### Template.yaml
 I also have template.yaml that is used for items that I haven't converted yet or need to be in the template.yaml.
