@@ -39,7 +39,7 @@ What I will say is when you run into problems try to figure where some of the ba
 2. Double-check your configuration against my config, kbrown's or others that may have contributed to the community thread above.
 3. Use the Home Assistant Developer tools (states and template) mostly to check your sensors and see if the data is in the sensor and use template to test code if it isn't showing up in your dashboard.
    ![image](https://github.com/user-attachments/assets/7594977f-8e22-4c73-9988-e5a324181485)
-   Here is an example when I wanted to scroll the data that was included in the nhl_starting_goalies sensor.  I tested in the Template first.
+   Here is an example when I wanted to scroll the data that was included in the nhl_starting_goalies sensor and I wanted to see how it was formatted and if it was there so I tested in the Template first.
    ![image](https://github.com/user-attachments/assets/ef3367b7-24fa-4f68-bcbf-8b7bd78caa83)
    You can see that I am using that datat with marquee wrapped around to scroll across the header
    ![image](https://github.com/user-attachments/assets/31ca9dfb-bc37-4102-ac53-2eed7c740eaf)
