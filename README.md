@@ -41,7 +41,7 @@ What I will say is when you run into problems try to figure where some of the ba
    ![image](https://github.com/user-attachments/assets/7594977f-8e22-4c73-9988-e5a324181485)
    Here is an example when I wanted to scroll the data that was included in the nhl_starting_goalies sensor and I wanted to see how it was formatted and if it was there so I tested in the Template first.
    ![image](https://github.com/user-attachments/assets/ef3367b7-24fa-4f68-bcbf-8b7bd78caa83)
-   You can see that I am using that datat with marquee wrapped around to scroll across the header
+   You can see that I am using that data with marquee wrapped around to scroll across the header
    ![image](https://github.com/user-attachments/assets/31ca9dfb-bc37-4102-ac53-2eed7c740eaf)
 
 5. If there isn't data in the sensor but you know it is setup correctly, take a look at Settings->Devices & Services->Entities.  You can see if there is an error or possibly a duplicate.  There have been times that I made a change and HA created a 2nd, duplicate sensor and threw a _2 at the end of it.  If this happens, delete the original and then go in and edit the entity and remove the _2.
