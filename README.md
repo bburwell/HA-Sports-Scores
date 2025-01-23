@@ -48,12 +48,12 @@ What I will say is when you run into problems try to figure where some of the ba
    Here is what an error looks like as an example
    ![image](https://github.com/user-attachments/assets/20d56dc5-4b5e-4932-8719-b53bd70fb886)
 6. Be patient on the intial load - if may take a bit to populate the sensors the first time.
-7. Sometimes ESPN changes their formatting and you will most like need to go in and change the decluttering template.
+7. Sometimes ESPN changes their formatting and you will most likely need to go in and change the decluttering template.
 8. Ask questions on the community but please use the formatting tools for your code, and show what isn't working.  A bunch of us can test quickly in our environment and possibly help.
 9. 99% of the people on the community want to help.  Harsh words may be language translation thing or if they are being mean the village normally rises up.
 
 ### Pictures
-Here are a couple pics of the dashboards that use the code in the dashboard sensors.  Feel free to pull anything out of it you don't need or won't use:
+Here are a couple pics of the dashboards that use the code in the dashboard and sensors directories.  Feel free to pull anything out of it you don't need or won't use:
 
 ![image](https://github.com/user-attachments/assets/6424c963-fbe8-49f3-8fa2-9ce729889c79)
 ![image](https://github.com/user-attachments/assets/f420e4c7-e26a-4705-a805-1a983c972a6d)
