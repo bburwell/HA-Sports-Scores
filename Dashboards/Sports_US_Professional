@@ -495,7 +495,7 @@ decluttering_templates:
         - name: STRK
           data: entries
           modify: x.stats.find(y=>y.shortDisplayName == 'STRK').displayValue
-  nfl_team_schedules:
+  team_schedules:
     card:
       type: custom:flex-table-card
       title: name
@@ -520,13 +520,13 @@ decluttering_templates:
               line-height: 14px!important;
               font-weight: bold!important;
             }
-      sort_by: events+
+      sort_by: Date+
       entities:
         include:
           - '[[entity]]'
         exclude: '[[excluded_entities]]'
       columns:
-        - name: Game Date
+        - name: Date
           data: '[[events]]'
           modify: x.date.split('T')[0]
         - name: Teams
@@ -539,7 +539,7 @@ decluttering_templates:
             x.competitions[0].competitors[1].team.logos[0].href + '"
             style="height: 20px;vertical-align:middle;">&nbsp;' +
             x.competitions[0].competitors[1].team.displayName + '</div>'
-        - name: Final Score (Away-Home)
+        - name: Final Score
           data: '[[events]]'
           modify: |-
             if (typeof x !== 'undefined' &&
@@ -578,12 +578,6 @@ decluttering_templates:
             x.competitions[0].competitors[0].team.logos[0].href + '"
             style="height: 20px;vertical-align:middle;">&nbsp;' +
             x.competitions[0].competitors[0].team.displayName + '</div>'
-        - name: Passing Leader
-          data: '[[events]]'
-          modify: x.competitions[0].leaders.passingLeader.leaders.displayName
-        - name: Rushing Leader
-          data: '[[events]]'
-          modify: x.competitions[0].leaders.rushingLeader.leaders.displayName
   nfl_settings_2:
     card:
       type: custom:flex-table-card
@@ -1209,6 +1203,32 @@ views:
                                   - sport: NHL
                                   - status: POST
                     - attributes:
+                        label: Schedules
+                      card:
+                        type: custom:stack-in-card
+                        mode: vertical
+                        cards:
+                          - type: markdown
+                            content: >
+                              <h1>Team
+                              Schedules</h1>                                         
+                          - type: custom:expander-card
+                            child-margin-top: 0.6em
+                            padding: 0
+                            title: Dallas Stars
+                            title-card-button-overlay: true
+                            title-card-clickable: true
+                            expanded: false
+                            cards:
+                              - type: custom:decluttering-card
+                                template: team_schedules
+                                variables:
+                                  - title: Teams
+                                  - entity: sensor.nhl_schedule_dallas_stars
+                                  - events: events
+                                  - team: team
+                                  - abbreviation: abbreviation
+                    - attributes:
                         label: SOS
                         icon: mdi:calendar-blank
                       card:
@@ -1531,10 +1551,10 @@ views:
                                     expanded: false
                                     cards:
                                       - type: custom:decluttering-card
-                                        template: nfl_team_schedules
+                                        template: team_schedules
                                         variables:
                                           - title: Teams
-                                          - entity: sensor.nfl_schedule_*
+                                          - entity: sensor.nfl_schedule_denver_broncos
                                           - events: events
                                           - team: team
                                           - abbreviation: abbreviation
@@ -1547,174 +1567,8 @@ views:
                                   - type: vertical-stack
                                     cards:
                                       - type: markdown
-                                        content: >
-                                          <h4 style="text-align:center;"> {{
-                                          state_attr('sensor.ncaaf_rank',
-                                          'rankings')[0]['headline'] }} - 
-                                          {{as_timestamp(state_attr('sensor.ncaaf_rank','rankings')[0]['date'])
-                                          | timestamp_custom('%m/%d/%Y') }}</h4>
-                                      - type: custom:decluttering-card
-                                        template: ncaa_cfp_top25_settings
-                                        variables:
-                                          - title: ''
-                                          - entity: sensor.ncaaf_cfp_rankings
-                                          - attribute: teams
-                                          - bye: 4
-                                          - team5: 5
-                                          - team6: 6
-                                          - team7: 7
-                                          - team8: 8
-                                          - team9: 9
-                                          - team10: 10
-                                          - team11: 11
-                                          - team12: 12
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: markdown
                                         content: |
-                                          <h3>NFL Playoffs </h3>  
-                                      - square: false
-                                        columns: 4
-                                        type: grid
-                                        cards:
-                                          - type: custom:config-template-card
-                                            entities:
-                                              - sensor.nfl_afc_east
-                                            card:
-                                              type: custom:button-card
-                                              name: >
-                                                [[[ const entries =
-                                                states['sensor.nfl_afc_east'].attributes.entries;
-                                                let lowestGB =
-                                                Math.min(...entries.map(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value)));
-                                                let team = entries.find(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value) ===
-                                                lowestGB); return team.team.displayName;
-                                                ]]]
-                                              entity_picture: >
-                                                [[[ const entries =
-                                                states['sensor.nfl_afc_east'].attributes.entries;
-                                                let lowestGB =
-                                                Math.min(...entries.map(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value)));
-                                                let team = entries.find(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value) ===
-                                                lowestGB); return
-                                                team.team.logos[0].href;  ]]]
-                                              show_icon: true
-                                          - type: custom:config-template-card
-                                            entities:
-                                              - sensor.nfl_afc_east
-                                            card:
-                                              type: custom:button-card
-                                              name: >
-                                                [[[  const entries =
-                                                states['sensor.nfl_afc_east'].attributes.entries;
-                                                let lowestGB =
-                                                Math.min(...entries.map(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value)));
-                                                let team = entries.find(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value) ===
-                                                lowestGB); return team.team.displayName;
-                                                ]]]
-                                              entity_picture: >
-                                                [[[  const entries =
-                                                states['sensor.nfl_afc_east'].attributes.entries;
-                                                let lowestGB =
-                                                Math.min(...entries.map(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value)));
-                                                let team = entries.find(entry =>
-                                                parseFloat(entry.stats.find(stat =>
-                                                stat.abbreviation === 'GB').value) ===
-                                                lowestGB); return
-                                                team.team.logos[0].href; ]]]
-                                              show_icon: true
-                                              card_mod:
-                                                style: |
-                                                  ha-card {
-                                                    display: flex;
-                                                    align-items: center;
-                                                    justify-content: center;
-                                                    height: 150px; /* Adjust the height as needed */
-                                                    }
-                                                  .button-card-main {
-                                                    display: flex;
-                                                    align-items: center;
-                                                  }
-                                                  .button-card-icon {
-                                                     width: 50px; /* Adjust the size of the logo as needed */
-                                                     height: 50px; /* Adjust the size of the logo as needed */
-                                                     margin-right: 10px;
-                                                   }
-                                                  .button-card-name {
-                                                     font-size: 20px; /* Adjust the font size as needed */
-                                                   }
-                                          - type: custom:mushroom-template-card
-                                            primary: >
-                                              {% set entries =
-                                              state_attr('sensor.nfl_afc_west','entries')
-                                              %}  {% set lowest_id_team = entries |
-                                              map(attribute='team') |
-                                              map(attribute='id') | map('int') | min
-                                              %}  {% set team = entries |
-                                              selectattr('team.id', 'equalto',
-                                              lowest_id_team|string) | first %}  {{
-                                              team.team.displayName }}       
-                                          - type: custom:mushroom-template-card
-                                            primary: >
-                                              {% set entries =
-                                              state_attr('sensor.nfl_afc_north',
-                                              'entries') %} {% set lowest_id_team =
-                                              entries | map(attribute='team') |
-                                              map(attribute='id') | map('int') | min
-                                              %} {% set team = entries |
-                                              selectattr('team.id', 'equalto',
-                                              lowest_id_team|string) | first %} {{
-                                              team.team.displayName }}       
-                                          - type: custom:mushroom-template-card
-                                            primary: >
-                                              {% set entries =
-                                              state_attr('sensor.nfl_afc_south',
-                                              'entries') %} {% set lowest_id_team =
-                                              entries | map(attribute='team') |
-                                              map(attribute='id') | map('int') | min
-                                              %} {% set team = entries |
-                                              selectattr('team.id', 'equalto',
-                                              lowest_id_team|string) | first %} {{
-                                              team.team.displayName }}       
-                                        title: 1st Round Bye
-                                      - square: false
-                                        columns: 4
-                                        type: grid
-                                        cards:
-                                          - type: custom:decluttering-card
-                                            template: cfp_ranking_card
-                                            variables:
-                                              - entity: sensor.ncaaf_cfp_rankings
-                                              - CFP_ranking: 5
-                                          - type: custom:decluttering-card
-                                            template: cfp_ranking_card
-                                            variables:
-                                              - entity: sensor.ncaaf_cfp_rankings
-                                              - CFP_ranking: 6
-                                          - type: custom:decluttering-card
-                                            template: cfp_ranking_card
-                                            variables:
-                                              - entity: sensor.ncaaf_cfp_rankings
-                                              - CFP_ranking: 7
-                                          - type: custom:decluttering-card
-                                            template: cfp_ranking_card
-                                            variables:
-                                              - entity: sensor.ncaaf_cfp_rankings
-                                              - CFP_ranking: 8
+                                          <h3>NFL Playoffs (placeholder) </h3>  
                     - attributes:
                         label: Live, Pre, Post NFL Conference Games
                         icon: mdi:football
