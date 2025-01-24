@@ -1,16 +1,6 @@
 ##
 ## NFL Playoff Standings
 ##
-- platform: rest
-  name: NFL Playoff Standings
-  unique_id: sensor.nfl_playoff_standings
-  resource: http://192.168.100.226:8123/local/nfl_standings.json
-  value_template: "{{ now() }}"  
-  json_attributes:
-    - NFL_Data
-    
-    
-
 
 ##
 ## NFL Standings
