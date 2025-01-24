@@ -1,0 +1,378 @@
+sensor:
+ 
+- name: NFL Red Zone
+  unique_id: sensor.nfl_red_zone
+  state: |
+        {% set redzone = namespace(teams=[]) %}
+        {%- for team in integration_entities("teamtracker") -%}
+        {%- if states(team) == "IN" and state_attr(team, "league") == "NFL" and state_attr(team, "team_homeaway") == "home" and state_attr(team,'possession') is not none -%}
+        {% set possession = state_attr(team,'possession') %}
+        {% set team_id = state_attr(team,'team_id') %}
+        {% set opponent_id = state_attr(team,'opponent_id') %}
+        {% set team_abbr = state_attr(team,'team_abbr') %}
+        {% set opponent_abbr = state_attr(team,'opponent_abbr') %}
+        {% if state_attr(team,'down_distance_text') is not none %}
+        {% set down_distance_text = state_attr(team,'down_distance_text') %}
+        {% set down_distance_endzone = state_attr(team,'down_distance_text').split(' ')[4] %}
+        {% set down_distance_yardline = state_attr(team,'down_distance_text').split(' ')[5] %}
+        {% set possession_abbr = opponent_abbr if opponent_id == possession else team_abbr %}
+        {% set non_possession_abbr = opponent_abbr if opponent_id != possession else team_abbr %}
+        {%- if (possession_abbr != down_distance_endzone) and (down_distance_yardline | int) <= 20 %}
+        {% set redzone.teams = redzone.teams + [team] %}
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        {{ redzone.teams | count }}
+  attributes:
+    teams: |
+        {% set redzone = namespace(teams=[]) %}
+        {%- for team in integration_entities("teamtracker") -%}
+        {%- if states(team) == "IN" and state_attr(team, "league") == "NFL" and state_attr(team,'possession') is not none -%}
+        {% set possession = state_attr(team,'possession') %}
+        {% set team_id = state_attr(team,'team_id') %}
+        {% set opponent_id = state_attr(team,'opponent_id') %}
+        {% set team_abbr = state_attr(team,'team_abbr') %}
+        {% set opponent_abbr = state_attr(team,'opponent_abbr') %}
+        {% if state_attr(team,'down_distance_text') is not none %}
+        {% set down_distance_text = state_attr(team,'down_distance_text') %}
+        {% set down_distance_endzone = state_attr(team,'down_distance_text').split(' ')[4] %}
+        {% set down_distance_yardline = state_attr(team,'down_distance_text').split(' ')[5] %}
+        {% set possession_abbr = opponent_abbr if opponent_id == possession else team_abbr %}
+        {% set non_possession_abbr = opponent_abbr if opponent_id != possession else team_abbr %}
+        {%- if (possession_abbr != down_distance_endzone) and (down_distance_yardline | int) <= 20 %}
+        {% set redzone.teams = redzone.teams + [team] %}
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        {{ redzone.teams }}
+
+    
+- name: Dallas Stars Standings
+  unique_id: sensor.nhl_dallas_stars_standings
+  state: "{{ now() }}"
+  attributes:
+    entries: "{{ state_attr('sensor.nhl_standings','children')[1]['children'][0]['standings']['entries'][1] }}"
+
+###
+### NHL Wildcard
+###
+- name: NHL Wildcard Standing
+  unique_id: sensor.nhl_wildcard_standings
+  state: "{{ now() }}"
+  attributes:
+    east_atlantic_top: "{{ state_attr('sensor.nhl_wildcard','overall')[0]['children'][0]['standings']['entries'] }}"
+    east_metropolitan_top: "{{ state_attr('sensor.nhl_wildcard','overall')[0]['children'][1]['standings']['entries'] }}"
+    east_wildcard: "{{ state_attr('sensor.nhl_wildcard','children')[0]['standings']['entries'][:2] }}"
+    east_hunt: >
+       {% set hteams = namespace(hteam=[]) %}
+        {% for team in state_attr('sensor.nhl_wildcard','children')[0]['standings']['entries'][2:] %}
+          {% for stat in team['stats'] | selectattr('name','eq','clincher') %}
+          {% else %}
+                {% set hteams.hteam = hteams.hteam + [team] %}
+          {% endfor %}
+        {% endfor %}
+        {{ hteams.hteam }}
+    east_eliminated: >
+      {% set eteams = namespace(eteam=[]) %}
+      {% for team in state_attr('sensor.nhl_wildcard','children')[0]['standings']['entries'][2:] %}
+        {% for stat in team['stats'] %}
+          {% if stat.name == 'clincher' %}
+            {% set eteams.eteam = eteams.eteam + [team] %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      {{ eteams.eteam }}
+    west_central_top: "{{ state_attr('sensor.nhl_wildcard','overall')[1]['children'][0]['standings']['entries'] }}"
+    west_pacific_top: "{{ state_attr('sensor.nhl_wildcard','overall')[1]['children'][1]['standings']['entries'] }}"
+    west_wildcard: "{{ state_attr('sensor.nhl_wildcard','children')[1]['standings']['entries'][:2] }}"
+    west_hunt: >
+        {% set hteams = namespace(hteam=[]) %}
+        {% for team in state_attr('sensor.nhl_wildcard','children')[1]['standings']['entries'][2:] %}
+          {% for stat in team['stats'] | selectattr('name','eq','clincher') %}
+          {% else %}
+              {% set hteams.hteam = hteams.hteam + [team] %}
+          {% endfor %}
+        {% endfor %}
+        {{ hteams.hteam }}
+    west_eliminated: >
+      {% set eteams = namespace(eteam=[]) %}
+      {% for team in state_attr('sensor.nhl_wildcard','children')[1]['standings']['entries'][2:] %}
+        {% for stat in team['stats'] %}
+          {% if stat.name == 'clincher' %}
+              {% set eteams.eteam = eteams.eteam + [team] %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      {{ eteams.eteam }}   
+###
+### Hockey Weekly Schedule
+###
+#- name: Hockey Weekly schedule
+  #unique_id: hockey_weekly_schedule
+  #state: "{{ now() }}"
+  #attributes:
+     #sos: "{{ (state_attr('sensor.hockey_strength_of_schedule','props') | from_json) }}"    
+
+#- name: nhl Dallas Stars Hockey Weekly schedule
+  #unique_id: sensor.nhl_dallas_stars_hockey_schedule
+  #state: "{{ now() }}"
+  #attributes:
+     #upcoming_hockey_games:
+          #games: >
+            #{% set events = state_attr('sensor.starstest2_schedule_regular_season', 'events') %}
+            #{% set upcoming_games = [] %}
+            #{% for event in events %}
+              #{% set event_date = as_timestamp(event['date']) %}
+              #{% if event_date >= as_timestamp(now()) %}
+                #{% set upcoming_games = upcoming_games + [event] %}
+              #{% endif %}
+            #{% endfor %}
+            #{{ upcoming_games | tojson }}
+
+     
+
+
+########
+##NCAA basketball League schedules
+#### Big 12
+- name: NCAA Weekly Big 12 Games
+  unique_id: sensor.ncaa_weekly_big_12_games
+  state: "{{ now() }}"
+  attributes:
+    entries: "{{ state_attr('sensor.ncaam_big_12_games','events')[0]['competitions']['competitors']}}"  
+    
+- name: NCAA Weekly Only Big 12 Games
+  unique_id: sensor.ncaa_weekly_only_big_12_teams
+  state: "{{ now() }}"
+  attributes:
+    entries: "{{ state_attr('sensor.ncaam_big_12_games','events')[0]['competitions']['competitors'].conferenceId == 8 }}"
+- name: NCAA Games
+  unique_id: sensor.ncaa_season
+  state: "{{ now() }}"
+  attributes:
+    entries: "{{ state_attr('sensor.ncaa_standings','events')[0]['competitions'] }}" 
+########
+##NCAA football Top 25 Teams
+#### 
+- name: ncaaf_team_names_t25
+  unique_id: sensor.ncaaf_team_names_t25
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.ncaaf_rank','rankings')[0]['ranks'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+
+########
+##NCAA Football Teams
+#### Big 12
+
+- name: ncaaf_team_names_big_12
+  unique_id: sensor.ncaaf_team_names_big_12
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_football_standings', 'children')[2]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+
+      
+- name: ncaaf_team_names_sec
+  unique_id: sensor.ncaaf_team_names_sec
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_football_standings', 'children')[9]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+
+- name: ncaaf_team_names_acc
+  unique_id: sensor.ncaaf_team_names_acc
+  state: "{{ now() }}"
+  attributes: 
+     team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_football_standings', 'children')[1]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+
+- name: ncaaf_team_names_big10
+  unique_id: sensor.ncaaf_team_names_big_10
+  state: "{{ now() }}"
+  attributes: 
+     team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_football_standings', 'children')[3]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+          
+########
+##NCAA basketball Top 25 Teams
+#### 
+- name: ncaam_team_names_t25
+  unique_id: sensor.ncaam_team_names_t25
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.ncaam_rank','rankings')[0]['ranks'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+
+
+########
+##NCAA basketball Teams
+#### Big 12
+
+- name: ncaam_team_names_big_12
+  unique_id: sensor.ncaam_team_names_big_12
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_basketball_standings', 'children')[5]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+
+      
+- name: ncaam_team_names_sec
+  unique_id: sensor.ncaam_team_names_sec
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_basketball_standings', 'children')[23]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+
+- name: ncaam_team_names_acc
+  unique_id: sensor.ncaam_team_names_acc
+  state: "{{ now() }}"
+  attributes: 
+     team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_basketball_standings', 'children')[4]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+
+- name: ncaam_team_names_big_10
+  unique_id: sensor.ncaam_team_names_big_10
+  state: "{{ now() }}"
+  attributes: 
+     team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.college_basketball_standings', 'children')[9]['standings']['entries'] %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+
+########
+## Soccer Teams - Europe
+########
+- name: soccer_team_names_premier_league
+  unique_id: sensor.soccer_team_names_premier_league
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_english_premier_league', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+- name: soccer_team_names_championship_league
+  unique_id: sensor.soccer_team_names_championship_league
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_english_league_championship', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+- name: soccer_team_names_english_league_one
+  unique_id: sensor.soccer_team_names_english_league_one
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_english_league_one', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+- name: soccer_team_names_english_league_two
+  unique_id: sensor.soccer_team_names_english_league_two
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_english_league_two', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+- name: soccer_team_names_english_national_league
+  unique_id: sensor.soccer_team_names_english_national_league
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_english_national_league', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+- name: soccer_team_names_bundesliga
+  unique_id: sensor.soccer_team_names_bundesliga
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_bundesliga', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+- name: soccer_team_names_bundesliga_two
+  unique_id: sensor.soccer_team_names_bundesliga_two
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_bundesliga_two', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+      
+- name: soccer_team_names_italian_serie_a
+  unique_id: sensor.soccer_team_names_italian_serie_a
+  state: "{{ now() }}"
+  attributes: 
+    team_names: >
+      {% set cteams = namespace(cteam=[]) %}
+      {% for team in state_attr('sensor.soccer_italian_serie_a', 'entries') %}
+        {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
+      {% endfor %}
+      {{ cteams.cteam | join(', ') }}
+      
+
