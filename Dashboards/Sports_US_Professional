@@ -1039,12 +1039,13 @@ views:
                                 template: nhl_settings
                                 variables:
                                   - title: Overall
-                                  - entity: sensor.nhl_*
+                                  - entity: sensor.nhl_*_*
                                   - attribute: entries
                                   - excluded_entities:
                                       - sensor.nhl_starting_goalies
                                       - sensor.nhl_wildcard
                                       - sensor.nhl_wildcard_standings
+                                      - sensor.nhl_schedule*
                                   - sort: >-
                                       x.stats.find(y=>y.shortDisplayName ==
                                       'PTS').value
@@ -1530,8 +1531,9 @@ views:
                                   - entity: sensor.nfl_*_*
                                   - excluded_entities:
                                       - sensor.nfl_red_zone
-                                      - sensor.nfl_standings
                                       - sensor.nfl_teams
+                                      - sensor.nfl_schedule*
+                                      - sensor.nfl_playoff*
                             - attributes:
                                 label: Schedules
                               card:
@@ -1719,6 +1721,9 @@ views:
                                 variables:
                                   - title: Overall
                                   - entity: sensor.mlb_*_*
+                                  - excluded_entities:
+                                      - sensor.mlb_schedule*
+                                      - sensor.mlb_standings*
                             - attributes:
                                 label: Playoffs
                               card:
