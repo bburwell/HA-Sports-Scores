@@ -259,7 +259,6 @@ views:
                       variables:
                         - title: PGA Schedule
                         - entity: sensor.golf_pga_schedule
-                        - type: mens-singles
                   - attributes:
                       label: Live, Upcoming, Completed Games
                       icon: mdi:television-classic
@@ -274,7 +273,8 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: pga
+                                - sport: golf
+                                - league: pga
                                 - status: IN
                             - type: markdown
                               content: |
@@ -282,7 +282,8 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: pga
+                                - sport: golf
+                                - league: pga
                                 - status: PRE
                             - type: markdown
                               content: |
@@ -290,7 +291,8 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: pga
+                                - sport: golf
+                                - league: pga
                                 - status: POST
             - attributes:
                 label: lpga
@@ -320,7 +322,6 @@ views:
                       variables:
                         - title: LPGA Schedule
                         - entity: sensor.golf_lpga_schedule
-                        - type: womens-singles
                   - attributes:
                       label: Live, Upcoming, Completed Games
                       icon: mdi:television-classic
@@ -335,7 +336,8 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: lpga
+                                - sport: golf
+                                - league: lpga
                                 - status: IN
                             - type: markdown
                               content: |
@@ -343,7 +345,8 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: lpga
+                                - sport: golf
+                                - league: lpga
                                 - status: PRE
                             - type: markdown
                               content: |
@@ -351,7 +354,71 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: lpga
+                                - sport: golf
+                                - league: lpga
+                                - status: POST
+            - attributes:
+                label: DP World Tour
+                icon: mdi:golf
+              card:
+                type: custom:tabbed-card
+                styles:
+                  '--mdc-theme-primary': green
+                  '--mdc-tab-text-label-color-default': silver
+                  '--mdc-typography-button-font-size': 12px
+                tabs:
+                  - attributes:
+                      label: Rankings
+                      icon: mdi:format-list-bulleted
+                    card:
+                      type: custom:decluttering-card
+                      template: ranking_settings
+                      variables:
+                        - title: DP World Rankings
+                        - entity: sensor.golf_eur_ranking
+                  - attributes:
+                      label: Schedule
+                      icon: mdi:calendar
+                    card:
+                      type: custom:decluttering-card
+                      template: schedule_settings
+                      variables:
+                        - title: DP World Schedule
+                        - entity: sensor.golf_eur_schedule
+                  - attributes:
+                      label: Live, Upcoming, Completed Games
+                      icon: mdi:television-classic
+                    card:
+                      type: horizontal-stack
+                      cards:
+                        - type: vertical-stack
+                          cards:
+                            - type: markdown
+                              content: |
+                                <h3>DP World Live Matches</h3>
+                            - type: custom:decluttering-card
+                              template: game_stats
+                              variables:
+                                - sport: golf
+                                - league: eur
+                                - status: IN
+                            - type: markdown
+                              content: |
+                                <h3>liv Upcoming Matches</h3>
+                            - type: custom:decluttering-card
+                              template: game_stats
+                              variables:
+                                - sport: golf
+                                - league: eur
+                                - status: PRE
+                            - type: markdown
+                              content: |
+                                <h3>liv Completed Matches</h3>
+                            - type: custom:decluttering-card
+                              template: game_stats
+                              variables:
+                                - sport: golf
+                                - league: eur
                                 - status: POST
             - attributes:
                 label: LIV
@@ -381,7 +448,6 @@ views:
                       variables:
                         - title: LIV Schedule
                         - entity: sensor.golf_liv_schedule
-                        - type: womens-singles
                   - attributes:
                       label: Live, Upcoming, Completed Games
                       icon: mdi:television-classic
@@ -396,7 +462,8 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: liv
+                                - sport: golf
+                                - league: liv
                                 - status: IN
                             - type: markdown
                               content: |
@@ -404,7 +471,8 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: liv
+                                - sport: golf
+                                - league: liv
                                 - status: PRE
                             - type: markdown
                               content: |
@@ -412,5 +480,6 @@ views:
                             - type: custom:decluttering-card
                               template: game_stats
                               variables:
-                                - sport: liv
+                                - sport: golf
+                                - league: liv
                                 - status: POST
