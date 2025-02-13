@@ -1,0 +1,183 @@
+##
+## PGA Rankings
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf PGA Ranking
+  unique_id: sensor.golf_pga_ranking
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/rankings?region=us&lang=en
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes:
+    - ranks
+    
+##
+## PGA Scoreboard
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf PGA Scoreboard
+  unique_id: sensor.golf_pga_scoreboard
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+    - leagues
+    - season
+    - day
+    - events 
+
+## PGA Schedule
+##
+- platform: rest
+  scan_interval: 86400
+  name: Golf PGA Schedule
+  unique_id: sensor.golf_pga_schedule
+  resource_template: >-
+    https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  value_template: "{{ value_json.events | default([]) | count }}"
+  json_attributes:
+    - events
+
+
+##
+## LPGA Rankings
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf LPGA Ranking
+  unique_id: sensor.golf_lpga_ranking
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/lpga/rankings?region=us&lang=en
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes:
+    - ranks
+    
+##
+## LPGA Scoreboard
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf LPGA Scoreboard
+  unique_id: sensor.golf_lpga_scoreboard
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/lpga/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+    - leagues
+    - season
+    - day
+    - events 
+
+
+## LPGA Schedule
+##
+- platform: rest
+  scan_interval: 86400
+  name: Golf LPGA Schedule
+  unique_id: sensor.golf_lpga_schedule
+  resource_template: >-
+    https://site.web.api.espn.com/apis/site/v2/sports/golf/lpga/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  value_template: "{{ value_json.events | default([]) | count }}"
+  json_attributes:
+    - events
+ 
+##
+## LIV Rankings
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf LIV Ranking
+  unique_id: sensor.golf_liv_ranking
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/liv/rankings?region=us&lang=en
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes:
+    - ranks
+
+
+##
+## LIV Scoreboard
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf LIV Scoreboard
+  unique_id: sensor.golf_liv_scoreboard
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/liv/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+    - leagues
+    - season
+    - day
+    - events 
+ 
+
+## LIV Schedule
+##
+- platform: rest
+  scan_interval: 86400
+  name: Golf LIV Schedule
+  unique_id: sensor.golf_liv_schedule
+  resource_template: >-
+    https://site.web.api.espn.com/apis/site/v2/sports/golf/liv/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  value_template: "{{ value_json.events | default([]) | count }}"
+  json_attributes:
+    - events
+ 
+##
+## EUR (DP World Tour) Rankings
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf EUR Ranking
+  unique_id: sensor.golf_eur_ranking
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/eur/rankings?region=us&lang=en
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes:
+    - ranks
+
+
+##
+## EUR (DP World Tour) Scoreboard
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Golf EUR Scoreboard
+  unique_id: sensor.golf_eur_scoreboard
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/golf/eur/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+    - leagues
+    - season
+    - day
+    - events 
+ 
+
+## EUR (DP World Tour) Schedule
+##
+- platform: rest
+  scan_interval: 86400
+  name: Golf EUR Schedule
+  unique_id: sensor.golf_eur_schedule
+  resource_template: >-
+    https://site.web.api.espn.com/apis/site/v2/sports/golf/eur/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  value_template: "{{ value_json.events | default([]) | count }}"
+  json_attributes:
+    - events
+    
+    
+- platform: teamtracker
+  league_id: "PGA"
+  team_id: "Justin Thomas"
+  name: "Justin Thomas"
+  
+- platform: teamtracker
+  league_id: "LPGA"
+  team_id: "Nelly Korda"
+  name: "Nelly Korda"
+  
+- platform: teamtracker
+  league_id: "LIV"
+  team_id: "Jon Rahm"
+  name: "Jon Rahm"
+
+ 
