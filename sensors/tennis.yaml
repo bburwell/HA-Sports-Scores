@@ -1,0 +1,151 @@
+##
+## ATP Rankings
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Tennis ATP Ranking
+  unique_id: sensor.tennis_atp_ranking
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/tennis/atp/rankings?region=us&lang=en
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes:
+    - ranks
+    
+##
+## ATP Scoreboard
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Tennis ATP Scoreboard
+  unique_id: sensor.tennis_atp_scoreboard
+  resource_template: >-
+    https://site.web.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}&sportId=1
+  value_template: "{{ now() }}"
+  json_attributes:
+    - events 
+
+##
+## ATP Schedule
+##
+#- platform: rest
+  #scan_interval: 36000
+  #name: Tennis ATP Schedule
+  #unique_id: sensor.tennis_atp_schedule
+  #resource_template: >-
+    #https://site.web.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  #value_template: "{{ value_json.events | default([]) | count }}"
+  #json_attributes:
+    #- events  
+    
+##
+## WTA Rankings
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Tennis WTA Ranking
+  unique_id: sensor.tennis_wta_ranking
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/tennis/wta/rankings?region=us&lang=en
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['rankings'][0]"
+  json_attributes:
+    - ranks
+    
+##
+## WTA Scoreboard
+## 
+- platform: rest
+  scan_interval: 36000
+  name: Tennis WTA Scoreboard
+  unique_id: sensor.tennis_wta_scoreboard
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/tennis/wta/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+    - leagues
+    - season
+    - day
+    - events      
+
+##
+## WTA Schedule
+##
+#- platform: rest
+  #scan_interval: 86400
+  #name: Tennis WTA Schedule
+  #unique_id: sensor.tennis_wta_schedule
+  #resource_template: >-
+    #https://site.web.api.espn.com/apis/site/v2/sports/tennis/wta/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  #value_template: "{{ value_json.events | default([]) | count }}"
+  #json_attributes:
+    #- events
+    
+    
+    
+##
+## WTA Schedule
+##
+- platform: rest
+  scan_interval: 86400
+  name: Tennis WTA Schedule
+  unique_id: sensor.tennis_wta_schedule
+  resource_template: >-
+    https://site.web.api.espn.com/apis/site/v2/sports/tennis/wta/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  value_template: "{{ value_json.events | default([]) | count }}"
+  json_attributes:
+    - events
+
+##
+## ATP Schedule
+##
+- platform: rest
+  scan_interval: 86400
+  name: Tennis ATP Schedule
+  unique_id: sensor.tennis_atp_schedule
+  resource_template: >-
+    https://site.web.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard?region=us&lang=en&dates={{ now().replace(month=1, day=1).strftime('%Y%m%d') }}-{{ now().replace(month=12, day=31).strftime('%Y%m%d') }}
+  value_template: "{{ value_json.events | default([]) | count }}"
+  json_attributes:
+    - events
+    
+        
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Jannik Sinner"
+  name: "Jannik Sinner"
+  
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Luca Nardi"
+  name: "Luca Nardi"  
+
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Daniel Altmaier"
+  name: "Daniel Altmaier"  
+
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Benjamin Bonzi"
+  name: "Benjamin Bonzi" 
+
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Luca Van Assche"
+  name: "Luca Van Assche" 
+
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Manuel Guinard"
+  name: "Manuel Guinard"  
+
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Jan-Lennard Struff"
+  name: "Jan-Lennard Struff"  
+
+
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Amanda Anisimova"
+  name: "Amanda Anisimova"    
+  
+  
