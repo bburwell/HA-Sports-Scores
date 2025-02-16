@@ -169,15 +169,35 @@
   league_id: "PGA"
   team_id: "Justin Thomas"
   name: "Justin Thomas"
+
+- platform: teamtracker
+  league_id: "PGA"
+  team_id: "Tony Finau"
+  name: "Tony Finau"
   
 - platform: teamtracker
-  league_id: "LPGA"
+  league_id: XXX
+  sport_path: "golf"  
+  league_path: "lpga"
   team_id: "Nelly Korda"
   name: "Nelly Korda"
   
 - platform: teamtracker
-  league_id: "LIV"
+  league_id: XXX
+  sport_path: "golf"
+  league_path: "liv"
   team_id: "Jon Rahm"
   name: "Jon Rahm"
 
+- platform: teamtracker
+  league_id: PGA
+  team_id: '*'
+  name: PGA
+
+- platform: teamtracker  
+  sport_path: "golf"
+  league_path: "lpga"
+  league_id: XXX
+  team_id: '*'
+  name: LPGA  
  
