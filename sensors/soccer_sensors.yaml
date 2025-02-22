@@ -1044,145 +1044,179 @@
   team_id: CHI
   name: Chicago Fire FC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: CLB
   name: Columbus Crew
+  
   league_path: usa.1  
 - platform: teamtracker
   league_id: MLS
   team_id: NE
   name: Chicago New England Revolution
+  
   league_path: usa.1
 - platform: teamtracker
   league_id: MLS
   team_id: NY
   name: New York Red Bulls
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: DC
   name: D.C. United
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: TOR
   name: Toronto FC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: MTL
   name: CF Montréal
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: PHI
   name: Philadelphia Union
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: ORL
   name: Orlando City SC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: NYC
   name: New York City FC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: CIN
   name: FC Cincinnati
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: ATL
   name: Atlanta United FC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: NSH
   name: Nashville SC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: MIA
   name: Inter Miami CF
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: CLT
   name: Charlotte FC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: COL
   name: Colorado Rapids
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: DAL
   name: FC Dallas
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: SKC
   name: Sporting Kansas City
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: LA
   name: LA Galaxy
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: SJ
   name: San Jose Earthquakes
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: RSL
   name: Real Salt Lake
   league_path: usa.1
+
 - platform: teamtracker
   league_id: MLS
   team_id: HOU
   name: Houston Dynamo FC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: POR
   name: Portland Timbers
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: SEA
   name: Seattle Sounders FC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: VAN
   name: Vancouver Whitecaps
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: MIN
   name: Minnesota United FC
-  league_path: usa.1  
+  league_path: usa.1 
+   
 - platform: teamtracker
   league_id: MLS
   team_id: STL
   name: St. Louis CITY SC
-  league_path: usa.1  
+  league_path: usa.1 
+   
 - platform: teamtracker
   league_id: MLS
   team_id: LAFC
   name: LAFC
   league_path: usa.1
+  
 - platform: teamtracker
   league_id: MLS
   team_id: ATX
   name: Austin FC
+  league_path: usa.1
+
+- platform: teamtracker
+  league_id: MLS
+  team_id: SD
+  name: San Diego FC
   league_path: usa.1
 
 
