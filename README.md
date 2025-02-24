@@ -34,7 +34,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
 - Golf
   - golf.yaml
 - Soccer
-  - soccer_sensors.yaml includes all -Premier/Championship/English League 1/English League 2/ENL/Budesliga/Bundesliga2/MSL/NWSL
+  - soccer_sensors.yaml includes all -Premier/Championship/English League 1/English League 2/ENL/Budesliga/Bundesliga2/MSL/NWSL (San Diego added to MLS/soccer.yaml 2/20/25)
 - US College NCAA
   - ncaaf_sensors.yaml (Mens Football)
   - ncaam_sensors.yaml (Mens Basketball)
