@@ -106,43 +106,385 @@
   json_attributes:
     - events
     
-        
+##
+## ATP Players (Pulled from jasonkjennings list on thread)
+##
 - platform: teamtracker
   league_id: "ATP"
   team_id: "Jannik Sinner"
   name: "Jannik Sinner"
-  
 - platform: teamtracker
   league_id: "ATP"
-  team_id: "Luca Nardi"
-  name: "Luca Nardi"  
-
+  team_id: "Alexander Zverev"
+  name: "Alexander Zverev"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Carlos Alcaraz"
+  name: "Carlos Alcaraz"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Taylor Fritz"
+  name: "Taylor Fritz"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Casper Ruud"
+  name: "Casper Ruud"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Novak Djokovic"
+  name: "Novak Djokovic"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Daniil Medvedev"
+  name: "Daniil Medvedev"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Alex de Minaur"
+  name: "Alex de Minaur"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Tommy Paul"
+  name: "Tommy Paul"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Andrey Rublev"
+  name: "Andrey Rublev"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Grigor Dimitrov"
+  name: "Grigor Dimitrov"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Stefanos Tsitsipas"
+  name: "Stefanos Tsitsipas"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Holger Rune"
+  name: "Holger Rune"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Felix Auger-Aliassime"
+  name: "Felix Auger-Aliassime"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Frances Tiafoe"
+  name: "Frances Tiafoe"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Karen Khachanov"
+  name: "Karen Khachanov"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Hubert Hurkacz"
+  name: "Hubert Hurkacz"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Pablo Carreno Busta"
+  name: "Pablo Carreno Busta"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Denis Shapovalov"
+  name: "Denis Shapovalov"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Nick Kyrgios"
+  name: "Nick Kyrgios"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Roberto Bautista Agut"
+  name: "Roberto Bautista Agut"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Diego Schwartzman"
+  name: "Diego Schwartzman"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Lorenzo Musetti"
+  name: "Lorenzo Musetti"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Borna Coric"
+  name: "Borna Coric"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Sebastian Korda"
+  name: "Sebastian Korda"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Daniel Evans"
+  name: "Daniel Evans"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "John Isner"
+  name: "John Isner"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Miomir Kecmanovic"
+  name: "Miomir Kecmanovic"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Alejandro Davidovich Fokina"
+  name: "Alejandro Davidovich Fokina"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Jenson Brooksby"
+  name: "Jenson Brooksby"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Adrian Mannarino"
+  name: "Adrian Mannarino"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Albert Ramos-Vinolas"
+  name: "Albert Ramos-Vinolas"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Lorenzo Sonego"
+  name: "Lorenzo Sonego"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Filip Krajinovic"
+  name: "Filip Krajinovic"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Alexander Bublik"
+  name: "Alexander Bublik"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Marton Fucsovics"
+  name: "Marton Fucsovics"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Emil Ruusuvuori"
+  name: "Emil Ruusuvuori"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Brandon Nakashima"
+  name: "Brandon Nakashima"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Aslan Karatsev"
+  name: "Aslan Karatsev"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Pedro Martinez"
+  name: "Pedro Martinez"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Sebastian Baez"
+  name: "Sebastian Baez"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Benjamin Bonzi"
+  name: "Benjamin Bonzi"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Ugo Humbert"
+  name: "Ugo Humbert"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Francisco Cerundolo"
+  name: "Francisco Cerundolo"
+- platform: teamtracker
+  league_id: "ATP"
+  team_id: "Maxime Cressy"
+  name: "Maxime Cressy"
 - platform: teamtracker
   league_id: "ATP"
   team_id: "Daniel Altmaier"
   name: "Daniel Altmaier"  
-
 - platform: teamtracker
   league_id: "ATP"
-  team_id: "Benjamin Bonzi"
-  name: "Benjamin Bonzi" 
-
+  team_id: "Luca Nardi"
+  name: "Luca Nardi"
 - platform: teamtracker
   league_id: "ATP"
   team_id: "Luca Van Assche"
   name: "Luca Van Assche" 
-
 - platform: teamtracker
   league_id: "ATP"
   team_id: "Manuel Guinard"
   name: "Manuel Guinard"  
-
 - platform: teamtracker
   league_id: "ATP"
   team_id: "Jan-Lennard Struff"
-  name: "Jan-Lennard Struff"  
+  name: "Jan-Lennard Struff"    
+##
+## WTA Players (Pulled from jasonkjennings list on thread)
+##
 
-
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Aryna Sabalenka"
+  name: "Aryna Sabalenka"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Iga Swiatek"
+  name: "Iga Swiatek"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Coco Gauff"
+  name: "Coco Gauff"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Jasmine Paolini"
+  name: "Jasmine Paolini"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Jessica Pegula"
+  name: "Jessica Pegula"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Madison Keys"
+  name: "Madison Keys"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Elena Rybakina"
+  name: "Elena Rybakina"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Qinwen Zheng"
+  name: "Qinwen Zheng"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Emma Navarro"
+  name: "Emma Navarro"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Paula Badosa"
+  name: "Paula Badosa"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Danielle Collins"
+  name: "Danielle Collins"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Daria Kasatkina"
+  name: "Daria Kasatkina"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Diana Shnaider"
+  name: "Diana Shnaider"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Anhelina Kalinina"
+  name: "Anhelina Kalinina"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Mirra Andreeva"
+  name: "Mirra Andreeva"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Magda Linette"
+  name: "Magda Linette"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Veronika Kudermetova"
+  name: "Veronika Kudermetova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Liudmila Samsonova"
+  name: "Liudmila Samsonova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Anna Kalinskaya"
+  name: "Anna Kalinskaya"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Jelena Ostapenko"
+  name: "Jelena Ostapenko"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Petra Kvitova"
+  name: "Petra Kvitova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Ekaterina Alexandrova"
+  name: "Ekaterina Alexandrova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Barbora Krejcikova"
+  name: "Barbora Krejcikova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Karolina Pliskova"
+  name: "Karolina Pliskova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Karolina Muchova"
+  name: "Karolina Muchova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Zhang Shuai"
+  name: "Zhang Shuai"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Elise Mertens"
+  name: "Elise Mertens"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Victoria Azarenka"
+  name: "Victoria Azarenka"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Sloane Stephens"
+  name: "Sloane Stephens"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Fiona Ferro"
+  name: "Fiona Ferro"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Kaia Kanepi"
+  name: "Kaia Kanepi"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Jule Niemeier"
+  name: "Jule Niemeier"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Marie Bouzkova"
+  name: "Marie Bouzkova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Clara Tauson"
+  name: "Clara Tauson"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Claire Liu"
+  name: "Claire Liu"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Elina Svitolina"
+  name: "Elina Svitolina"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Marta Kostyuk"
+  name: "Marta Kostyuk"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Anastasia Potapova"
+  name: "Anastasia Potapova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Bianca Andreescu"
+  name: "Bianca Andreescu"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Leylah Fernandez"
+  name: "Leylah Fernandez"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Amanda Anisimova"
+  name: "Amanda Anisimova"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Camila Giorgi"
+  name: "Camila Giorgi"
+- platform: teamtracker
+  league_id: "WTA"
+  team_id: "Alize Cornet"
+  name: "Alize Cornet"
 - platform: teamtracker
   league_id: "WTA"
   team_id: "Amanda Anisimova"
