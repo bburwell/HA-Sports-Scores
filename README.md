@@ -17,7 +17,7 @@ They are all a part of this project.
 My setup has changed from Kbrowns in that he uses Templates (which work for most sports) where I moved most to REST sensors.  The reason was that NCAA conferences sometimes exhausted the limits and wouldn't return anything.  In the sensors directory I have the sensors I populate and are broken out, where possible, by sport.
 
 ### Dashboards directory has the following dashboard code: 
-- US Sports (NHL/NFL/MLB/NBA/WNBA/WTA/ATP/PGA/LIV/LPGA)
+- US Sports (NHL/NFL/UFL/MLB/NBA/WNBA/WTA/ATP/PGA/LIV/LPGA)
 - Soccer (Premier/Championship/English League 1/English League 2/ENL/Budesliga/Bundesliga2/MSL/NWSL)
 - US College NCAA (Mens Football/Mens Basketball)
 - Racing - F1/NASCAR
