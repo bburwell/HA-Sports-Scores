@@ -578,6 +578,9 @@ decluttering_templates:
             x.competitions[0].competitors[0].team.logos[0].href + '"
             style="height: 20px;vertical-align:middle;">&nbsp;' +
             x.competitions[0].competitors[0].team.displayName + '</div>'
+        - name: Attendance
+          data: '[[events]]'
+          modify: x.competitions[0].attendance
   nfl_settings_2:
     card:
       type: custom:flex-table-card
@@ -699,6 +702,99 @@ decluttering_templates:
         - name: STRK
           data: entries
           modify: x.stats.find(y=>y.shortDisplayName == 'STRK').displayValue
+  ufl_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 15%;'
+        tbody tr td:nth-child(n+3): 'width: 4%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+            }
+          $: |
+            .card-header {
+              padding-top: 6px!important;
+              padding-bottom: 4px!important;
+              font-size: 14px!important;
+              line-height: 14px!important;
+              font-weight: bold!important;
+            }
+            .home-field-clinch {
+              background-color: navy;
+              color: white;
+            }
+            .clinch {
+              background-color: lightblue;
+              color: white;
+            }
+            .eliminated {
+              background-color: pink;
+              color: white;
+            }
+            .no-decision {
+              background-color: inherit;
+              color: inherit;
+            }
+      sort_by: entries-
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - hidden: true
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value.toFixed(2)
+        - name: C
+          data: entries
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){
+              x.stats.find(y=>y.abbreviation == 'CLINCH').displayValue
+            }else{
+              '-'
+            }
+          class: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'CLINCH') !==
+            'undefined' ){
+              let clinchValue = x.stats.find(y=>y.abbreviation == 'CLINCH').displayValue;
+              if(clinchValue == 'y') {
+                return 'home-field-clinch';
+              } else if(clinchValue == 'x') {
+                return 'clinch';
+              } else if(clinchValue == 'e') {
+                return 'eliminated';
+              } else {
+                return 'no-decision';
+              }
+            }else{
+              return 'no-decision';
+            }
+        - name: Team
+          data: entries
+          modify: >-
+            '<div><img src="' + x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.team.displayName + '</div>'
+        - name: GP
+          data: entries
+          modify: >-
+            x.stats.find(y=>y.abbreviation == 'L').value +
+            x.stats.find(y=>y.abbreviation == 'W').value 
+        - name: W
+          data: entries
+          modify: x.stats.find(y=>y["abbreviation"] == 'W').value
+        - name: L
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'L').value
+        - name: PCT
+          data: entries
+          modify: x.stats.find(y=>y.abbreviation == 'PCT').value.toFixed(2)
   nba_settings:
     card:
       type: custom:flex-table-card
@@ -1604,6 +1700,146 @@ views:
                                   - sport: NFL
                                   - status: POST
             - attributes:
+                label: UFL
+                icon: mdi:football
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  styles:
+                    '--mdc-theme-primary': green
+                    '--mdc-tab-text-label-color-default': silver
+                    '--mdc-typography-button-font-size': 12px
+                  tabs:
+                    - attributes:
+                        label: Standings
+                        icon: mdi:ballot
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 15%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': green
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Conference
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: custom:decluttering-card
+                                    template: ufl_settings
+                                    variables:
+                                      - title: USFL Conference
+                                      - entity: sensor.ufl_conference_usfl
+                                  - type: custom:decluttering-card
+                                    template: ufl_settings
+                                    variables:
+                                      - title: XFL Conference
+                                      - entity: sensor.ufl_conference_xfl
+                            - attributes:
+                                label: Overall
+                              card:
+                                type: custom:decluttering-card
+                                template: ufl_settings
+                                variables:
+                                  - title: Overall
+                                  - entity: sensor.ufl_conference*
+                                  - excluded_entities:
+                                      - sensor.nfl_red_zone
+                                      - sensor.nfl_teams
+                                      - sensor.nfl_schedule*
+                                      - sensor.nfl_playoff*
+                            - attributes:
+                                label: Schedules
+                              card:
+                                type: custom:stack-in-card
+                                mode: vertical
+                                cards:
+                                  - type: markdown
+                                    content: |
+                                      <h1>Team
+                                        Schedules</h1>                                         
+                            - attributes:
+                                label: UFL Playoffs
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h3>UFL Playoffs (placeholder) </h3>  
+                    - attributes:
+                        label: Live, Pre, Post UFL Conference Games
+                        icon: mdi:football
+                      card:
+                        type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: markdown
+                                content: |
+                                  <h1>UFL Games Live</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: UFL
+                                  - status: IN
+                              - type: markdown
+                                content: |
+                                  <h1>UFL Games Coming-up</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: UFL
+                                  - status: PRE
+                              - type: markdown
+                                content: |
+                                  <h1>UFL Games Completed</h1>
+                              - type: custom:decluttering-card
+                                template: game_stats
+                                variables:
+                                  - sport: UFL
+                                  - status: POST
+            - attributes:
                 label: MLB
                 icon: mdi:baseball
               card:
@@ -1829,8 +2065,7 @@ views:
                                     template: wnba_settings
                                     variables:
                                       - title: Eastern Conference
-                                      - included_entities:
-                                          - sensor.wnba_eastern_conference
+                                      - included_entities: '-sensor.wnba_eastern_conference'
                                       - sort: >-
                                           x.stats.find(y=>y.abbreviation ==
                                           'GB').value
