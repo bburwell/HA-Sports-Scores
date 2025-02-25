@@ -1,0 +1,89 @@
+## UFL Transactions
+##
+- platform: rest
+  scan_interval: 14400
+  name: UFL Transactions
+  unique_id: sensor.ufl_transactions
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/ufl/transactions
+  value_template: "{{ now() }}"  
+  json_attributes:
+    - transactions
+    
+- platform: rest
+  scan_interval: 14400
+  name: UFL News
+  unique_id: sensor.ufl_news
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/ufl/news
+  value_template: "{{ now() }}"  
+  json_attributes:
+    - articles
+
+##
+## UFL Standings
+##
+- platform: rest
+  scan_interval: 604800
+  name: UFL Standings
+  unique_id: sensor.ufl_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/ufl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - children
+      
+- platform: rest
+  scan_interval: 604800
+  name: UFL Conference USFL
+  unique_id: sensor.ufl_conference_usfl
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/ufl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[0]['standings']"
+  json_attributes: 
+   - entries   
+
+- platform: rest
+  scan_interval: 604800
+  name: UFL Conference XFL
+  unique_id: sensor.ufl_conference_xfl
+  resource: https://site.web.api.espn.com/apis/v2/sports/football/ufl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.[1]['standings']"
+  json_attributes: 
+   - entries   
+
+##
+##  UFL Teams
+##
+- platform: teamtracker
+  league_id: UFL
+  team_id: BIR
+  name: Birminham Stallions
+- platform: teamtracker
+  league_id: UFL
+  team_id: MIC
+  name: Michigan Panthers  
+- platform: teamtracker
+  league_id: UFL
+  team_id: MEM
+  name: Memphis Showboats  
+- platform: teamtracker
+  league_id: UFL
+  team_id: HOU
+  name: Houston Roughnecks
+- platform: teamtracker
+  league_id: UFL
+  team_id: STL
+  name: St. Louis Battlehawks
+- platform: teamtracker
+  league_id: UFL
+  team_id: SA
+  name: San Antonio Brahmas  
+- platform: teamtracker
+  league_id: UFL
+  team_id: DC
+  name: D.C. Defenders
+- platform: teamtracker
+  league_id: UFL
+  team_id: ARL
+  name: Arlington Renegades
+  
+  
