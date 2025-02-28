@@ -1,0 +1,132 @@
+afc.champions|https://site.web.api.espn.com/apis/v2/sports/soccer/afc.champions/standings?seasontype=1&type=0&level=3|AFC Champions League Elite|Active 2025||nhl||||irl||
+afc.cup|https://site.web.api.espn.com/apis/v2/sports/soccer/afc.cup/standings?seasontype=1&type=0&level=3|AFC Champions League Two|Active 2025||mens-college-hockey||||nationwide||
+afc.cupq|https://site.web.api.espn.com/apis/v2/sports/soccer/afc.cupq/standings?seasontype=1&type=0&level=3|AFC Asian Cup Qualifiers|?||womens-college-hockey||||sprint||
+aff.championship|https://site.web.api.espn.com/apis/v2/sports/soccer/aff.championship/standings?seasontype=1&type=0&level=3|ASEAN Championship|Active 2025||||||truck||
+arg.1|https://site.web.api.espn.com/apis/v2/sports/soccer/arg.1/standings?seasontype=1&type=0&level=3|Argentine Liga Profesional de Fútbol|Active 2025||||||f1||
+arg.2|https://site.web.api.espn.com/apis/v2/sports/soccer/arg.2/standings?seasontype=1&type=0&level=3|Argentine Nacional B|Active 2025||||||nhra||
+arg.3|https://site.web.api.espn.com/apis/v2/sports/soccer/arg.3/standings?seasontype=1&type=0&level=3|Argentine Primera B|Active 2025||||||||
+arg.4|https://site.web.api.espn.com/apis/v2/sports/soccer/arg.4/standings?seasontype=1&type=0&level=3|Argentine Primera C|Active 2025||||||||
+arg.5|https://site.web.api.espn.com/apis/v2/sports/soccer/arg.5/standings?seasontype=1&type=0&level=3|Argentine Primera D|Active 2025||||||||
+arg.copa|https://site.web.api.espn.com/apis/v2/sports/soccer/arg.copa/standings?seasontype=1&type=0&level=3||x||||||||
+arg.urba|https://site.web.api.espn.com/apis/v2/sports/soccer/arg.urba/standings?seasontype=1&type=0&level=3||x||||||||
+aus.1|https://site.web.api.espn.com/apis/v2/sports/soccer/aus.1/standings?seasontype=1&type=0&level=3|Australian A-League Men|Active 2025||||||||
+aut.1|https://site.web.api.espn.com/apis/v2/sports/soccer/aut.1/standings?seasontype=1&type=0&level=3|Austrian Bundesliga|Active 2025||||||||
+bel.1|https://site.web.api.espn.com/apis/v2/sports/soccer/bel.1/standings?seasontype=1&type=0&level=3|Belgian Pro League|Active 2025||||||||
+bol.1|https://site.web.api.espn.com/apis/v2/sports/soccer/bol.1/standings?seasontype=1&type=0&level=3|Bolivian Liga Profesional|Active 2025||||||||
+bra.1|https://site.web.api.espn.com/apis/v2/sports/soccer/bra.1/standings?seasontype=1&type=0&level=3|Brazilian Serie A|Active 2025||||||||
+bra.2|https://site.web.api.espn.com/apis/v2/sports/soccer/bra.2/standings?seasontype=1&type=0&level=3|Brazilian Serie B|Active 2025||||||||
+bra.3|https://site.web.api.espn.com/apis/v2/sports/soccer/bra.3/standings?seasontype=1&type=0&level=3|Brazilian Serie C|Active 2025||||||||
+caf.nations|https://site.web.api.espn.com/apis/v2/sports/soccer/caf.nations/standings?seasontype=1&type=0&level=3|Africa Cup of Nations|Active 2025||||||||
+chi.1|https://site.web.api.espn.com/apis/v2/sports/soccer/chi.1/standings?seasontype=1&type=0&level=3|Chilean Primera División|Active 2025||||||||
+chi.2|https://site.web.api.espn.com/apis/v2/sports/soccer/chi.2/standings?seasontype=1&type=0&level=3|Segunda División de Chile|Active 2025||||||||
+col.1|https://site.web.api.espn.com/apis/v2/sports/soccer/col.1/standings?seasontype=1&type=0&level=3|Colombian Primera A|Active 2025||||||||
+col.2|https://site.web.api.espn.com/apis/v2/sports/soccer/col.2/standings?seasontype=1&type=0&level=3|Colombian Primera B|Active 2025||||||||
+concaaf.champions_cup|https://site.web.api.espn.com/apis/v2/sports/soccer/concaaf.champions_cup/standings?seasontype=1&type=0&level=3||Active 2025||||||||
+concacaf.champions|https://site.web.api.espn.com/apis/v2/sports/soccer/concacaf.champions/standings?seasontype=1&type=0&level=3|Concacaf Champions Cup|Active 2025||||||||
+concacaf.golf|https://site.web.api.espn.com/apis/v2/sports/soccer/concacaf.golf/standings?seasontype=1&type=0&level=3||x||||||||
+concacaf.superliga|https://site.web.api.espn.com/apis/v2/sports/soccer/concacaf.superliga/standings?seasontype=1&type=0&level=3|North American SuperLiga|Active 2025||||||||
+concacaf.u23|https://site.web.api.espn.com/apis/v2/sports/soccer/concacaf.u23/standings?seasontype=1&type=0&level=3|CONCACAF U23 Tournament|Active 2025||||||||
+conmebol.america|https://site.web.api.espn.com/apis/v2/sports/soccer/conmebol.america/standings?seasontype=1&type=0&level=3|Copa América|Active 2025||||||||
+conmebol.libertadores|https://site.web.api.espn.com/apis/v2/sports/soccer/conmebol.libertadores/standings?seasontype=1&type=0&level=3|CONMEBOL Libertadores|Active 2025||||||||
+conmebol.sudamericana|https://site.web.api.espn.com/apis/v2/sports/soccer/conmebol.sudamericana/standings?seasontype=1&type=0&level=3|CONMEBOL Sudamericana|Active 2025||||||||
+conmebol.sudamericano_sub20|https://site.web.api.espn.com/apis/v2/sports/soccer/conmebol.sudamericano_sub20/standings?seasontype=1&type=0&level=3|CONMEBOL Sudamericano Sub-20|Active 2025||||||||
+crc.1|https://site.web.api.espn.com/apis/v2/sports/soccer/crc.1/standings?seasontype=1&type=0&level=3|Costa Rican Primera Division|Active 2025||||||||
+den.1|https://site.web.api.espn.com/apis/v2/sports/soccer/den.1/standings?seasontype=1&type=0&level=3|Danish Superliga|Active 2025||||||||
+ecu.1|https://site.web.api.espn.com/apis/v2/sports/soccer/ecu.1/standings?seasontype=1&type=0&level=3|LigaPro Ecuador|Active 2025||||||||
+ecu.2|https://site.web.api.espn.com/apis/v2/sports/soccer/ecu.2/standings?seasontype=1&type=0&level=3|Ecuador Serie B|x||||||||
+eng.charity|https://site.web.api.espn.com/apis/v2/sports/soccer/eng.charity/standings?seasontype=1&type=0&level=3|English FA Community Shield|x||||||||
+eng.fa|https://site.web.api.espn.com/apis/v2/sports/soccer/eng.fa/standings?seasontype=1&type=0&level=3|English FA Cup|?||||||||
+eng.trophy|https://site.web.api.espn.com/apis/v2/sports/soccer/eng.trophy/standings?seasontype=1&type=0&level=3||x||||||||
+eng.w.1|https://site.web.api.espn.com/apis/v2/sports/soccer/eng.w.1/standings?seasontype=1&type=0&level=3|English Women's Super League|Active 2025||||||||
+eng.worthington|https://site.web.api.espn.com/apis/v2/sports/soccer/eng.worthington/standings?seasontype=1&type=0&level=3||x||||||||
+esp.2|https://site.web.api.espn.com/apis/v2/sports/soccer/esp.2/standings?seasontype=1&type=0&level=3|Spanish LALIGA 2|Active 2025||||||||
+esp.copa_del_rey|https://site.web.api.espn.com/apis/v2/sports/soccer/esp.copa_del_rey/standings?seasontype=1&type=0&level=3|Spanish Copa del Rey|Active 2025||||||||
+esp.super_cup|https://site.web.api.espn.com/apis/v2/sports/soccer/esp.super_cup/standings?seasontype=1&type=0&level=3|Spanish Supercopa|?||||||||
+fifa.worldq.ofc|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.worldq.ofc/standings?seasontype=1&type=0&level=3|FIFA World Cup Qualifying - OFC|?||||||||
+fifa.confederations|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.confederations/standings?seasontype=1&type=0&level=3|FIFA Confederations Cup|Active 2025||||||||
+fifa.cwc|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.cwc/standings?seasontype=1&type=0&level=3|FIFA Club World Cup|Active 2025||||||||
+fifa.friendly|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.friendly/standings?seasontype=1&type=0&level=3|Men's International Friendly|Active 2025||||||||
+fifa.friendly.w|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.friendly.w/standings?seasontype=1&type=0&level=3|Women's International Friendly|?||||||||
+fifa.olympics|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.olympics/standings?seasontype=1&type=0&level=3|Men's Olympic Soccer Tournament|Active 2025||||||||
+fifa.olympicsq|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.olympicsq/standings?seasontype=1&type=0&level=3||x||||||||
+fifa.w.algarve|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.w.algarve/standings?seasontype=1&type=0&level=3|Algarve Cup|?||||||||
+fifa.w.olympics|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.w.olympics/standings?seasontype=1&type=0&level=3|Women's Olympic Soccer Tournament|Active 2025||||||||
+fifa.w.olympicsq|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.w.olympicsq/standings?seasontype=1&type=0&level=3||x||||||||
+fifa.world|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world/standings?seasontype=1&type=0&level=3|FIFA World Cup|Active 2025||||||||
+fifa.world.u17|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world.u17/standings?seasontype=1&type=0&level=3|FIFA Under-17 World Cup|Active 2025||||||||
+fifa.world.u20|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world.u20/standings?seasontype=1&type=0&level=3|FIFA Under-20 World Cup|Active 2025||||||||
+fifa.worldq|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.worldq/standings?seasontype=1&type=0&level=3|World Cup Qualifying|?||||||||
+fifa.worldq.afc|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.worldq.afc/standings?seasontype=1&type=0&level=3||x||||||||
+fifa.worldq.caf|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.worldq.caf/standings?seasontype=1&type=0&level=3||x||||||||
+fifa.worldq.concacaf|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.worldq.concacaf/standings?seasontype=1&type=0&level=3||x||||||||
+fifa.worldq.conmebol|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.worldq.conmebol/standings?seasontype=1&type=0&level=3||x||||||||
+fifa.worldq.uefa|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.worldq.uefa/standings?seasontype=1&type=0&level=3||x||||||||
+fifa.wwc|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.wwc/standings?seasontype=1&type=0&level=3|FIFA Women's World Cup|Active 2025||||||||
+fifa.wyc|https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.wyc/standings?seasontype=1&type=0&level=3||x||||||||
+fra.1|https://site.web.api.espn.com/apis/v2/sports/soccer/fra.1/standings?seasontype=1&type=0&level=3|French Ligue 1|Active 2025||||||||
+fra.2|https://site.web.api.espn.com/apis/v2/sports/soccer/fra.2/standings?seasontype=1&type=0&level=3|French Ligue 2|Active 2025||||||||
+fra.coupe_de_france|https://site.web.api.espn.com/apis/v2/sports/soccer/fra.coupe_de_france/standings?seasontype=1&type=0&level=3|Coupe de France|?||||||||
+fra.coupe_de_la_ligue|https://site.web.api.espn.com/apis/v2/sports/soccer/fra.coupe_de_la_ligue/standings?seasontype=1&type=0&level=3|French Coupe de la Ligue|?||||||||
+ger.dfb_pokal|https://site.web.api.espn.com/apis/v2/sports/soccer/ger.dfb_pokal/standings?seasontype=1&type=0&level=3|German Cup|?||||||||
+ger.super_cup|https://site.web.api.espn.com/apis/v2/sports/soccer/ger.super_cup/standings?seasontype=1&type=0&level=3|German DFL-Supercup|?||||||||
+global.world_football_challenge|https://site.web.api.espn.com/apis/v2/sports/soccer/global.world_football_challenge/standings?seasontype=1&type=0&level=3|WORLD FOOTBALL CHALLENGE|?||||||||
+gre.1|https://site.web.api.espn.com/apis/v2/sports/soccer/gre.1/standings?seasontype=1&type=0&level=3|Greek Super League|Active 2025||||||||
+gua.1|https://site.web.api.espn.com/apis/v2/sports/soccer/gua.1/standings?seasontype=1&type=0&level=3|Guatemalan Liga Nacional|Active 2025||||||||
+hon.1|https://site.web.api.espn.com/apis/v2/sports/soccer/hon.1/standings?seasontype=1&type=0&level=3|Honduran Liga Nacional|Active 2025||||||||
+intercontinental|https://site.web.api.espn.com/apis/v2/sports/soccer/intercontinental/standings?seasontype=1&type=0&level=3|Intercontinental Cup|?||||||||
+irl.1|https://site.web.api.espn.com/apis/v2/sports/soccer/irl.1/standings?seasontype=1&type=0&level=3|Irish Premier Division|Active 2025||||||||
+ita.2|https://site.web.api.espn.com/apis/v2/sports/soccer/ita.2/standings?seasontype=1&type=0&level=3|Italian Serie B|Active 2025||||||||
+ita.coppa_italia|https://site.web.api.espn.com/apis/v2/sports/soccer/ita.coppa_italia/standings?seasontype=1&type=0&level=3|Coppa Italia|?||||||||
+ita.super_cup|https://site.web.api.espn.com/apis/v2/sports/soccer/ita.super_cup/standings?seasontype=1&type=0&level=3|Italian Supercoppa|?||||||||
+jpn.1|https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings?seasontype=1&type=0&level=3|Japanese J.League|Active 2025||||||||
+mex.2|https://site.web.api.espn.com/apis/v2/sports/soccer/mex.2/standings?seasontype=1&type=0&level=3|Mexican Liga de Expansión MX|Active 2025||||||||
+mex.interliga|https://site.web.api.espn.com/apis/v2/sports/soccer/mex.interliga/standings?seasontype=1&type=0&level=3|Torneo Interliga de México|?||||||||
+ned.1|https://site.web.api.espn.com/apis/v2/sports/soccer/ned.1/standings?seasontype=1&type=0&level=3|Dutch Eredivisie|Active 2025||||||||
+ned.2|https://site.web.api.espn.com/apis/v2/sports/soccer/ned.2/standings?seasontype=1&type=0&level=3|Dutch Keuken Kampioen Divisie|Active 2025||||||||
+ned.cup|https://site.web.api.espn.com/apis/v2/sports/soccer/ned.cup/standings?seasontype=1&type=0&level=3|Dutch KNVB Beker|?||||||||
+nir.1|https://site.web.api.espn.com/apis/v2/sports/soccer/nir.1/standings?seasontype=1&type=0&level=3|Northern Irish Premiership|Active 2025||||||||
+nor.1|https://site.web.api.espn.com/apis/v2/sports/soccer/nor.1/standings?seasontype=1&type=0&level=3|Norwegian Eliteserien|Active 2025||||||||
+panam.m|https://site.web.api.espn.com/apis/v2/sports/soccer/panam.m/standings?seasontype=1&type=0&level=3|Pan Am Men's Soccer|Active 2025||||||||
+panam.w|https://site.web.api.espn.com/apis/v2/sports/soccer/panam.w/standings?seasontype=1&type=0&level=3|Pan Am women's Soccer|Active 2025||||||||
+par.1|https://site.web.api.espn.com/apis/v2/sports/soccer/par.1/standings?seasontype=1&type=0&level=3|Paraguayan Primera División|Active 2025||||||||
+par.2|https://site.web.api.espn.com/apis/v2/sports/soccer/par.2/standings?seasontype=1&type=0&level=3|Segunda División de Paraguay|Active 2025||||||||
+per.1|https://site.web.api.espn.com/apis/v2/sports/soccer/per.1/standings?seasontype=1&type=0&level=3|Peruvian Liga 1|Active 2025||||||||
+per.2|https://site.web.api.espn.com/apis/v2/sports/soccer/per.2/standings?seasontype=1&type=0&level=3|Segunda División de Perú|?||||||||
+por.1|https://site.web.api.espn.com/apis/v2/sports/soccer/por.1/standings?seasontype=1&type=0&level=3|Portuguese Primeira Liga|Active 2025||||||||
+rsa.1|https://site.web.api.espn.com/apis/v2/sports/soccer/rsa.1/standings?seasontype=1&type=0&level=3|South African Premier Division|Active 2025||||||||
+rsa.2|https://site.web.api.espn.com/apis/v2/sports/soccer/rsa.2/standings?seasontype=1&type=0&level=3|South African First Division|Active 2025||||||||
+rus.1|https://site.web.api.espn.com/apis/v2/sports/soccer/rus.1/standings?seasontype=1&type=0&level=3|Russian Premier League|Active 2025||||||||
+sco.1 - |https://site.web.api.espn.com/apis/v2/sports/soccer/sco.1 - /standings?seasontype=1&type=0&level=3|Scottish Premiership|Active 2025||||||||
+sco.2 - |https://site.web.api.espn.com/apis/v2/sports/soccer/sco.2 - /standings?seasontype=1&type=0&level=3|Scottish Championship|Active 2025||||||||
+sco.3 - |https://site.web.api.espn.com/apis/v2/sports/soccer/sco.3 - /standings?seasontype=1&type=0&level=3|Scottish SPFL League One|Active 2025||||||||
+sco.4 - |https://site.web.api.espn.com/apis/v2/sports/soccer/sco.4 - /standings?seasontype=1&type=0&level=3|Scottish SPFL League Two|Active 2025||||||||
+sco.challenge|https://site.web.api.espn.com/apis/v2/sports/soccer/sco.challenge/standings?seasontype=1&type=0&level=3|Scottish League Challenge Cup|?||||||||
+sco.cis|https://site.web.api.espn.com/apis/v2/sports/soccer/sco.cis/standings?seasontype=1&type=0&level=3|Scottish League Cup|Active 2025||||||||
+sco.tennents|https://site.web.api.espn.com/apis/v2/sports/soccer/sco.tennents/standings?seasontype=1&type=0&level=3|Scottish Cup|Active 2025||||||||
+slv.1|https://site.web.api.espn.com/apis/v2/sports/soccer/slv.1/standings?seasontype=1&type=0&level=3|Salvadoran Primera Division|Active 2025||||||||
+sui.1|https://site.web.api.espn.com/apis/v2/sports/soccer/sui.1/standings?seasontype=1&type=0&level=3|Swiss Super League|Active 2025||||||||
+swe.1|https://site.web.api.espn.com/apis/v2/sports/soccer/swe.1/standings?seasontype=1&type=0&level=3|Swedish Allsvenskan|Active 2025||||||||
+tur.1|https://site.web.api.espn.com/apis/v2/sports/soccer/tur.1/standings?seasontype=1&type=0&level=3|Turkish Super Lig|Active 2025||||||||
+uefa.carling|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.carling/standings?seasontype=1&type=0&level=3|Carling Nations Cup|Active 2025||||||||
+uefa.euro|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.euro/standings?seasontype=1&type=0&level=3|UEFA European Championship|Active 2025||||||||
+uefa.euro.u19|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.euro.u19/standings?seasontype=1&type=0&level=3|UEFA European Under-19 Championship|Active 2025||||||||
+uefa.europa|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.europa/standings?seasontype=1&type=0&level=3|UEFA Europa League|Active 2025||||||||
+uefa.euroq|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.euroq/standings?seasontype=1&type=0&level=3|UEFA European Championship Qualifying|Active 2025||||||||
+uefa.intertoto|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.intertoto/standings?seasontype=1&type=0&level=3|UEFA Intertoto Cup|?||||||||
+uefa.super_cup|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.super_cup/standings?seasontype=1&type=0&level=3|UEFA Super Cup|?||||||||
+uefa.uefa|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.uefa/standings?seasontype=1&type=0&level=3|UEFA Cup|?||||||||
+uefa.worldq|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.worldq/standings?seasontype=1&type=0&level=3|UEFA World Cup Qualifying|?||||||||
+uefa.wchampions|https://site.web.api.espn.com/apis/v2/sports/soccer/uefa.wchampions/standings?seasontype=2&type=0&level=3|UEFA Women's Champions League|||||||||
+uru.1|https://site.web.api.espn.com/apis/v2/sports/soccer/uru.1/standings?seasontype=1&type=0&level=3|Liga UAF Uruguaya|Active 2025||||||||
+uru.2|https://site.web.api.espn.com/apis/v2/sports/soccer/uru.2/standings?seasontype=1&type=0&level=3|Segunda División de Uruguay|?||||||||
+usa.misl|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.misl/standings?seasontype=1&type=0&level=3|"""Major Indoor Soccer League"|?|Dissolved|||||||
+usa.ncaa.m.1|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.ncaa.m.1/standings?seasontype=1&type=0&level=3|NCAA Men's Soccer|?||||||||
+usa.ncaa.w.1|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.ncaa.w.1/standings?seasontype=1&type=0&level=3|NCAA Women's Soccer|?||||||||
+usa.open|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.open/standings?seasontype=1&type=0&level=3|U.S. Open Cup|||||||||
+usa.usl.1|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.usl.1/standings?seasontype=1&type=0&level=3|USL Championship|Active 2025||||||||
+usa.usl.l1|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.usl.l1/standings?seasontype=2&type=0&level=3|USL League One|||||||||
+usa.w.1|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.w.1/standings?seasontype=1&type=0&level=3|USA Women's United Soccer Association|Active 2025||||||||
+usa.world_series|https://site.web.api.espn.com/apis/v2/sports/soccer/usa.world_series/standings?seasontype=1&type=0&level=3|World Series of Football|?||||||||
+ven.1|https://site.web.api.espn.com/apis/v2/sports/soccer/ven.1/standings?seasontype=1&type=0&level=3|Venezuelan Primera División|Active 2025||||||||
+ven.2|https://site.web.api.espn.com/apis/v2/sports/soccer/ven.2/standings?seasontype=1&type=0&level=3|Segunda División de Venezuela|?||||||||
+wal.1|https://site.web.api.espn.com/apis/v2/sports/soccer/wal.1/standings?seasontype=1&type=0&level=3|Welsh Premier League|Active 2025||||||||
