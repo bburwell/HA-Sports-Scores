@@ -1836,4 +1836,31 @@
   league_path: uefa.champions
 ##
 ##
+- platform: rest
+  scan_interval: 604800
+  name: Soccer Schedule Games Completed Sunderland
+  unique_id: sensor.soccer_schedule_sunderland
+  resource: https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/366/schedule?seasontype=1&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events
 
+- platform: rest
+  scan_interval: 604800
+  name: Soccer Schedule Future Sunderland
+  unique_id: sensor.soccer_schedule_future_sunderland
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/soccer/all/teams/366/schedule?fixture=true
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+
+#- platform: rest
+  #scan_interval: 86400
+  #name: Soccer Schedule Full Sunderland
+  #unique_id: sensor.soccer_schedule_full_sunderland
+  #resource_template: "https://site.api.espn.com/apis/personalized/v2/scoreboard/header?sport=soccer&league=eng.2&team=sun&seasontype=2&dates={{(now() - timedelta(days= 0)).strftime('%Y%m%d')|string}}-{{(now() + timedelta(days= 200)).strftime('%Y%m%d')|string}}"
+  #value_template: "{{ now() }}"
+  #json_attributes:
+    #- sports
+    #- events
+      
