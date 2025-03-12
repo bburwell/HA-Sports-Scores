@@ -122,6 +122,92 @@ decluttering_templates:
       sort:
         method: attribute
         attribute: date
+  team_schedules:
+    card:
+      type: custom:flex-table-card
+      title: name
+      css:
+        table+: 'padding: 0px; width: 1200px;'
+        tbody tr td:first-child: 'width: 5%;'
+        tbody tr td:nth-child(2): 'width: 5%;'
+        tbody tr td:nth-child(n+2): 'width: 5%;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+        tbody tr td:nth-child(4): 'background-color: grey; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+            }
+          $: |
+            .card-header {
+              padding-top: 6px!important;
+              padding-bottom: 4px!important;
+              font-size: 14px!important;
+              line-height: 14px!important;
+              font-weight: bold!important;
+            }
+      sort_by: Date+
+      entities:
+        include:
+          - '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Date
+          data: '[[events]]'
+          modify: x.date.split('T')[0]
+        - name: Teams
+          data: '[[events]]'
+          modify: x.shortName
+        - name: Away Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[1].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[1].team.displayName + '</div>'
+        - name: Final Score
+          data: '[[events]]'
+          modify: |-
+            if (typeof x !== 'undefined' &&
+                typeof x.competitions[0].competitors[0].score !== 'undefined' &&
+                typeof x.competitions[0].competitors[1].score !== 'undefined') {
+              let content = '';
+              let icon = '<ha-icon icon="mdi:minus" style="fill:white;"></ha-icon>';
+              let home_score = x.competitions[0].competitors[0].score.value;
+              let away_score = x.competitions[0].competitors[1].score.value;
+
+
+              if (home_score > away_score) {
+                content = `<div style="font-size:20px;color:red;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:green;">${home_score}</div>`;
+              } else if (home_score < away_score) {
+                content = `<div style="font-size:20px;color:green;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:red;">${home_score}</div>`;
+              } else {
+                content = `<div style="font-size:20px;color:black;">${away_score}-${home_score}</div>`;
+              }
+                            
+              content = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">` +
+                content +
+                `</div>`
+                
+              content;
+            } else {
+              '';
+            }
+        - name: Home Team
+          data: '[[events]]'
+          modify: >-
+            '<div><img src="' +
+            x.competitions[0].competitors[0].team.logos[0].href + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[0].team.displayName + '</div>'
+        - name: Attendance
+          data: '[[events]]'
+          modify: x.competitions[0].attendance
   european_soccer_game_stats:
     card:
       type: custom:auto-entities
@@ -344,6 +430,34 @@ views:
                                           - in-running: 6
                                           - near-out: 19
                                           - relegation: 21
+                                      - type: markdown
+                                        content: >
+                                          <h1>Team                                           
+                                          Schedules</h1>                                         
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Sunderland
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: team_schedules
+                                            variables:
+                                              - title: Teams
+                                              - entity: sensor.soccer_schedule_sunderland
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: team_schedules
+                                            variables:
+                                              - title: Teams
+                                              - entity: sensor.soccer_schedule_future_sunderland
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
                                   - type: vertical-stack
                                     cards:
                                       - type: markdown
@@ -387,7 +501,7 @@ views:
                                               sensor.soccer_team_names_championship_league
                                           - status: POST
                             - attributes:
-                                label: English League 1
+                                label: English League 3
                                 icon: mdi:account-group
                               card:
                                 type: horizontal-stack
@@ -703,113 +817,165 @@ views:
                                           - team_names: sensor.soccer_team_names_bundesliga_two
                                           - status: POST
                             - attributes:
-                                label: MLS
-                                icon: mdi:account-group
+                                label: US Soccer Leagues
+                                icon: mdi:football
                               card:
-                                type: horizontal-stack
-                                cards:
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: markdown
-                                        content: |
-                                          <h1>MLS Standings</h1>
-                                      - type: custom:decluttering-card
-                                        template: soccer_standings
-                                        variables:
-                                          - title: MLS Western Conference Standings
-                                          - entity: sensor.soccer_mls_western_conference
-                                          - attribute: entries
-                                      - type: custom:decluttering-card
-                                        template: soccer_standings
-                                        variables:
-                                          - title: MLS Eastern Conference Standings
-                                          - entity: sensor.soccer_mls_eastern_conference
-                                          - attribute: entries
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: markdown
-                                        content: |
-                                          <h1>Pre,Live,Post MLS Games</h1>
-                                      - type: markdown
-                                        content: |
-                                          <h1>MLS Games Live</h1>
-                                      - type: custom:decluttering-card
-                                        template: game_stats
-                                        variables:
-                                          - sport: MLS
-                                          - sport_path: soccer
-                                          - group: group.eng_3
-                                          - status: IN
-                                      - type: markdown
-                                        content: |
-                                          <h1>MLS Games Coming-up</h1>
-                                      - type: custom:decluttering-card
-                                        template: game_stats
-                                        variables:
-                                          - sport: MLS
-                                          - sport_path: soccer
-                                          - group: group.eng_3
-                                          - status: PRE
-                                      - type: markdown
-                                        content: |
-                                          <h1>MLS Games Completed</h1>
-                                      - type: custom:decluttering-card
-                                        template: game_stats
-                                        variables:
-                                          - sport: MLS
-                                          - sport_path: soccer
-                                          - group: group.eng_3
-                                          - status: POST
-                            - attributes:
-                                label: USA NWSL
-                                icon: mdi:account-group
-                              card:
-                                type: horizontal-stack
-                                cards:
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: markdown
-                                        content: |
-                                          <h1>USA NWSL Standings</h1>
-                                      - type: custom:decluttering-card
-                                        template: soccer_standings
-                                        variables:
-                                          - title: MLS Western Conference Standings
-                                          - entity: sensor.soccer_usanwsl
-                                          - attribute: entries
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: markdown
-                                        content: |
-                                          <h1>Pre,Live,Post USA NWSL  Games</h1>
-                                      - type: markdown
-                                        content: |
-                                          <h1>USA NWSL  Games Live</h1>
-                                      - type: custom:decluttering-card
-                                        template: game_stats
-                                        variables:
-                                          - sport: NWSL
-                                          - sport_path: soccer
-                                          - group: group.eng_3
-                                          - status: IN
-                                      - type: markdown
-                                        content: |
-                                          <h1>USA NWSL  Games Coming-up</h1>
-                                      - type: custom:decluttering-card
-                                        template: game_stats
-                                        variables:
-                                          - sport: NWSL
-                                          - sport_path: soccer
-                                          - group: group.eng_3
-                                          - status: PRE
-                                      - type: markdown
-                                        content: |
-                                          <h1>USA NWSL  Games Completed</h1>
-                                      - type: custom:decluttering-card
-                                        template: game_stats
-                                        variables:
-                                          - sport: NWSL
-                                          - sport_path: soccer
-                                          - group: group.eng_3
-                                          - status: POST
+                                type: custom:mod-card
+                                card_mod:
+                                  style:
+                                    tabbed-card $: |
+                                      mwc-tab {
+                                        background: black;
+                                        border-color: silver;
+                                        border-width: 2px;
+                                        border-top-left-radius: 20px;
+                                        border-top-right-radius: 20px;
+                                        border-style: solid;
+                                        overflow: hidden;
+                                        width: 5%;
+                                      }
+                                      mwc-tab[active] {
+                                        background: white !important;
+                                        color: black !important;
+                                      }
+                                card:
+                                  type: custom:tabbed-card
+                                  styles:
+                                    '--mdc-theme-primary': black
+                                    '--mdc-tab-text-label-color-default': silver
+                                    '--mdc-typography-button-font-size': 12px
+                                  tabs:
+                                    - attributes:
+                                        label: MLS
+                                        icon: mdi:account-group
+                                      card:
+                                        type: horizontal-stack
+                                        cards:
+                                          - type: vertical-stack
+                                            cards:
+                                              - type: markdown
+                                                content: |
+                                                  <h1>MLS Standings</h1>
+                                              - type: custom:decluttering-card
+                                                template: soccer_standings
+                                                variables:
+                                                  - title: MLS Western Conference Standings
+                                                  - entity: sensor.soccer_mls_western_conference
+                                                  - attribute: entries
+                                              - type: custom:decluttering-card
+                                                template: soccer_standings
+                                                variables:
+                                                  - title: MLS Eastern Conference Standings
+                                                  - entity: sensor.soccer_mls_eastern_conference
+                                                  - attribute: entries
+                                          - type: vertical-stack
+                                            cards:
+                                              - type: markdown
+                                                content: |
+                                                  <h1>Pre,Live,Post MLS Games</h1>
+                                              - type: markdown
+                                                content: |
+                                                  <h1>MLS Games Live</h1>
+                                              - type: custom:decluttering-card
+                                                template: game_stats
+                                                variables:
+                                                  - sport: MLS
+                                                  - sport_path: soccer
+                                                  - group: group.eng_3
+                                                  - status: IN
+                                              - type: markdown
+                                                content: |
+                                                  <h1>MLS Games Coming-up</h1>
+                                              - type: custom:decluttering-card
+                                                template: game_stats
+                                                variables:
+                                                  - sport: MLS
+                                                  - sport_path: soccer
+                                                  - group: group.eng_3
+                                                  - status: PRE
+                                              - type: markdown
+                                                content: |
+                                                  <h1>MLS Games Completed</h1>
+                                              - type: custom:decluttering-card
+                                                template: game_stats
+                                                variables:
+                                                  - sport: MLS
+                                                  - sport_path: soccer
+                                                  - group: group.eng_3
+                                                  - status: POST
+                                    - attributes:
+                                        label: USA NWSL
+                                        icon: mdi:account-group
+                                      card:
+                                        type: horizontal-stack
+                                        cards:
+                                          - type: vertical-stack
+                                            cards:
+                                              - type: markdown
+                                                content: |
+                                                  <h1>USA NWSL Standings</h1>
+                                              - type: custom:decluttering-card
+                                                template: soccer_standings
+                                                variables:
+                                                  - title: MLS Western Conference Standings
+                                                  - entity: sensor.soccer_usanwsl
+                                                  - attribute: entries
+                                          - type: vertical-stack
+                                            cards:
+                                              - type: markdown
+                                                content: |
+                                                  <h1>Pre,Live,Post USA NWSL  Games</h1>
+                                              - type: markdown
+                                                content: |
+                                                  <h1>USA NWSL  Games Live</h1>
+                                              - type: custom:decluttering-card
+                                                template: game_stats
+                                                variables:
+                                                  - sport: NWSL
+                                                  - sport_path: soccer
+                                                  - group: group.eng_3
+                                                  - status: IN
+                                              - type: markdown
+                                                content: |
+                                                  <h1>USA NWSL  Games Coming-up</h1>
+                                              - type: custom:decluttering-card
+                                                template: game_stats
+                                                variables:
+                                                  - sport: NWSL
+                                                  - sport_path: soccer
+                                                  - group: group.eng_3
+                                                  - status: PRE
+                                              - type: markdown
+                                                content: |
+                                                  <h1>USA NWSL  Games Completed</h1>
+                                              - type: custom:decluttering-card
+                                                template: game_stats
+                                                variables:
+                                                  - sport: NWSL
+                                                  - sport_path: soccer
+                                                  - group: group.eng_3
+                                                  - status: POST
+                                    - attributes:
+                                        label: USA USL
+                                        icon: mdi:account-group
+                                      card:
+                                        type: horizontal-stack
+                                        cards:
+                                          - type: vertical-stack
+                                            cards:
+                                              - type: markdown
+                                                content: |
+                                                  <h1>USA USL Standings</h1>
+                                              - type: custom:decluttering-card
+                                                template: soccer_standings
+                                                variables:
+                                                  - title: USL East Conference Standings
+                                                  - entity: sensor.soccer_usl_eastern_conference
+                                                  - attribute: entries
+                                              - type: custom:decluttering-card
+                                                template: soccer_standings
+                                                variables:
+                                                  - title: USL West Conference Standings
+                                                  - entity: sensor.soccer_usl_western_conference
+                                                  - attribute: entries
 title: Soccer Sports Standings and Scores
