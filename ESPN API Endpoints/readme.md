@@ -2,12 +2,12 @@
 
 | Desc             | Link                                                                                 | URL Path | League | Active | Notes | League Number | Misc |
 |:-----------------|:-------------------------------------------------------------------------------------|:---------|:-------|:-------|:------|:--------------|:-----|
-| Landing Zone     | [Link](https://site.web.api.espn.com/apis/v2/sports/XXX/XXX/standings?seasontype=2&type=0&level=3) |          |        |        |      |              |      |
-|                  | [Link](https://site.api.espn.com/apis/site/v2/sports/xxx/xxx/scoreboard)              |          |        |        |      |              |      |
-| Track & Field    | [Link](https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=rugby)          |          |        |        |      |              |      |
-| Swimming         | [Link](https://site.api.espn.com/apis/site/v2/sports/rugby/all/scoreboard)           |          |        |        |      |              |      |
-| Snooker          | [Link](https://site.api.espn.com/apis/v2/scoreboard/header)                         |          |        |        |      |              |      |
-| Shooting         | [Link](https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/660/schedule) |          |        |        |      |              |      |
+| Landing Zone     | https://site.web.api.espn.com/apis/v2/sports/XXX/XXX/standings?seasontype=2&type=0&level=3 |          |        |        |      |              |      |
+|                  | https://site.api.espn.com/apis/site/v2/sports/xxx/xxx/scoreboard              |          |        |        |      |              |      |
+| Track & Field    | https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=rugby          |          |        |        |      |              |      |
+| Swimming         | https://site.api.espn.com/apis/site/v2/sports/rugby/all/scoreboard           |          |        |        |      |              |      |
+| Snooker          | https://site.api.espn.com/apis/v2/scoreboard/header                         |          |        |        |      |              |      |
+| Shooting         | https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/660/schedule |          |        |        |      |              |      |
 | Poker            |                                                                                     |          |        |        |      |              |      |
 | Kabaddi          |                                                                                     |          |        |        |      |              |      |
 | Gymnastics       |                                                                                     |          |        |        |      |              |      |
