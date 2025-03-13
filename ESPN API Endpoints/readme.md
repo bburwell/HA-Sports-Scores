@@ -17,8 +17,8 @@
 
 
 
-| Sport Path       | League    | URL Path |
-|:-----------------|:----------|:---------|
+| Sport Path       | URL Patheague                               | League                |
+|:-----------------|:--------------------------------------------|:----------------------|
 | Baseball                                  |                                                                                                                                                                                              
 | Path  /baseball/{leagues}/                | URL Path                                                                                                                                                                                                       | League                                                                |
 | MLB                                       | https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3                                                                                                                | MLB                                                                   |
