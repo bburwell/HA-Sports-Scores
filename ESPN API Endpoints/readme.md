@@ -6,7 +6,7 @@
 - Seasontype also changes for sports, but there is some commonality.  For example:
   
 | Sports           | Seasontype 1| Seasontype 2| Seasontype 3|Seasontype 4|Seasontype 5|Seasontype 6|
-|:-----------------|:------------|:------------|:------------|:-----------|:-----------|:-----------|
+|:-----------------|:------------|:------------|:------------|:-----------|:------------|:-----------|
 |Soccer            | Regular Season  | Promtion Semi-Finals  | Promotion Final  | X | X | X |
 |NFL/College Basketball| Pre-Season  | Regular Season  | Post-Season  | Off-Season | X | X |
 |College Baseball  | Pre-Season  | Regular Season  | Regionals  | Super-Regionals | World Series | Championship Series |
