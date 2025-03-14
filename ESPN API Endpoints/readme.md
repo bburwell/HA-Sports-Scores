@@ -8,7 +8,6 @@
 <table>
 <tr>
 <th>Heading 1</th>
-<th>Heading 2</th>
 </tr>
 <tr>
 
@@ -20,8 +19,6 @@
 |College Baseball  | Pre-Season  | Regular Season  | Regionals  | Super-Regionals | World Series | Championship Series |
 |MLB Baseball      | Pre-Season  | Regular Season  | Post-Season  | Off-Season | X | X |
 
-</td>
-<td>
 
 
 
