@@ -1,0 +1,46 @@
+##
+## NCAAW Womens Standings
+###
+- platform: rest
+  scan_interval: 86400
+  name: NCAAW Scoreboard
+  unique_id: sensor.ncaaw_scoreboard
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/scoreboard?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events
+##
+## College Basketball Standings
+##
+- platform: rest
+  scan_interval: 86400
+  name: NCAAW Basketball Womens Standings
+  unique_id: sensor.ncaaw_standings
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/womens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+    - children   
+
+##
+## NCAA Basketball Womens Rankings
+###
+- platform: rest
+  scan_interval: 86400
+  name: NCAAW rank 
+  unique_id: sensor.ncaaw_rank
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - rankings
+
+##
+## NCAA Basketball Womens March Madness
+###
+- platform: rest
+  scan_interval: 86400
+  name: NCAAW Womens March Madness
+  unique_id: sensor.ncaaw_march_madness
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/scoreboard?dates=20250320-20250430&groups=100&limit=500
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events   
