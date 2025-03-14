@@ -286,6 +286,53 @@ decluttering_templates:
         - name: Attendance
           data: '[[events]]'
           modify: x.competitions[0].attendance
+  ncaa_march_madness:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1000px;'
+        tbody tr td:first-child: 'width: 5%;'
+        tbody tr td:nth-child(2): 'width: 10%;'
+        tbody tr td:nth-child(3): 'width: 10%;'
+        tbody tr td:nth-child(4): 'width: 5%;'
+        tbody tr td:nth-child(n+5): 'width: .5%;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: events+
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Game Time
+          data: '[[events]]'
+          modify: x.date.split('T')[0]
+        - name: Teams
+          data: '[[events]]'
+          modify: x.shortName
+        - name: Headline
+          data: '[[events]]'
+          modify: x.competitions[0].notes[0].headline
+        - name: Home Team
+          data: '[[events]]'
+          modify: x.competitions[0].competitors[0].id
+        - name: Away Team
+          data: '[[events]]'
+          modify: x.competitions[0].competitors[1].id
   ncaa_standings:
     card:
       type: custom:flex-table-card
@@ -2762,4 +2809,65 @@ views:
                                         variables:
                                           - team_names: sensor.ncaam_team_names_t25
                                           - sport: NCAAM
+                            - attributes:
+                                label: March Madness
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >-
+                                          <h3> March Madness begins {{
+                                          (state_attr('sensor.ncaam_march_madness',
+                                          'events')[0].date.split('T')[0] |   
+                                          as_datetime).strftime('%B %d, %Y') }}
+                                          </h3>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: March Madness
+                                          - entity: sensor.ncaam_march_madness
+                                          - events: events
+                                          - team: team
+                                          - abbreviation: abbreviation
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAM
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: IN
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAM
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: PRE
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAM
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: POST
+                                          - conference: '4'
 title: NCAA Sports Standings and Scores
