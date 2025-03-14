@@ -32,7 +32,18 @@
   value_template: "{{ now() }}"
   json_attributes:
       - rankings
-        
+
+##
+## NCAA Basketball Mens March Madness
+###
+- platform: rest
+  scan_interval: 86400
+  name: NCAAM March Madness
+  unique_id: sensor.ncaam_march_madness
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=20250320-20250430&groups=100&limit=500
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events        
 
 ################################################ AP Poll #####################################
 ##NCAA Men's Basketball AP Poll
