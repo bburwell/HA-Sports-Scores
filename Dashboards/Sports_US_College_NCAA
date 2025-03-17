@@ -320,19 +320,74 @@ decluttering_templates:
       columns:
         - name: Game Time
           data: '[[events]]'
-          modify: x.date.split('T')[0]
-        - name: Teams
-          data: '[[events]]'
-          modify: x.shortName
+          modify: |-
+            (() => {
+               if (x?.date) {
+                 const utcDate = new Date(x.date);
+                 const formattedDateTime = utcDate.toLocaleString('en-US', {
+                    month: '2-digit', 
+                    day: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true 
+                 });
+                 return formattedDateTime;
+               } else {
+                 return 'Date/Time not available'; 
+               }
+            })()
         - name: Headline
           data: '[[events]]'
           modify: x.competitions[0].notes[0].headline
         - name: Home Team
           data: '[[events]]'
-          modify: x.competitions[0].competitors[0].id
+          modify: >-
+            '<div><img src="' + x.competitions[0].competitors[0].team.logo + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[0].team.displayName + "(" +
+            x.competitions[0].competitors[0].curatedRank.current + ")"  +
+            '</div>'
         - name: Away Team
           data: '[[events]]'
-          modify: x.competitions[0].competitors[1].id
+          modify: >-
+            '<div><img src="' + x.competitions[0].competitors[1].team.logo + '"
+            style="height: 20px;vertical-align:middle;">&nbsp;' +
+            x.competitions[0].competitors[1].team.displayName + "(" +
+            x.competitions[0].competitors[1].curatedRank.current + ")"  +
+            '</div>'       
+        - name: Final Score (Away-Home)
+          data: '[[events]]'
+          modify: |-
+            if (typeof x !== 'undefined' &&
+                typeof x.competitions[0].competitors[0].score !== 'undefined' &&
+                typeof x.competitions[0].competitors[1].score !== 'undefined') {
+              let content = '';
+              let icon = '<ha-icon icon="mdi:minus" style="fill:white;"></ha-icon>';
+              let home_score = x.competitions[0].competitors[0].score;
+              let away_score = x.competitions[0].competitors[1].score;
+
+
+              if (home_score > away_score) {
+                content = `<div style="font-size:20px;color:red;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:green;">${home_score}</div>`;
+              } else if (home_score < away_score) {
+                content = `<div style="font-size:20px;color:green;">${away_score}</div>` +
+                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
+                          `<div style="font-size:20px;color:red;">${home_score}</div>`;
+              } else {
+                content = `<div style="font-size:20px;color:black;">${away_score}-${home_score}</div>`;
+              }
+                            
+              content = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">` +
+                content +
+                `</div>`
+                
+              content;
+            } else {
+              '';
+            }
   ncaa_standings:
     card:
       type: custom:flex-table-card
@@ -2119,7 +2174,7 @@ views:
                                       - type: markdown
                                         content: >
                                           <h4 style="text-align:center;"> {{
-                                          state_attr('sensor.ncaam_rank',
+                                          state_attr('sensor.ncaaw_rank',
                                           'rankings')[0]['headline'] }} - 
                                           {{as_timestamp(state_attr('sensor.ncaam_rank','rankings')[0]['date'])
                                           | timestamp_custom('%m/%d/%Y') }}</h4>
@@ -2865,6 +2920,803 @@ views:
                                         template: game_stats
                                         variables:
                                           - sport: NCAAM
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: POST
+                                          - conference: '4'
+                    - attributes:
+                        label: NCAA Womens Basketball
+                        icon: mdi:basketball
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: >-
+                                  NCAA Womens Basketball Top 25 Standings
+                                  (AP-Coaches-FCS Polls)
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaw_rank',
+                                          'rankings')[0]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaw_rank','rankings')[0]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Womens Basketball Top 25 AFCA AP
+                                              Poll
+                                          - entity: sensor.ncaaw_poll_ap_top_25_all
+                                          - attribute: ranks
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Womens Basketball Dropped Out Top
+                                              25 AP Poll
+                                          - entity: sensor.ncaaw_poll_ap_top_25_all
+                                          - attribute: droppedOut
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Womens Basketball Others Getting
+                                              Votes 25 AP Poll
+                                          - entity: sensor.ncaaw_poll_ap_top_25_all
+                                          - attribute: others
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h4 style="text-align:center;"> {{
+                                          state_attr('sensor.ncaaw_rank',
+                                          'rankings')[1]['headline'] }} - 
+                                          {{as_timestamp(state_attr('sensor.ncaaw_rank','rankings')[1]['date'])
+                                          | timestamp_custom('%m/%d/%Y') }}</h4>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Womens Basketball Top 25 AFCA
+                                              Coaches Poll
+                                          - entity: sensor.ncaaw_poll_Coaches_top_25_all
+                                          - attribute: ranks
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Womens Basketball Dropped Out Top
+                                              25 AFCA Coaches Poll
+                                          - entity: sensor.ncaaw_poll_Coaches_top_25_all
+                                          - attribute: droppedOut
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top25_settings
+                                        variables:
+                                          - title: >-
+                                              NCAA Womens Basketball Others Getting
+                                              Votes 25 AFCA Coaches Poll
+                                          - entity: sensor.ncaaw_poll_Coaches_top_25_all
+                                          - attribute: others
+                            - attributes:
+                                label: Big 12
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA Big 12 Conference
+                                          - entity: sensor.ncaaw_big_12_games
+                                          - attribute: events
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.big_12_conference_teams_group
+                                          - team_names: sensor.ncaaw_team_names_big_12
+                                          - sensor_type: sensor.ncaaw
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Big 12 Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: Big 12 Conference
+                                              - entity: sensor.ncaaw_conference_big_12
+                                              - attribute: entries
+                                              - sensor_type: sensor.ncaaw
+                                      - type: markdown
+                                        content: >
+                                          <h1>Team
+                                          Schedules</h1>                                         
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Arizona State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_arizona_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_arizona_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Arizona
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_arizona
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_arizona
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Baylor University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_baylor_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_baylor_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Brigham Young University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_brigham_young_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_brigham_young_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Central Floriida
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_central_florida
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_central_florida
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Cincinnati
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_cincinnati
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_cincinnati
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Colorado Boulder
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_colorado
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_colorado
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Houston
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_houston
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_houston
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Iowa State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_iowa_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_iowa_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Kansas
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_univeristy_of_kansas
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_univeristy_of_kansas
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Kansas State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_kansas_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_kansas_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Oklahoma State University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_oklahoma_state_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_oklahoma_state_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Texas Christian University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_texas_christian_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_texas_christian_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Texas Tech University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_texas_tech_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_texas_tech_university
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: University of Utah
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_utah
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_university_of_utah
+                                              - events: events
+                                              - team: team
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: West Virginia University
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules_2
+                                            variables:
+                                              - title: Teams
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_west_virginia_university
+                                              - events: events
+                                              - team: team
+                                              - abbreviation: abbreviation
+                                          - type: custom:decluttering-card
+                                            template: ncaa_team_schedules
+                                            variables:
+                                              - title: NCAA Big 12 Schedules
+                                              - entity: >-
+                                                  sensor.ncaaw_schedule_big_12_west_virginia_university
+                                              - events: events
+                                              - team: team
+                            - attributes:
+                                label: SEC
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA SEC Conference
+                                          - entity: sensor.ncaaw_sec_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>SEC conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.sec_conference_teams_group
+                                          - team_names: sensor.ncaaw_team_names_sec
+                                          - sensor_type: sensor.ncaaw
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: SEC Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: SEC Conference
+                                              - entity: sensor.ncaaw_conference_southeastern
+                                              - attribute: entries
+                            - attributes:
+                                label: ACC
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA ACC Conference
+                                          - entity: sensor.ncaaw_acc_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>ACC conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.acc_conference_teams_group
+                                          - team_names: sensor.ncaaw_team_names_acc
+                                          - sensor_type: sensor.ncaaw
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Acc Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: SEC Conference
+                                              - entity: sensor.ncaaw_conference_atlantic_coast
+                                              - attribute: entries
+                            - attributes:
+                                label: Big 10
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h1>Conference Game this weekend
+                                          overview</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_conference_settings
+                                        variables:
+                                          - title: NCAA Big 10 Conference
+                                          - entity: sensor.ncaaw_big_10_games
+                                          - attribute: events
+                                      - type: markdown
+                                        content: |
+                                          <h1>Big 10 conference Games</h1>
+                                      - type: custom:decluttering-card
+                                        template: ncaaf_conference_game_stats
+                                        variables:
+                                          - group: group.big_10_conference_teams_group
+                                          - team_names: sensor.ncaaf_team_names_big_10
+                                          - sensor_type: sensor.ncaaw
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Big 10 Conference Standings
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaa_standings
+                                            variables:
+                                              - title: Big 10 Conference
+                                              - entity: sensor.ncaaw_conference_big_ten
+                                              - attribute: entries
+                            - attributes:
+                                label: Pre,Live,Post ncaaw Conference Games
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAW
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: IN
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAW
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: PRE
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAW
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: POST
+                                          - conference: '4'
+                            - attributes:
+                                label: Top 25 Games
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >
+                                          <h3>Ranked vs Ranked (red)              
+                                          Home
+                                          Game(Blue)                             
+                                          Away Game (Green) </h3>  
+                                      - type: custom:decluttering-card
+                                        template: ncaa_top_25_game_stats
+                                        variables:
+                                          - team_names: sensor.ncaaw_team_names_t25
+                                          - sport: ncaaw
+                            - attributes:
+                                label: March Madness
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: >-
+                                          <h3> March Madness begins {{
+                                          (state_attr('sensor.ncaaw_march_madness',
+                                          'events')[0].date.split('T')[0] |   
+                                          as_datetime).strftime('%B %d, %Y') }}
+                                          </h3>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: March Madness
+                                          - entity: sensor.ncaaw_march_madness
+                                          - events: events
+                                          - team: team
+                                          - abbreviation: abbreviation
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Live</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAW
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: IN
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Coming-up</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAW
+                                          - sport_path: basketball
+                                          - league_path: college-basketball
+                                          - conferenceid: 4
+                                          - status: PRE
+                                          - conference: '4'
+                                      - type: markdown
+                                        content: |
+                                          <h1>NCAA Games Completed</h1>
+                                      - type: custom:decluttering-card
+                                        template: game_stats
+                                        variables:
+                                          - sport: NCAAW
                                           - sport_path: basketball
                                           - league_path: college-basketball
                                           - conferenceid: 4
