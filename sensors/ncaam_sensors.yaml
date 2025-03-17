@@ -43,7 +43,8 @@
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=20250320-20250430&groups=100&limit=500
   value_template: "{{ now() }}"
   json_attributes:
-      - events        
+      - events   
+      - odds     
 
 ################################################ AP Poll #####################################
 ##NCAA Men's Basketball AP Poll
