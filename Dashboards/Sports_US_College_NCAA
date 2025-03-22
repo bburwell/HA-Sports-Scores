@@ -340,54 +340,19 @@ decluttering_templates:
         - name: Headline
           data: '[[events]]'
           modify: x.competitions[0].notes[0].headline
-        - name: Home Team
-          data: '[[events]]'
-          modify: >-
-            '<div><img src="' + x.competitions[0].competitors[0].team.logo + '"
-            style="height: 20px;vertical-align:middle;">&nbsp;' +
-            x.competitions[0].competitors[0].team.displayName + "(" +
-            x.competitions[0].competitors[0].curatedRank.current + ")"  +
-            '</div>'
-        - name: Away Team
-          data: '[[events]]'
-          modify: >-
-            '<div><img src="' + x.competitions[0].competitors[1].team.logo + '"
-            style="height: 20px;vertical-align:middle;">&nbsp;' +
-            x.competitions[0].competitors[1].team.displayName + "(" +
-            x.competitions[0].competitors[1].curatedRank.current + ")"  +
-            '</div>'       
-        - name: Final Score (Away-Home)
+        - name: Teams & Scores
           data: '[[events]]'
           modify: |-
-            if (typeof x !== 'undefined' &&
-                typeof x.competitions[0].competitors[0].score !== 'undefined' &&
-                typeof x.competitions[0].competitors[1].score !== 'undefined') {
-              let content = '';
-              let icon = '<ha-icon icon="mdi:minus" style="fill:white;"></ha-icon>';
-              let home_score = x.competitions[0].competitors[0].score;
-              let away_score = x.competitions[0].competitors[1].score;
-
-
-              if (home_score > away_score) {
-                content = `<div style="font-size:20px;color:red;">${away_score}</div>` +
-                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
-                          `<div style="font-size:20px;color:green;">${home_score}</div>`;
-              } else if (home_score < away_score) {
-                content = `<div style="font-size:20px;color:green;">${away_score}</div>` +
-                          `<div style="font-size:20px;color:black;margin:0 5px;">-</div>` +
-                          `<div style="font-size:20px;color:red;">${home_score}</div>`;
-              } else {
-                content = `<div style="font-size:20px;color:black;">${away_score}-${home_score}</div>`;
-              }
-                            
-              content = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">` +
-                content +
-                `</div>`
-                
-              content;
-            } else {
-              '';
-            }
+            (() => {
+               const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 20px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[1].team.displayName} (${x.competitions[0].competitors[1].curatedRank.current})</div>`;
+               const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 20px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[0].team.displayName} (${x.competitions[0].competitors[0].curatedRank.current})</div>`;
+               const awayScore = `<div style="font-size:20px;color:${x.competitions[0].competitors[1].score > x.competitions[0].competitors[0].score ? 'green' : 'red'};">${x.competitions[0].competitors[1].score}</div>`;
+               const homeScore = `<div style="font-size:20px;color:${x.competitions[0].competitors[0].score > x.competitions[0].competitors[1].score ? 'green' : 'red'};">${x.competitions[0].competitors[0].score}</div>`;
+               return `<div style="display:flex;flex-direction:column;">
+                         <div style="display:flex;justify-content:space-between;">${awayTeam}${awayScore}</div>
+                         <div style="display:flex;justify-content:space-between;">${homeTeam}${homeScore}</div>
+                       </div>`;
+            })()
   ncaa_standings:
     card:
       type: custom:flex-table-card
