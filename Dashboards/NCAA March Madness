@@ -44,7 +44,13 @@ decluttering_templates:
                 hour: "numeric",
                 minute: "2-digit",
                 hour12: true,});
+
+              const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+              const gameDateRaw = new Date(x.date).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+              const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
               
+              
+
 
               let statusRight;
               if (x.status.type.shortDetail === "Final") {
@@ -64,7 +70,7 @@ decluttering_templates:
               }
 
 
-              const dateTimeLine = `<div style="font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><div style="display: flex; flex-direction: column;"><span>${gameDate}</span><span style="font-size: 13px; color: gray;">${gameTime}</span></div><div>${statusRight}</div></div>`;
+              const dateTimeLine = `<div style="font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><div style="display: flex; flex-direction: column; ${dateStyle}"><span>${gameDate}</span><span style="font-size: 13px; color: gray;">${gameTime}</span></div><div>${statusRight}</div></div>`;
               
               const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[1].team.displayName} (${x.competitions[0].competitors[1].curatedRank.current})</div>`;
               const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[0].team.displayName} (${x.competitions[0].competitors[0].curatedRank.current})</div>`;
