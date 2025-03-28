@@ -1,240 +1,89 @@
 decluttering_templates:
-  ncaa_march_madness:
+  game_stats:
     card:
-      type: custom:flex-table-card
-      title: '[[title]]'
-      css:
-        table+: 'padding: 0px; width: 100%;'
-        tbody tr td:first-child: 'width: 100%; text-align: left; padding: 5px;'
-        tbody tr:hover: 'background-color: black!important; color:white!important;'
-      card_mod:
-        style:
-          .: |
-            ha-card {
-              overflow: auto;
-              border: 2px solid [[color]]; 
-              border-radius: 8px;
-            }
-          $: |
-            .card-header {
-              background-color: [[color]]; 
-              color: white; 
-              padding: 8px!important;              
-              font-size: 14px!important;              
-              font-weight: bold!important;
-            }
-      sort_by: ID
-      entities:
-        include: '[[entity]]'
-      columns:
-        - name: ID
-          data: '[[events]]'
-          modify: x.competitions[0].id
-          hidden: true
-        - name: Game Details
-          data: '[[events]]'
-          modify: |-
-            (() => {
-              if (!x || !x.competitions || !x.competitions[0]) {
-                return "No data available";
-              }
-              
-              const gameDate = `${new Date(x.date).toLocaleDateString("en-US", { weekday: "short" })} - ${new Date(x.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-              const gameTime = new Date(x.date).toLocaleTimeString("en-US", {
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,});
-
-              const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
-              const gameDateRaw = new Date(x.date).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
-              const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
-              
-              
-
-
-              let statusRight;
-              if (x.status.type.shortDetail === "Final") {
-                statusRight = `
-                  <div style="background-color: white; color: black; padding: 2px 5px; border-radius: 4px; display: inline-block;">
-                    ${x.status.type.shortDetail}
-                  </div>
-                `;
-              } else if (x.status.displayClock !== "0:00" && x.status.type.shortDetail !== "Scheduled") {
-                statusRight = `
-                  <div style="background-color: red; color: white; padding: 2px 5px; border-radius: 4px; display: inline-block;">
-                    H${x.status.period} - ${x.status.displayClock}
-                  </div>
-                `;
-              } else {
-                statusRight = `<span>H${x.status.period} - ${x.status.displayClock}</span>`;
-              }
-
-
-              const dateTimeLine = `<div style="font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><div style="display: flex; flex-direction: column; ${dateStyle}"><span>${gameDate}</span><span style="font-size: 13px; color: gray;">${gameTime}</span></div><div>${statusRight}</div></div>`;
-              
-              const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[1].team.displayName} (${x.competitions[0].competitors[1].curatedRank.current})</div>`;
-              const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[0].team.displayName} (${x.competitions[0].competitors[0].curatedRank.current})</div>`;
-              const awayScore = `<div style="font-size:20px;color:${x.competitions[0].competitors[1].score > x.competitions[0].competitors[0].score ? 'green' : 'red'};">${x.competitions[0].competitors[1].score}</div>`;
-              const homeScore = `<div style="font-size:20px;color:${x.competitions[0].competitors[0].score > x.competitions[0].competitors[1].score ? 'green' : 'red'};">${x.competitions[0].competitors[0].score}</div>`;
-              
-
-              return `<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
-                ${dateTimeLine}
-                <div style="display:flex;justify-content:space-between;">${awayTeam}${awayScore}</div>
-                <div style="display:flex;justify-content:space-between;">${homeTeam}${homeScore}</div>               
-              </div>`;
-            })()
+      type: custom:auto-entities
+      unique: true
+      show_empty: false
+      card:
+        type: custom:layout-card
+        layout_type: masonry
+        width: 200px
+        max-columns: 5
+      card_param: cards
+      filter:
+        template: |
+          {%- for team in integration_entities("teamtracker") -%}
+            {%- if state_attr(team, "league") == "[[sport]]" -%}
+              {%- if states(team) == "[[status]]" -%}
+                {%- if state_attr(team, "team_homeaway") == "home" -%}
+                  {%- if states('sensor.nfl_red_zone') is defined and team in state_attr('sensor.nfl_red_zone','teams') -%}
+                    {{{"type": "custom:teamtracker-card",
+                      "entity": team,
+                      "card_mod": {"style": "ha-card {\n\n    color:  black; \n    background-color:  #ffcccc; \n    box-shadow: 0 0 10px 5px red;\n}\n"},
+                      "home_side": "right"}}},
+                  {%- else -%}
+                    {{{"type": "custom:teamtracker-card",
+                      "entity": team, 
+                      "home_side": "right"}}},
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        exclude:
+          - entity_id: '*team_tracker*'
+      sort:
+        method: attribute
+        attribute: date
 views:
-  - title: NCAA March Madness
+  - title: Home
     cards:
       - type: custom:layout-card
         layout_type: custom:grid-layout
         layout:
-          grid-template-columns: repeat(8, 1fr)
+          grid-template-columns: repeat(4, 1fr)
           grid-gap: 10px
         cards:
           - type: vertical-stack
             cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: South Region (1st Round)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_1st_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (1st Round)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_1st_round_events
+              - type: custom:teamtracker-card
+                entity: sensor.chicago_blackhawks
+                outline: true
+                outline_color: deeppink
+              - type: custom:teamtracker-card
+                entity: sensor.kansas_city_chiefs
+                outline: true
+                outline_color: deeppink
           - type: vertical-stack
             cards:
+              - type: markdown
+                content: |
+                  <h1>NHL Games Live</h1>
               - type: custom:decluttering-card
-                template: ncaa_march_madness
+                template: game_stats
                 variables:
-                  - title: South Region (2nd Round)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_2nd_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (2nd Round)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_2nd_round_events
+                  - sport: NHL
+                  - status: IN
           - type: vertical-stack
             cards:
+              - type: markdown
+                content: |
+                  <h1>NHL Games Coming-up</h1>
               - type: custom:decluttering-card
-                template: ncaa_march_madness
+                template: game_stats
                 variables:
-                  - title: South Region (Sweet 16)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_sweet_16_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (Sweet 16)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_sweet_16_events
+                  - sport: NHL
+                  - status: PRE
           - type: vertical-stack
             cards:
+              - type: markdown
+                content: |
+                  <h1>NHL Games Completed</h1>
               - type: custom:decluttering-card
-                template: ncaa_march_madness
+                template: game_stats
                 variables:
-                  - title: South Region (Elite 8)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_elite_8_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (Elite 8)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_elite_8_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Final Four
-                  - color: '#00BFFF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: march_madness_final_4_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Championship
-                  - color: '#4169E1'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: march_madness_championship_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (Elite 8)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_elite_8_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (Elite 8)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_elite_8_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (Sweet 16)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_sweet_16_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (Sweet 16)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_sweet_16_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (2nd Round)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_2nd_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (2nd Round)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_2nd_round_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (1st Round)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_1st_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (1st Round)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_1st_round_events
+                  - sport: NHL
+                  - status: POST
         column_span: 4
     header:
       layout: center
