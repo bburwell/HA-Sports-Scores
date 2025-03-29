@@ -39,14 +39,14 @@ decluttering_templates:
                 return "No data available";
               }
               
-              const gameDate = `${new Date(x.date).toLocaleDateString("en-US", { weekday: "short" })} - ${new Date(x.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-              const gameTime = new Date(x.date).toLocaleTimeString("en-US", {
+              const gameDate = `${new Date(x.date).toLocaleDateString("en-US", { weekday: "short" })} - ${new Date(x.competitions[0].date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+              const gameTime = new Date(x.competitions[0].date).toLocaleTimeString("en-US", {
                 hour: "numeric",
                 minute: "2-digit",
                 hour12: true,});
 
               const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
-              const gameDateRaw = new Date(x.date).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+              const gameDateRaw = new Date(x.competitions[0].date).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
               const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
               
               
@@ -74,9 +74,9 @@ decluttering_templates:
               
               const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[1].team.displayName} (${x.competitions[0].competitors[1].curatedRank.current})</div>`;
               const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[0].team.displayName} (${x.competitions[0].competitors[0].curatedRank.current})</div>`;
-              const awayScore = `<div style="font-size:20px;color:${x.competitions[0].competitors[1].score > x.competitions[0].competitors[0].score ? 'green' : 'red'};">${x.competitions[0].competitors[1].score}</div>`;
-              const homeScore = `<div style="font-size:20px;color:${x.competitions[0].competitors[0].score > x.competitions[0].competitors[1].score ? 'green' : 'red'};">${x.competitions[0].competitors[0].score}</div>`;
-              
+              const awayScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[1].score) > Number(x.competitions[0].competitors[0].score) ? 'green' : 'red'};">${x.competitions[0].competitors[1].score}</div>`;
+              const homeScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[0].score) > Number(x.competitions[0].competitors[1].score) ? 'green' : 'red'};">${x.competitions[0].competitors[0].score}</div>`;
+
 
               return `<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
                 ${dateTimeLine}
@@ -157,20 +157,16 @@ views:
                   - color: '#17a2b8'
                   - entity: sensor.ncaam_march_madness_filtered_events
                   - events: west_region_elite_8_events
+              - type: markdown
+                content: |
+                  <h2>Final Four</h2>
               - type: custom:decluttering-card
                 template: ncaa_march_madness
                 variables:
                   - title: Final Four
-                  - color: '#00BFFF'
+                  - color: '#C0C0C0'
                   - entity: sensor.ncaam_march_madness_filtered_events
                   - events: march_madness_final_4_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Championship
-                  - color: '#4169E1'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: march_madness_championship_events
           - type: vertical-stack
             cards:
               - type: custom:decluttering-card
@@ -187,6 +183,16 @@ views:
                   - color: '#228B22'
                   - entity: sensor.ncaam_march_madness_filtered_events
                   - events: midwest_region_elite_8_events
+              - type: markdown
+                content: |
+                  <h2>Championship</h2>
+              - type: custom:decluttering-card
+                template: ncaa_march_madness
+                variables:
+                  - title: Championship
+                  - color: '#DAA520'
+                  - entity: sensor.ncaam_march_madness_filtered_events
+                  - events: march_madness_championship_events
           - type: vertical-stack
             cards:
               - type: custom:decluttering-card
