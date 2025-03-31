@@ -48,10 +48,7 @@ decluttering_templates:
               const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
               const gameDateRaw = new Date(x.competitions[0].date).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
               const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
-              
-              
-
-
+              const oddsSection = x.competitions[0].odds && x.competitions[0].odds[0] ? `<div style="background-color: blue; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;"> Odds: ${x.competitions[0].odds[0].details}&nbsp;&nbsp;|&nbsp;&nbsp; O/U: ${x.competitions[0].odds[0].overUnder} </div>` : "";              
               let statusRight;
               if (x.status.type.shortDetail === "Final") {
                 statusRight = `
@@ -74,11 +71,13 @@ decluttering_templates:
               
               const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[1].team.displayName} (${x.competitions[0].competitors[1].curatedRank.current})</div>`;
               const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[0].team.displayName} (${x.competitions[0].competitors[0].curatedRank.current})</div>`;
+
               const awayScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[1].score) > Number(x.competitions[0].competitors[0].score) ? 'green' : 'red'};">${x.competitions[0].competitors[1].score}</div>`;
               const homeScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[0].score) > Number(x.competitions[0].competitors[1].score) ? 'green' : 'red'};">${x.competitions[0].competitors[0].score}</div>`;
 
 
               return `<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
+                ${oddsSection}
                 ${dateTimeLine}
                 <div style="display:flex;justify-content:space-between;">${awayTeam}${awayScore}</div>
                 <div style="display:flex;justify-content:space-between;">${homeTeam}${homeScore}</div>               
