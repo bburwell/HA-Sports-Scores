@@ -257,7 +257,7 @@
 #######################
    #### Elite 8
     west_region_elite_8_events: >
-      {% set region = 'West Region - Elite 8' %}
+      {% set region = '- West Region - Elite 8' %}
       {% set filtered_ids = namespace(ids=[]) %}
       {% set filtered_events = namespace(events=[]) %}
       {% for event in state_attr('sensor.ncaam_march_madness', 'events') %}
@@ -332,6 +332,33 @@
         {% endif %}
       {% endfor %}
       {{ filtered_events.events }}  
+    march_madness_midwest_elite_8_venue: >
+      {% set region = '- Midwest - Elite 8 -' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaam_march_madness', 'events') %}
+        {% if event.competitions %}
+           {% for competition in event.competitions %}
+                   {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+                      {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+                   {% endif %}
+          {% endfor %}
+       {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaam_march_madness', 'events') %}
+          {% if event.id in filtered_ids.ids %}
+            {% set filtered_events.events = filtered_events.events + [event] %}
+          {% endif %}
+      {% endfor %}
+      {%- for event in filtered_events.events %}
+        {
+          "event_id": {{ event.id }},
+          "venue": "{{ event.competitions[0].venue.fullName }}",
+          "city": "{{ event.competitions[0].venue.address.city }}",
+          "state": "{{ event.competitions[0].venue.address.state }}",
+          "background_image": "https://a.espncdn.com/combiner/i?img=/i/venues/mens-college-basketball/day/{{ event.competitions[0].venue.id }}.jpg&cquality=80&h=232&w=552&location=manual&scale=crop&x=0&y=0"
+        }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
 
 #######################
    #### Final 4
@@ -354,6 +381,70 @@
         {% endif %}
       {% endfor %}
       {{ filtered_events.events }}
+    march_madness_final_4_venueevents2: >
+      {% set region = 'Final Four' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaam_march_madness', 'events') %}
+        {% if event.competitions %}
+           {% for competition in event.competitions %}
+                   {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+                      {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+                   {% endif %}
+          {% endfor %}
+       {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaam_march_madness', 'events') %}
+          {% if event.id in filtered_ids.ids %}
+            {% set filtered_events.events = filtered_events.events + [event] %}
+          {% endif %}
+      {% endfor %}
+      {%- for event in filtered_events.events %}
+        {
+          "event_id": {{ event.id }},
+          "venue": "{{ event.competitions[0].venue.fullName }}",
+          "city": "{{ event.competitions[0].venue.address.city }}",
+          "state": "{{ event.competitions[0].venue.address.state }}",
+          "background_image": "https://a.espncdn.com/combiner/i?img=/i/venues/mens-college-basketball/day/{{ event.competitions[0].venue.id }}.jpg&cquality=80&h=232&w=552&location=manual&scale=crop&x=0&y=0"
+        }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
+    march_madness_final_4_events3: >    
+      {% set region = 'Final Four' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaam_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaam_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set venue = event.competitions[0].venue.fullName if event.competitions[0].venue else "Unknown Venue" %}
+          {% set city = event.competitions[0].venue.address.city if event.competitions[0].venue and event.competitions[0].venue.address else "Unknown City" %}
+          {% set state = event.competitions[0].venue.address.state if event.competitions[0].venue and event.competitions[0].venue.address else "Unknown State" %}
+          {% set background_image = "https://a.espncdn.com/combiner/i?img=/i/venues/mens-college-basketball/day/" ~ (event.competitions[0].venue.id if event.competitions[0].venue and event.competitions[0].venue.id else "unknown") ~ ".jpg&cquality=80&h=232&w=552&location=manual&scale=crop&x=0&y=0" %}
+      
+          {% set extended_event = {
+            "id": event.id,
+            "competitions": event.competitions,
+            "venue": venue,
+            "city": city,
+            "state": state,
+            "background_image": background_image
+          } %}
+      
+          {% set filtered_events.events = filtered_events.events + [extended_event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+
+
+
+
 
 #######################
    #### Championship
@@ -377,3 +468,470 @@
       {% endfor %}
       {{ filtered_events.events }}      
 #####################################################################################
+
+##########  NCAAW Womens March Madnes ##############################################################
+- name: ncaaw_march_madness_filtered_events
+  unique_id: sensor.ncaaw_march_madness_filtered
+  state: "{{ now() }}"
+  attributes:
+    first_four_events: >
+      {% set region = 'First Four' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_1_1st_round_events: >
+      {% set region = '- Regional 1 in Spokane - 1st Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+    regional_3_1st_round_events: >
+      {% set region = 'Regional 3 in Birmingham - 1st Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_4_1st_round_events: >
+      {% set region = 'Regional 4 in Spokane - 1st Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_2_1st_round_events: >
+      {% set region = '- Regional 2 in Birmingham - 1st Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+   #######################
+   #### 2nd Round   
+    regional_1_2nd_round_events: >
+      {% set region = '- Regional 1 in Spokane - 2nd Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+    regional_3_2nd_round_events: >
+      {% set region = 'Regional 3 in Birmingham - 2nd Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_4_2nd_round_events: >
+      {% set region = 'Regional 4 in Spokane - 2nd Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_2_2nd_round_events: >
+      {% set region = '- Regional 2 in Birmingham - 2nd Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+ #######################
+   #### Sweet 16
+    regional_1_sweet_16_events: >
+      {% set region = '- Regional 1 in Spokane - Sweet 16' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+    regional_3_sweet_16_events: >
+      {% set region = 'Regional 3 in Birmingham - Sweet 16' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_4_sweet_16_events: >
+      {% set region = 'Regional 4 in Spokane - Sweet 16' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_2_sweet_16_events: >
+      {% set region = '- Regional 2 in Birmingham - Sweet 16' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+#######################
+   #### Elite 8
+    regional_1_elite_8_events: >
+      {% set region = '- Regional 1 in Spokane - Elite 8' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+    regional_3_elite_8_events: >
+      {% set region = 'Regional 3 in Birmingham - Elite 8' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_4_elite_8_events: >
+      {% set region = 'Regional 4 in Spokane - Elite 8' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    regional_2_elite_8_events: >
+      {% set region = '- Regional 2 in Birmingham - Elite 8' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}  
+    march_madness_midwest_elite_8_venue: >
+      {% set region = '- Regional 2 in Birmingham - Elite 8 -' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+           {% for competition in event.competitions %}
+                   {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+                      {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+                   {% endif %}
+          {% endfor %}
+       {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+          {% if event.id in filtered_ids.ids %}
+            {% set filtered_events.events = filtered_events.events + [event] %}
+          {% endif %}
+      {% endfor %}
+      {%- for event in filtered_events.events %}
+        {
+          "event_id": {{ event.id }},
+          "venue": "{{ event.competitions[0].venue.fullName }}",
+          "city": "{{ event.competitions[0].venue.address.city }}",
+          "state": "{{ event.competitions[0].venue.address.state }}",
+          "background_image": "https://a.espncdn.com/combiner/i?img=/i/venues/mens-college-basketball/day/{{ event.competitions[0].venue.id }}.jpg&cquality=80&h=232&w=552&location=manual&scale=crop&x=0&y=0"
+        }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
+
+#######################
+   #### Final 4
+    march_madness_final_4_events: >
+      {% set region = 'Final Four' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    march_madness_final_4_venueevents2: >
+      {% set region = 'Final Four' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+           {% for competition in event.competitions %}
+                   {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+                      {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+                   {% endif %}
+          {% endfor %}
+       {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+          {% if event.id in filtered_ids.ids %}
+            {% set filtered_events.events = filtered_events.events + [event] %}
+          {% endif %}
+      {% endfor %}
+      {%- for event in filtered_events.events %}
+        {
+          "event_id": {{ event.id }},
+          "venue": "{{ event.competitions[0].venue.fullName }}",
+          "city": "{{ event.competitions[0].venue.address.city }}",
+          "state": "{{ event.competitions[0].venue.address.state }}",
+          "background_image": "https://a.espncdn.com/combiner/i?img=/i/venues/mens-college-basketball/day/{{ event.competitions[0].venue.id }}.jpg&cquality=80&h=232&w=552&location=manual&scale=crop&x=0&y=0"
+        }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
+    march_madness_final_4_events3: >    
+      {% set region = 'Final Four' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set venue = event.competitions[0].venue.fullName if event.competitions[0].venue else "Unknown Venue" %}
+          {% set city = event.competitions[0].venue.address.city if event.competitions[0].venue and event.competitions[0].venue.address else "Unknown City" %}
+          {% set state = event.competitions[0].venue.address.state if event.competitions[0].venue and event.competitions[0].venue.address else "Unknown State" %}
+          {% set background_image = "https://a.espncdn.com/combiner/i?img=/i/venues/mens-college-basketball/day/" ~ (event.competitions[0].venue.id if event.competitions[0].venue and event.competitions[0].venue.id else "unknown") ~ ".jpg&cquality=80&h=232&w=552&location=manual&scale=crop&x=0&y=0" %}
+      
+          {% set extended_event = {
+            "id": event.id,
+            "competitions": event.competitions,
+            "venue": venue,
+            "city": city,
+            "state": state,
+            "background_image": background_image
+          } %}
+      
+          {% set filtered_events.events = filtered_events.events + [extended_event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}    
+      
+    #######################
+   #### Championship
+    march_madness_championship_events: >
+      {% set region = 'National Championship' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.ncaaw_march_madness', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+#####################################################################################  
