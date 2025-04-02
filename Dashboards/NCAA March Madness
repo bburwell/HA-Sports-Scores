@@ -84,164 +84,448 @@ decluttering_templates:
               </div>`;
             })()
 views:
-  - title: NCAA March Madness
+  - theme: Backend-selected
+    title: Sports
+    type: panel
+    icon: mdi:strategy
+    badges: []
     cards:
-      - type: custom:layout-card
-        layout_type: custom:grid-layout
-        layout:
-          grid-template-columns: repeat(8, 1fr)
-          grid-gap: 10px
-        cards:
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: South Region (1st Round)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_1st_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (1st Round)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_1st_round_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: South Region (2nd Round)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_2nd_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (2nd Round)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_2nd_round_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: South Region (Sweet 16)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_sweet_16_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (Sweet 16)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_sweet_16_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: South Region (Elite 8)
-                  - color: '#FF0800'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: south_region_elite_8_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: West Region (Elite 8)
-                  - color: '#17a2b8'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: west_region_elite_8_events
-              - type: markdown
-                content: |
-                  <h2>Final Four</h2>
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Final Four
-                  - color: '#C0C0C0'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: march_madness_final_4_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (Elite 8)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_elite_8_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (Elite 8)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_elite_8_events
-              - type: markdown
-                content: |
-                  <h2>Championship</h2>
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Championship
-                  - color: '#DAA520'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: march_madness_championship_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (Sweet 16)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_sweet_16_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (Sweet 16)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_sweet_16_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (2nd Round)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_2nd_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (2nd Round)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_2nd_round_events
-          - type: vertical-stack
-            cards:
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: East Region (1st Round)
-                  - color: '#8F00FF'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: east_region_1st_round_events
-              - type: custom:decluttering-card
-                template: ncaa_march_madness
-                variables:
-                  - title: Midwest Region (1st Round)
-                  - color: '#228B22'
-                  - entity: sensor.ncaam_march_madness_filtered_events
-                  - events: midwest_region_1st_round_events
-        column_span: 4
-    header:
-      layout: center
-      badges_position: top
-    type: custom:grid-layout
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: black;
+                color: silver;
+                border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+                border-width: 2px;
+                border-style: solid;
+                overflow: hidden;
+                width: 20%;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': black
+            '--mdc-tab-text-label-color-default': silver
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: NCAA
+                icon: mdi:school
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  card_mod: null
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 10%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                  tabs:
+                    - attributes:
+                        label: NCAA Basketball
+                        icon: mdi:basketball-hoop-outline
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: NCAA Men's March Madness
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: South Region (1st Round)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: south_region_1st_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: West Region (1st Round)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: west_region_1st_round_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: South Region (2nd Round)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: south_region_2nd_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: West Region (2nd Round)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: west_region_2nd_round_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: South Region (Sweet 16)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: south_region_sweet_16_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: West Region (Sweet 16)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: west_region_sweet_16_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: South Region (Elite 8)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: south_region_elite_8_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: West Region (Elite 8)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: west_region_elite_8_events
+                                      - type: markdown
+                                        content: |
+                                          <h2>Final Four</h2>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Final Four
+                                          - color: '#C0C0C0'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: march_madness_final_4_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: East Region (Elite 8)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: east_region_elite_8_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Midwest Region (Elite 8)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: midwest_region_elite_8_events
+                                      - type: markdown
+                                        content: |
+                                          <h2>Championship</h2>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Championship
+                                          - color: '#DAA520'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: march_madness_championship_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: East Region (Sweet 16)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: east_region_sweet_16_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Midwest Region (Sweet 16)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: midwest_region_sweet_16_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: East Region (2nd Round)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: east_region_2nd_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Midwest Region (2nd Round)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: midwest_region_2nd_round_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: East Region (1st Round)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: east_region_1st_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Midwest Region (1st Round)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaam_march_madness_filtered_events
+                                          - events: midwest_region_1st_round_events
+                            - attributes:
+                                label: NCAA Women's March Madness
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 3 (1st Round)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_3_1st_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 1 (1st Round)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_1_1st_round_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 3 (2nd Round)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_3_2nd_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 1 (2nd Round)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_1_2nd_round_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 3 (Sweet 16)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_3_sweet_16_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 1 (Sweet 16)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_1_sweet_16_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 3 (Elite 8)
+                                          - color: '#FF0800'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_3_elite_8_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 1 (Elite 8)
+                                          - color: '#17a2b8'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_1_elite_8_events
+                                      - type: markdown
+                                        content: |
+                                          <h2>Final Four</h2>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Final Four
+                                          - color: '#C0C0C0'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: march_madness_final_4_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 4 (Elite 8)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_4_elite_8_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 2 (Elite 8)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_2_elite_8_events
+                                      - type: markdown
+                                        content: |
+                                          <h2>Championship</h2>
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Championship
+                                          - color: '#DAA520'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: march_madness_championship_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 4 (Sweet 16)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_4_sweet_16_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 2 (Sweet 16)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_2_sweet_16_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 4 (2nd Round)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_4_2nd_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 2 (2nd Round)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_2_2nd_round_events
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 4 (1st Round)
+                                          - color: '#8F00FF'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_4_1st_round_events
+                                      - type: custom:decluttering-card
+                                        template: ncaa_march_madness
+                                        variables:
+                                          - title: Regional 2 (1st Round)
+                                          - color: '#228B22'
+                                          - entity: >-
+                                              sensor.ncaaw_march_madness_filtered_events
+                                          - events: regional_2_1st_round_events
