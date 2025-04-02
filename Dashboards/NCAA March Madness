@@ -85,7 +85,7 @@ decluttering_templates:
             })()
 views:
   - theme: Backend-selected
-    title: Sports
+    title: NCAA Men's & Women's March Madness
     type: panel
     icon: mdi:strategy
     badges: []
