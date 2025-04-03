@@ -1381,3 +1381,148 @@ sensor:
         {% set cteams.cteam = cteams.cteam + [team['team']['abbreviation']] %}
       {% endfor %}
       {{ cteams.cteam | join(', ') }}
+
+##########  NFL Playoff ##############################################################
+- name: nfl_playoff_filtered_events
+  unique_id: sensor.nfl_playoff_filtered_events
+  state: "{{ now() }}"
+  attributes:
+    
+    afc_wild_card: >
+      {% set region = 'AFC Wild Card Playoffs' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+    nfc_wild_card: >
+      {% set region = 'NFC Wild Card Playoffs' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    afc_divisional: >
+      {% set region = 'AFC Divisional Playoffs' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    nfc_divisional: >
+      {% set region = 'NFC Divisional Playoffs' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+
+    afc_championship: >
+      {% set region = 'AFC Championship' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}      
+    nfc_championship: >
+      {% set region = 'NFC Championship' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+    
+  
+########################### Superbowl
+    super_bowl: >
+      {% set region = 'Super Bowl' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.nfl_playoffs_superbowl', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
+  
