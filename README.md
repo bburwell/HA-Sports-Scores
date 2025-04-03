@@ -18,6 +18,11 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
 
 ### Dashboards directory has the following dashboard code: 
 - US Sports (NHL/NFL/UFL/MLB/NBA/WNBA/WTA/ATP/PGA/LIV/LPGA)
+- There is also a playoffs dashboard.  I have been working to create a bracket format for the sports.  I will continue to refine but this at least gives me something closer to what I am looking for in a bracket.  This will eventually get rolled into their respective sports once I am comfortable with the design.
+- - The flow is I grab data from an ESPN endpoint based on the playoff date.  The downside is it will need to be manually update the date each year, but will work on that later.
+  - I then filter out the groups by whatever defines that group.  This is done in the Template.yaml. NCAA Mens for example is First Four/West/Midwest/South/East/Sweet 16/Elite 8/Final 4/Championship, NCAA Women's are Regions, NFL is AFC/NFC/etc., and MLB is AL/NL/etc.
+  - I then use the Flex-table card probably not how its desined to be used.  I use it as a single customizeable, html column.
+  - Screen shots of what each looks like are below.
 - Soccer (Premier/Championship/English League 1/English League 2/ENL/Budesliga/Bundesliga2/MSL/NWSL)
 - US College NCAA (Mens Football/Mens Basketball)
 - March Madness
@@ -80,6 +85,12 @@ Here are a couple pics of the dashboards that use the code in the dashboard and 
 ![image](https://github.com/user-attachments/assets/6f5bc9eb-6a67-444a-bcff-a70020db93a2)
 ![image](https://github.com/user-attachments/assets/62adf59c-5f28-481e-80a4-675d863c0617)
 ![image](https://github.com/user-attachments/assets/ad30e6da-c7e0-407c-80f1-dc452e9d01b1)
+![image](https://github.com/user-attachments/assets/8a3abe26-048f-4eec-99f2-58b89ebfbd94)
+![image](https://github.com/user-attachments/assets/02ad26b9-35ed-48d3-b5ed-7f8113823e5a)
+![image](https://github.com/user-attachments/assets/7a2c1ec1-0b48-4570-bf90-960a47bf6ef8)
+
+
+
 
 
 
