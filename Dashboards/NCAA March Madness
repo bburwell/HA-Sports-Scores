@@ -267,7 +267,7 @@ decluttering_templates:
              })()
 views:
   - theme: Backend-selected
-    title: NCAA Men's & Women's March Madness
+    title: Playoffs - NCAA Men's & Women's March Madness, NFL, MLB
     type: panel
     icon: mdi:strategy
     badges: []
