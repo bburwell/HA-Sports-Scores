@@ -84,7 +84,19 @@
   value_template: "{{ now() }}"
   json_attributes:
      - events
-  
+     
+ ######################### Post Season Playoffs Superbowl
+- platform: rest
+  scan_interval: 604800
+  name: MLB Playoffs WorldSeries
+  unique_id: sensor.mlb_playoffs_worldseries
+  resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20241001-20241030
+  value_template: "{{ now() }}"
+  json_attributes:
+      - leagues
+      - events
+
+######################### Post Season Playoffs World Series 
 
 ###
 ## MLB Teams
