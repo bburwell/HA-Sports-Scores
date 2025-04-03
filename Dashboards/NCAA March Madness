@@ -83,6 +83,90 @@ decluttering_templates:
                 <div style="display:flex;justify-content:space-between;">${homeTeam}${homeScore}</div>               
               </div>`;
             })()
+  nfl_playoffs:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;'
+        tbody tr td:first-child: 'width: 100%; text-align: left; padding: 5px;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              border: 2px solid [[color]]; 
+              border-radius: 8px;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]]; 
+              color: white; 
+              padding: 8px!important;              
+              font-size: 14px!important;              
+              font-weight: bold!important;
+            }
+      sort_by: ID
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ID
+          data: '[[events]]'
+          modify: x.competitions[0].id
+          hidden: true
+        - name: Game Details
+          data: '[[events]]'
+          modify: |-
+            (() => {
+              if (!x || !x.competitions || !x.competitions[0]) {
+                return "No data available";
+              }
+              
+              const gameDate = `${new Date(x.date).toLocaleDateString("en-US", { weekday: "short" })} - ${new Date(x.competitions[0].date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+              const gameTime = new Date(x.competitions[0].date).toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,});
+
+              const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+              const gameDateRaw = new Date(x.competitions[0].date).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+              const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
+              const oddsSection = x.competitions[0].odds && x.competitions[0].odds[0] ? `<div style="background-color: blue; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;"> Odds: ${x.competitions[0].odds[0].details}&nbsp;&nbsp;|&nbsp;&nbsp; O/U: ${x.competitions[0].odds[0].overUnder} </div>` : "";              
+              let statusRight;
+              if (x.status.type.shortDetail === "Final") {
+                statusRight = `
+                  <div style="background-color: white; color: black; padding: 2px 5px; border-radius: 4px; display: inline-block;">
+                    ${x.status.type.shortDetail}
+                  </div>
+                `;
+              } else if (x.status.displayClock !== "0:00" && x.status.type.shortDetail !== "Scheduled") {
+                statusRight = `
+                  <div style="background-color: red; color: white; padding: 2px 5px; border-radius: 4px; display: inline-block;">
+                    H${x.status.period} - ${x.status.displayClock}
+                  </div>
+                `;
+              } else {
+                statusRight = `<span>H${x.status.period} - ${x.status.displayClock}</span>`;
+              }
+
+
+              const dateTimeLine = `<div style="font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><div style="display: flex; flex-direction: column; ${dateStyle}"><span>${gameDate}</span><span style="font-size: 13px; color: gray;">${gameTime}</span></div><div>${statusRight}</div></div>`;
+              
+              const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[1].team.displayName} </div>`;
+              const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[0].team.displayName} </div>`;
+
+              const awayScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[1].score) > Number(x.competitions[0].competitors[0].score) ? 'green' : 'red'};">${x.competitions[0].competitors[1].score}</div>`;
+              const homeScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[0].score) > Number(x.competitions[0].competitors[1].score) ? 'green' : 'red'};">${x.competitions[0].competitors[0].score}</div>`;
+
+
+              return `<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
+                ${oddsSection}
+                ${dateTimeLine}
+                <div style="display:flex;justify-content:space-between;">${awayTeam}${awayScore}</div>
+                <div style="display:flex;justify-content:space-between;">${homeTeam}${homeScore}</div>               
+              </div>`;
+            })()
 views:
   - theme: Backend-selected
     title: NCAA Men's & Women's March Madness
@@ -529,3 +613,72 @@ views:
                                           - entity: >-
                                               sensor.ncaaw_march_madness_filtered_events
                                           - events: regional_2_1st_round_events
+                            - attributes:
+                                label: NFL Playoffs to Superbowl
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_playoffs
+                                        variables:
+                                          - title: AFC Wildcard
+                                          - color: '#D50A0A'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: afc_wild_card
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_playoffs
+                                        variables:
+                                          - title: AFC Divisional
+                                          - color: '#D50A0A'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: afc_divisional
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_playoffs
+                                        variables:
+                                          - title: AFC Wildcard
+                                          - color: '#D50A0A'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: afc_championship
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_playoffs
+                                        variables:
+                                          - title: Superbowl
+                                          - color: '#DAA520'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: super_bowl
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_playoffs
+                                        variables:
+                                          - title: NFC Championship
+                                          - color: '#013369'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: nfc_championship
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_playoffs
+                                        variables:
+                                          - title: NFC Divisional
+                                          - color: '#013369'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: nfc_divisional
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: nfl_playoffs
+                                        variables:
+                                          - title: NFC Wildcard
+                                          - color: '#013369'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: nfc_wild_card
