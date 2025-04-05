@@ -32,6 +32,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
 - US Sports
   - nhl_sensors.yaml
   - nfl_sensors.yaml
+  - ufl_sensors.yaml
   - mlb_sensors.yaml
   - nba_sensors.yaml
   - wnba_sensors.yaml
@@ -42,8 +43,9 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
 - Soccer
   - soccer_sensors.yaml includes all -Premier/Championship/English League 1/English League 2/ENL/Budesliga/Bundesliga2/MSL/NWSL (San Diego added to MLS/soccer.yaml 2/20/25)
 - US College NCAA
-  - ncaaf_sensors.yaml (Mens Football)
-  - ncaam_sensors.yaml (Mens Basketball)
+  - ncaaf_sensors.yaml (Men's Football)
+  - ncaam_sensors.yaml (Men's Basketball)
+  - ncaaw_sensors.yaml (Women's Basketball)
 - Racing
   - racing_sensors.yaml (F1/NASCAR)
   
