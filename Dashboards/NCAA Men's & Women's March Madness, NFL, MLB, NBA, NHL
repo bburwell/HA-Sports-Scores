@@ -922,68 +922,90 @@ views:
                                 label: NBA Playoffs to Championship
                                 icon: mdi:trophy
                               card:
-                                type: horizontal-stack
+                                type: vertical-stack
                                 cards:
-                                  - type: vertical-stack
+                                  - type: horizontal-stack
                                     cards:
-                                      - type: custom:decluttering-card
-                                        template: mlb_playoffs
-                                        variables:
-                                          - title: Eastern Conference 1st Round
-                                          - color: '#D50032'
-                                          - entity: sensor.nba_playoff_filtered_events
-                                          - events: east_first_round
-                                  - type: vertical-stack
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Eastern Conference Play-In
+                                              - color: '#4169E1'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: east_play_in
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Western Conference Play-In
+                                              - color: '#4169E1'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: west_play_in
+                                  - type: horizontal-stack
                                     cards:
-                                      - type: custom:decluttering-card
-                                        template: mlb_playoffs
-                                        variables:
-                                          - title: Eastern Conference Semi-Final
-                                          - color: '#D50032'
-                                          - entity: sensor.nba_playoff_filtered_events
-                                          - events: east_semifinals
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: custom:decluttering-card
-                                        template: mlb_playoffs
-                                        variables:
-                                          - title: Eastern Conference Finals
-                                          - color: '#D50032'
-                                          - entity: sensor.nba_playoff_filtered_events
-                                          - events: east_final
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: custom:decluttering-card
-                                        template: mlb_playoffs
-                                        variables:
-                                          - title: Championship
-                                          - color: '#DAA520'
-                                          - entity: sensor.nba_playoff_filtered_events
-                                          - events: championship
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: custom:decluttering-card
-                                        template: mlb_playoffs
-                                        variables:
-                                          - title: Western Conference Finals
-                                          - color: '#013369'
-                                          - entity: sensor.nba_playoff_filtered_events
-                                          - events: west_final
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: custom:decluttering-card
-                                        template: mlb_playoffs
-                                        variables:
-                                          - title: Western Conference Semi-Final
-                                          - color: '#013369'
-                                          - entity: sensor.nba_playoff_filtered_events
-                                          - events: west_semifinals
-                                  - type: vertical-stack
-                                    cards:
-                                      - type: custom:decluttering-card
-                                        template: mlb_playoffs
-                                        variables:
-                                          - title: Western Conference 1st Round
-                                          - color: '#013369'
-                                          - entity: sensor.nba_playoff_filtered_events
-                                          - events: west_first_round
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Eastern Conference 1st Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: east_first_round
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Eastern Conference Semi-Final
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: east_semifinals
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Eastern Conference Finals
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: east_final
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Championship
+                                              - color: '#DAA520'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: championship
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Western Conference Finals
+                                              - color: '#013369'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: west_final
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Western Conference Semi-Final
+                                              - color: '#013369'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: west_semifinals
+                                      - type: vertical-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: mlb_playoffs
+                                            variables:
+                                              - title: Western Conference 1st Round
+                                              - color: '#013369'
+                                              - entity: sensor.nba_playoff_filtered_events
+                                              - events: west_first_round
