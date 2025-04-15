@@ -15,7 +15,8 @@
   scan_interval: 604800
   name: NBA Playoffs 
   unique_id: sensor.nba_playoffs
-  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20240420-20240617
+  # 2024 -- resource: https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20240420-20240617
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20250415-20250622
   value_template: "{{ now() }}"
   json_attributes:
       - leagues
