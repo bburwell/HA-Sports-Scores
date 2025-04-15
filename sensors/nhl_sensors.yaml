@@ -27,7 +27,8 @@
   scan_interval: 604800
   name: NHL Playoffs Stanleycup
   unique_id: sensor.nhl_playoffs_stanleycup
-  resource: https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20240420-20240624
+  #2024 -- resource: https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20240420-20240624
+  resource: https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20250419-20250623
   value_template: "{{ now() }}"
   json_attributes:
       - leagues
