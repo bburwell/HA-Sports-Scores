@@ -42,7 +42,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
   - These files filter out the API First Round data and create 2 separate JSON files - East and West First Round - for each sport and put them in the /config/www directory.
   - I then have a REST sensor in each of the sports sensors yaml's (nhl_sensors/nba_sensors) that pull the data out of these json files.  You will see that I call the local IP to run the script and you will need to update this to reflect your IP.  This is what is in there 
     right now for the nba west 1st round: resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round.json.
-  - The last piece is that I have an automation that calls the python script every 30 mintues during the playoff season.
+  - The last piece is that I have an automation that calls the python script every 3 mintues during the playoff season.
   - The call the automation makes is a shell command.  I have updated the configuration.yaml with the shell command calls I make.  Here is the NBA example:   get_nba_first_round: 'python /config/www/nba-1st.py'
   - Here is what my NBA automation looks like:
     ```
