@@ -6,3 +6,7 @@ sensor: !include_dir_merge_list sensors/
 template: !include template.yaml
 multiscrape: !include multiscrape.yaml
 #scrape: !include scrape.yaml
+
+shell_command:
+  get_nba_first_round: 'python /config/www/nba-1st.py'
+  get_nhl_first_round: 'python /config/www/nhl-1st.py'
