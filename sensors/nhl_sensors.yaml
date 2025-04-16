@@ -33,7 +33,22 @@
   json_attributes:
       - leagues
       - events
-
+      
+- platform: rest
+  name: NHL Playoff West 1st Round
+  unique_id: sensor.nhl_playoff_west_1st_round
+  resource:  http://192.168.xxx.xxx:8123/local/nhl_west_1st_round.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+      
+- platform: rest
+  name: NHL Playoff East 1st Round
+  unique_id: sensor.nhl_playoff_east_1st_round
+  resource:  http://192.168.xxx.xxx:8123/local/nhl_east_1st_round.json
+  value_template: "{{ now()}}"    
+  json_attributes: 
+   - events
 
 ###
 ### NHL Divisions
