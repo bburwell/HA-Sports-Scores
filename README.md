@@ -44,7 +44,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
     right now for the nba west 1st round: resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round.json.
   - The last piece is that I have an automation that calls the python script every 30 mintues during the playoff season.
   - Here is what my NBA automation looks like:
-    '''
+    ```
     alias: NBA 1st Round
 description: ""
 triggers:
@@ -62,7 +62,7 @@ actions:
   - data: {}
     action: shell_command.get_nba_first_round
 mode: single
-'''
+```
 - That's it
 
 ### Sensors directory has the following sesnsor yaml's broken up by sport: 
