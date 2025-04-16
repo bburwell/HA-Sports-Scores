@@ -40,7 +40,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
     it out that way, but what they do is essentially put the bracket in the notes section.  So I can filter there.
   - Still with me ;) - Now NCAAM/NCAAF/MLB/NFL work fine - NHL and NBA so far have too much data in the 1st Round.  So I had to create 2 Python Scripts and they are in the Python Files Directory - NBA-1st.py and NHL-1st.py
   - These files filter out the API First Round data and create 2 separate JSON files - East and West First Round - for each sport and put them in the /config/www directory.
-  - I then have a REST sensor in each of the sports sensors yaml's (nhl_sensors/nba_sensors) that pull the data out of these sensors.  You will see that I call the local IP to run the script and you will need to update this to reflect your IP.  This is what is in there 
+  - I then have a REST sensor in each of the sports sensors yaml's (nhl_sensors/nba_sensors) that pull the data out of these json files.  You will see that I call the local IP to run the script and you will need to update this to reflect your IP.  This is what is in there 
     right now for the nba west 1st round: resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round.json.
   - The last piece is that I have an automation that calls the python script every 30 mintues during the playoff season.
   - Here is what my NBA automation looks like:
