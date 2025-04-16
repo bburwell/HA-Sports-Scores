@@ -28,6 +28,41 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
 - March Madness
 - Racing - F1/NASCAR
 
+### Playoff Dashboard
+- I am working on a Playoff Bracket for the professional teams.
+- I have created a holding Sandbox in Dashboards that I have a good collection so far - NCAAM/NCAAW/NFL/MLB/NHL/NBA.
+  - NCAAM/NCAAF/NFL/MLB all seem to be working.  A little understanding on how I am getting the brackets filled out.
+  - I first call the ESPN API based on the dates of the March Madness/Playoffs/etc.
+  - Here is the MLB call from last year that you can find, in this case, in the mlb_sensor.yaml -- resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20241001-20241030
+  - You can see the playoff dates at the end - October 1 thru October 30 2024.
+  - I then use Templates to break the brackets up by the notes section.  ESPN is awesome by the way.  You can check out the template.yaml to see what I am doing.
+  - Now most of you know I don't like Templates for 1 reason.  If you have too much data the Template will max out which causes an error and its empty.  So I normally use a REST sensor instead and filter out what I want.  With the MM/Playoffs API though ESPN doesn't break 
+    it out that way, but what they do is essentially put the bracket in the notes section.  So I can filter there.
+  - Still with me ;) - Now NCAAM/NCAAF/MLB/NFL work fine - NHL and NBA so far have too much data in the 1st Round.  So I had to create 2 Python Scripts and they are in the Python Files Directory - NBA-1st.py and NHL-1st.py
+  - These files filter out the API First Round data and create 2 separate JSON files - East and West First Round - for each sport and put them in the /config/www directory.
+  - I then have a REST sensor in each of the sports sensors yaml's (nhl_sensors/nba_sensors) that pull the data out of these sensors.  You will see that I call the local IP to run the script and you will need to update this to reflect your IP.  This is what is in there 
+    right now for the nba west 1st round: resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round.json.
+  - The last piece is that I have an automation that calls the python script every 30 mintues during the playoff season.
+  - Here is what my NBA automation looks like:
+  - '''alias: NBA 1st Round
+description: ""
+triggers:
+  - minutes: /3
+    trigger: time_pattern
+conditions:
+  - condition: time
+    after: "00:00:00"
+    before: "23:59:59"
+  - condition: template
+    value_template: >
+      {{ now().date() >= as_datetime('2025-04-15').date() and now().date() <=
+      as_datetime('2025-06-22').date() }}
+actions:
+  - data: {}
+    action: shell_command.get_nba_first_round
+mode: single'''
+- That's it
+
 ### Sensors directory has the following sesnsor yaml's broken up by sport: 
 - US Sports
   - nhl_sensors.yaml
