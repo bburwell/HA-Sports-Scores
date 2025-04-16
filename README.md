@@ -65,8 +65,10 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
       mode: single
     ```
 - That's it but here is a summarized flow for NBA/NHL:
-   - Automation during the playoffs makes a call every 3 mintues to the Python Script that Calls the NHL/NBA API--> 2 JSON files are created/updated for East/West 1st Rounds--> sports sensor is monitoring this file and updates on chages-->dashboard is populated with sensor 
-     data.
+   - Automation during the playoffs makes a call every 3 mintues to the Python Script that Calls the NHL/NBA API
+   - 2 JSON files are created/updated for East/West 1st Rounds
+   - Sports sensor is monitoring this file and updates on chages
+   - dashboard is populated with sensor data.
 
 ### Sensors directory has the following sesnsor yaml's broken up by sport: 
 - US Sports
