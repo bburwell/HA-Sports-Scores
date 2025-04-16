@@ -43,6 +43,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
   - I then have a REST sensor in each of the sports sensors yaml's (nhl_sensors/nba_sensors) that pull the data out of these json files.  You will see that I call the local IP to run the script and you will need to update this to reflect your IP.  This is what is in there 
     right now for the nba west 1st round: resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round.json.
   - The last piece is that I have an automation that calls the python script every 30 mintues during the playoff season.
+  - The call the automation makes is a shell command.  I have updated the configuration.yaml with the shell command calls I make.  Here is the NBA example:   get_nba_first_round: 'python /config/www/nba-1st.py'
   - Here is what my NBA automation looks like:
     ```
       alias: NBA 1st Round
@@ -63,7 +64,9 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
           action: shell_command.get_nba_first_round
       mode: single
     ```
-- That's it
+- That's it but here is a summarized flow for NBA/NHL:
+   - Automation during the playoffs makes a call every 3 mintues to the Python Script that Calls the NHL/NBA API--> 2 JSON files are created/updated for East/West 1st Rounds--> sports sensor is monitoring this file and updates on chages-->dashboard is populated with sensor 
+     data.
 
 ### Sensors directory has the following sesnsor yaml's broken up by sport: 
 - US Sports
