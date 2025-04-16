@@ -45,24 +45,24 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
   - The last piece is that I have an automation that calls the python script every 30 mintues during the playoff season.
   - Here is what my NBA automation looks like:
     ```
-    alias: NBA 1st Round
-description: ""
-triggers:
-  - minutes: /3
-    trigger: time_pattern
-conditions:
-  - condition: time
-    after: "00:00:00"
-    before: "23:59:59"
-  - condition: template
-    value_template: >
-      {{ now().date() >= as_datetime('2025-04-15').date() and now().date() <=
-      as_datetime('2025-06-22').date() }}
-actions:
-  - data: {}
-    action: shell_command.get_nba_first_round
-mode: single
-
+      alias: NBA 1st Round
+      description: ""
+      triggers:
+        - minutes: /3
+          trigger: time_pattern
+      conditions:
+        - condition: time
+          after: "00:00:00"
+          before: "23:59:59"
+        - condition: template
+          value_template: >
+            {{ now().date() >= as_datetime('2025-04-15').date() and now().date() <=
+            as_datetime('2025-06-22').date() }}
+      actions:
+        - data: {}
+          action: shell_command.get_nba_first_round
+      mode: single
+    ```
 - That's it
 
 ### Sensors directory has the following sesnsor yaml's broken up by sport: 
