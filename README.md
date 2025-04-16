@@ -62,7 +62,7 @@ actions:
   - data: {}
     action: shell_command.get_nba_first_round
 mode: single
-```
+
 - That's it
 
 ### Sensors directory has the following sesnsor yaml's broken up by sport: 
