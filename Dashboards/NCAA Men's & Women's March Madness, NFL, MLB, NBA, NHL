@@ -246,10 +246,11 @@ decluttering_templates:
               const dateTimeLine = `<div style="font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <div style="display: flex; flex-direction: column; ${dateStyle}">
                   <span>${gameDate}</span>
-                  <span style="font-size: 13px; color: gray;">${gameTime}</span>
+                  <span style="font-size: 13px; color: gray;">${gameTime}&nbsp;${x.competitions[0].broadcast || "NA"}</span>
                 </div>
                 <div>${statusRight}</div>
               </div>`;
+
 
               const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[1].team.displayName}</div>`;
               const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 16px;vertical-align:middle;">&nbsp;${x.competitions[0].competitors[0].team.displayName}</div>`;
@@ -953,8 +954,8 @@ views:
                                             variables:
                                               - title: Eastern Conference 1st Round
                                               - color: '#D50032'
-                                              - entity: sensor.nba_playoff_filtered_events
-                                              - events: east_first_round
+                                              - entity: sensor.nba_playoff_east_1st_round
+                                              - events: events
                                       - type: vertical-stack
                                         cards:
                                           - type: custom:decluttering-card
@@ -1007,5 +1008,5 @@ views:
                                             variables:
                                               - title: Western Conference 1st Round
                                               - color: '#013369'
-                                              - entity: sensor.nba_playoff_filtered_events
-                                              - events: west_first_round
+                                              - entity: sensor.nba_playoff_west_1st_round
+                                              - events: events
