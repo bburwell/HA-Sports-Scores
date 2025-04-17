@@ -12,7 +12,7 @@
 
 ######################### Post Season Playoffs 
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 90
   name: NBA Playoffs 
   unique_id: sensor.nba_playoffs
   # 2024 -- resource: https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20240420-20240617
