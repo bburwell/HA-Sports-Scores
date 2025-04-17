@@ -24,7 +24,7 @@
 
 ######################### Post Season Playoffs 
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 90
   name: NHL Playoffs Stanleycup
   unique_id: sensor.nhl_playoffs_stanleycup
   #2024 -- resource: https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=20240420-20240624
