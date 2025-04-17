@@ -862,9 +862,9 @@ views:
                                         template: mlb_playoffs
                                         variables:
                                           - title: Eastern Conference 1st Round
-                                          - color: '#D50032'
-                                          - entity: sensor.nhl_playoff_filtered_events
-                                          - events: east_first_round
+                                          - color: '#D50032'                                         
+                                          - entity: sensor.nhl_playoff_east_1st_round
+                                          - events: events
                                   - type: vertical-stack
                                     cards:
                                       - type: custom:decluttering-card
@@ -917,8 +917,8 @@ views:
                                         variables:
                                           - title: Western Conference 1st Round
                                           - color: '#013369'
-                                          - entity: sensor.nhl_playoff_filtered_events
-                                          - events: west_first_round
+                                          - entity: sensor.nhl_playoff_west_1st_round
+                                          - events: events                                          
                             - attributes:
                                 label: NBA Playoffs to Championship
                                 icon: mdi:trophy
