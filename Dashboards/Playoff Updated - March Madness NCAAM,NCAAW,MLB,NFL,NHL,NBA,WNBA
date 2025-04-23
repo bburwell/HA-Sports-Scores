@@ -915,30 +915,40 @@ views:
                                 cards:
                                   - type: horizontal-stack
                                     cards:
-                                      - type: vertical-stack
+                                      - type: custom:expander-card
+                                        title: Eastern Conference Play-In
+                                        icon: mdi:basketball
+                                        expanded: false
                                         cards:
-                                          - type: custom:decluttering-card
-                                            template: sports_playoffs
-                                            variables:
-                                              - title: Eastern Conference Play-In
-                                              - color: '#4169E1'
-                                              - entity: sensor.nba_playoff_filtered_events
-                                              - events: east_play_in
-                                              - show_rankings: false
-                                              - show_series: true
-                                              - show_broadcast: true
-                                      - type: vertical-stack
+                                          - type: vertical-stack
+                                            cards:
+                                              - type: custom:decluttering-card
+                                                template: sports_playoffs
+                                                variables:
+                                                  - title: Eastern Conference Play-In
+                                                  - color: '#4169E1'
+                                                  - entity: sensor.nba_playoff_filtered_events
+                                                  - events: east_play_in
+                                                  - show_rankings: false
+                                                  - show_series: true
+                                                  - show_broadcast: true
+                                      - type: custom:expander-card
+                                        title: Western Conference Play-In
+                                        icon: mdi:basketball
+                                        expanded: false
                                         cards:
-                                          - type: custom:decluttering-card
-                                            template: sports_playoffs
-                                            variables:
-                                              - title: Western Conference Play-In
-                                              - color: '#4169E1'
-                                              - entity: sensor.nba_playoff_filtered_events
-                                              - events: west_play_in
-                                              - show_rankings: false
-                                              - show_series: true
-                                              - show_broadcast: true
+                                          - type: vertical-stack
+                                            cards:
+                                              - type: custom:decluttering-card
+                                                template: sports_playoffs
+                                                variables:
+                                                  - title: Western Conference Play-In
+                                                  - color: '#4169E1'
+                                                  - entity: sensor.nba_playoff_filtered_events
+                                                  - events: west_play_in
+                                                  - show_rankings: false
+                                                  - show_series: true
+                                                  - show_broadcast: true
                                   - type: horizontal-stack
                                     cards:
                                       - type: vertical-stack
