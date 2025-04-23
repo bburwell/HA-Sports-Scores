@@ -44,7 +44,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
     right now for the nba west 1st round: resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round.json.
   - The last piece is that I have an automation that calls the python script every 3 mintues during the playoff season.
   - The call the automation makes is a shell command.  I have updated the configuration.yaml with the shell command calls I make.  Here is the NBA example:   get_nba_first_round: 'python /config/www/nba-1st.py'
-  - Here is what my NBA automation looks like:
+  - Here is what my NHL automation looks like:
     ```
      alias: NHL 1st Round
      description: ""
