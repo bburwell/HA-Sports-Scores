@@ -1,0 +1,479 @@
+decluttering_templates:
+  sports_playoffs_series_gpt:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;'
+        tbody tr td:first-child: 'width: 100%; text-align: left; padding: 5px;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px!important;
+              font-size: 14px!important;
+              font-weight: bold!important;
+            }
+      sort_by: ID
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ID
+          data: '[[events]]'
+          modify: x.seriesTitle
+          hidden: true
+        - name: Series Details
+          data: '[[events]]'
+          modify: |-
+            (() => {
+              console.log("Input data:", JSON.stringify(x));
+              if (!x || !x.seriesDetails || !x.seriesDetails.seriesGames || !x.seriesDetails.seriesGames[0]) {
+                console.log("Missing data:", x);
+                return "No data available";
+              }
+
+              const sport = x.seriesDetails.seriesGames[0].sport || 'NBA';  // Default to NBA if sport is not specified
+              const games = x.seriesDetails.seriesGames;
+              const maxGames = 7;
+              const seriesSummary = [[show_series]] && x.seriesStatus
+                ? `<div style="background-color: gray; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;"> Series: ${x.seriesStatus} (Best of ${maxGames}) </div>`
+                : "";
+
+              const team1 = x.seriesDetails.Teams[0];
+              const team2 = x.seriesDetails.Teams[1];
+              const team1Logo = games[0]["Lowest Seed"].Name === team1 ? games[0]["Lowest Seed"].Logo : games[0]["Highest Seed"].Logo;
+              const team2Logo = games[0]["Highest Seed"].Name === team2 ? games[0]["Highest Seed"].Logo : games[0]["Lowest Seed"].Logo;
+              const team1Display = `<div><img src="${team1Logo}" style="height: 16px; vertical-align: middle;" aria-hidden="true"> ${team1}</div>`;
+              const team2Display = `<div><img src="${team2Logo}" style="height: 16px; vertical-align: middle;" aria-hidden="true"> ${team2}</div>`;
+
+              const gameScores = games.map((game, index) => {
+                const team1Score = game["Lowest Seed"].Name === team1 ? game["Lowest Seed"].Score : game["Highest Seed"].Score;
+                const team2Score = game["Highest Seed"].Name === team2 ? game["Highest Seed"].Score : game["Lowest Seed"].Score;
+                const isCompleted = game.Status === "final";
+                const isLive = game.Status === "live";
+                const team1ScoreNum = isNaN(Number(team1Score)) ? 0 : Number(team1Score);
+                const team2ScoreNum = isNaN(Number(team2Score)) ? 0 : Number(team2Score);
+
+                let team1ScoreDisplay, team2ScoreDisplay;
+                if (isCompleted) {
+                  team1ScoreDisplay = `<div style="font-size: 16px; color: ${team1ScoreNum > team2ScoreNum ? 'green' : 'red'}; text-align: center;">${team1Score}</div>`;
+                  team2ScoreDisplay = `<div style="font-size: 16px; color: ${team2ScoreNum > team1ScoreNum ? 'green' : 'red'}; text-align: center;">${team2Score}</div>`;
+                } else if (isLive) {
+                  team1ScoreDisplay = `<div style="font-size: 16px; color: white; text-align: center;">${team1Score}</div>`;
+                  team2ScoreDisplay = `<div style="font-size: 16px; color: white; text-align: center;">${team2Score}</div>`;
+                } else {
+                  team1ScoreDisplay = `<div style="font-size: 16px; color: gray; text-align: center;">-</div>`;
+                  team2ScoreDisplay = `<div style="font-size: 16px; color: gray; text-align: center;">-</div>`;
+                }
+
+                // Format the date, time, and broadcast for each game
+                let gameDate, gameTime, gameDateRaw;
+                try {
+                  const date = new Date(game.Date);
+                  if (isNaN(date.getTime())) {
+                    throw new Error("Invalid date");
+                  }
+                  gameDate = `${date.toLocaleDateString("en-US", { weekday: "short" })} - ${date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+                  gameTime = date.toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                  });
+                  gameDateRaw = date.toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+                } catch (e) {
+                  console.log("Date parsing error for game", game.gameNumber, ":", e);
+                  gameDate = "TBD";
+                  gameTime = "TBD";
+                  gameDateRaw = "TBD";
+                }
+
+                const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+                const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
+
+                // Split the broadcast string and take only the first station
+                const firstBroadcast = game.Broadcast ? game.Broadcast.split(',')[0].trim() : "TBD";
+
+                const gameDateTime = `<div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 4px; ${dateStyle}">
+                  <span style="font-size: 12px; font-weight: bold;">${gameDate}</span>
+                  <span style="font-size: 11px; color: gray;">${gameTime} ${firstBroadcast}</span>
+                </div>`;
+
+                // Add status badge or placeholder above the game
+                let statusBadge = '';
+                if (isCompleted) {
+                  statusBadge = `<div style="background-color: white; color: black; padding: 1px 4px; border-radius: 4px; font-size: 10px; margin-bottom: 2px;">FINAL</div>`;
+                } else if (isLive) {
+                  statusBadge = `<div style="background-color: green; color: white; padding: 1px 4px; border-radius: 4px; font-size: 10px; margin-bottom: 2px;">LIVE</div>`;
+                } else {
+                  statusBadge = `<div style="padding: 1px 4px; font-size: 10px; margin-bottom: 2px; visibility: hidden;">PLACEHOLDER</div>`;
+                }
+
+                return `<div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
+                  ${gameDateTime}
+                  ${statusBadge}
+                  <div style="font-size: 12px; color: gray;">Game ${game.gameNumber}</div>
+                  ${team1ScoreDisplay}
+                  ${team2ScoreDisplay}
+                </div>`;
+              });
+
+              while (gameScores.length < maxGames) {
+                gameScores.push(`<div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
+                  <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 4px;">
+                    <span style="font-size: 12px; font-weight: bold;">TBD</span>
+                    <span style="font-size: 11px; color: gray;">TBD</span>
+                  </div>
+                  <div style="padding: 1px 4px; font-size: 10px; margin-bottom: 2px; visibility: hidden;">PLACEHOLDER</div>
+                  <div style="font-size: 12px; color: gray;">Game ${gameScores.length + 1}</div>
+                  <div style="font-size: 16px; color: gray; text-align: center;">-</div>
+                  <div style="font-size: 16px; color: gray; text-align: center;">-</div>
+                </div>`);
+              }
+
+              const teamsAndScores = `<div style="display: flex; flex-direction: row; gap: 20px; align-items: center;">
+                <div style="display: flex; flex-direction: column; gap: 5px; min-width: 150px; padding-top: 60px;">
+                  ${team1Display}
+                  ${team2Display}
+                </div>
+                <div style="display: flex; justify-content: flex-start; gap: 10px;">
+                  ${gameScores.join('')}
+                </div>
+              </div>`;
+
+              return `<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
+                ${seriesSummary}
+                ${teamsAndScores}
+              </div>`;
+            })()
+views:
+  - theme: Backend-selected
+    title: Playoffs - NCAA Men's & Women's March Madness, NFL, MLB, NBA, NHL
+    type: panel
+    icon: mdi:strategy
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: black;
+                color: silver;
+                border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+                border-width: 2px;
+                border-style: solid;
+                overflow: hidden;
+                width: 20%;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': black
+            '--mdc-tab-text-label-color-default': silver
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: Playoffs all Sports
+                icon: mdi:trophy-variant-outline
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  card_mod: null
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 10%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                  tabs:
+                    - attributes:
+                        label: Playoffs
+                        icon: mdi:trophy-award
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: NBA
+                                icon: mdi:trophy-outline
+                              card:
+                                type: vertical-stack
+                                cards:
+                                  - type: custom:expander-card
+                                    title: NBA PLayoffs 1st Round
+                                    icon: mdi:basketball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Eastern Conference 1st Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_east_1st_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Western Conference 1st Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_west_1st_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                  - type: custom:expander-card
+                                    title: NBA PLayoffs 2nd Round
+                                    icon: mdi:basketball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Eastern Conference 2nd Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_east_2nd_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Western Conference 2nd Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_west_2nd_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                  - type: custom:expander-card
+                                    title: NBA PLayoffs Finals
+                                    icon: mdi:basketball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Eastern Conference Finals
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_east_final_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Western Conference Finals
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_west_final_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                  - type: custom:expander-card
+                                    title: NBA Finals
+                                    icon: mdi:basketball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: NBA Finals
+                                              - color: '#D50032'
+                                              - entity: sensor.nba_finals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                            - attributes:
+                                label: NHL
+                                icon: mdi:trophy-outline
+                              card:
+                                type: vertical-stack
+                                cards:
+                                  - type: custom:expander-card
+                                    title: NHL PLayoffs 1st Round
+                                    icon: mdi:hockey-sticks
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Eastern Conference 1st Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_east_1st_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Western Conference 1st Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_west_1st_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                  - type: custom:expander-card
+                                    title: NHL PLayoffs 2nd Round
+                                    icon: mdi:hockey-sticks
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Eastern Conference 2nd Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_east_2nd_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Western Conference 2nd Round
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_west_2nd_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                  - type: custom:expander-card
+                                    title: NHL PLayoffs Finals
+                                    icon: mdi:hockey-sticks
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Eastern Conference Finals
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_east_finals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Western Conference Finals
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_playoff_west_finals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                  - type: custom:expander-card
+                                    title: NHL Stanley Cup
+                                    icon: mdi:hockey-sticks
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Stanley Cup
+                                              - color: '#D50032'
+                                              - entity: sensor.nhl_stanley_cup_final_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
