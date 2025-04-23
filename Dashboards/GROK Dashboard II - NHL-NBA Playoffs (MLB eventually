@@ -274,7 +274,7 @@ views:
                                             variables:
                                               - title: Eastern Conference 1st Round
                                               - color: '#D50032'
-                                              - entity: sensor.nhl_playoff_east_1st_round_gpt
+                                              - entity: sensor.nba_playoff_east_1st_round_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
@@ -285,7 +285,7 @@ views:
                                             variables:
                                               - title: Western Conference 1st Round
                                               - color: '#D50032'
-                                              - entity: sensor.nhl_playoff_west_1st_round_gpt
+                                              - entity: sensor.nba_playoff_west_1st_round_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
