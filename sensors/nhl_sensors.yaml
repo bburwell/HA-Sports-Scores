@@ -41,7 +41,8 @@
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
-      
+
+############################ gpt ####################
 - platform: rest
   name: NHL Playoff East 1st Round
   unique_id: sensor.nhl_playoff_east_1st_round
@@ -96,7 +97,7 @@
   json_attributes: 
    - events
    - series
-
+############################ gpt ####################
 ###
 ### NHL Divisions
 ###
