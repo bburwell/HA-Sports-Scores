@@ -46,23 +46,25 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
   - The call the automation makes is a shell command.  I have updated the configuration.yaml with the shell command calls I make.  Here is the NBA example:   get_nba_first_round: 'python /config/www/nba-1st.py'
   - Here is what my NBA automation looks like:
     ```
-      alias: NBA 1st Round
-      description: ""
-      triggers:
-        - minutes: /3
-          trigger: time_pattern
-      conditions:
-        - condition: time
-          after: "00:00:00"
-          before: "23:59:59"
-        - condition: template
-          value_template: >
-            {{ now().date() >= as_datetime('2025-04-15').date() and now().date() <=
-            as_datetime('2025-06-22').date() }}
-      actions:
-        - data: {}
-          action: shell_command.get_nba_first_round
-      mode: single
+alias: NHL 1st Round
+description: ""
+triggers:
+  - minutes: /3
+    trigger: time_pattern
+conditions:
+  - condition: time
+    after: "00:00:00"
+    before: "23:59:59"
+  - condition: template
+    value_template: >
+      {{ now().date() >= as_datetime('2025-04-17').date() and now().date() <=
+      as_datetime('2025-06-23').date() }}
+actions:
+  - data: {}
+    action: shell_command.get_nhl_first_round
+  - data: {}
+    action: shell_command.get_nhl_first_round_grok
+mode: single
     ```
 - That's it but here is a summarized flow for NBA/NHL:
    - Automation during the playoffs makes a call every 3 mintues to the Python Script that Calls the NHL/NBA API
