@@ -50,6 +50,53 @@
   json_attributes: 
    - events
 
+###  2nd Round GPT
+- platform: rest
+  name: NHL Playoff West 2nd Round gpt
+  unique_id: sensor.nhl_playoff_west_2nd_round_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/nhl_west_2nd_round_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+- platform: rest
+  name: NHL Playoff East 2nd Round gpt
+  unique_id: sensor.nhl_playoff_east_2nd_round_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/nhl_east_2nd_round_gpt.json
+  value_template: "{{ now()}}"    
+  json_attributes: 
+   - events
+   - series
+### finals
+- platform: rest
+  name: NHL Playoff West Final gpt
+  unique_id: sensor.nhl_playoff_west_final_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/nhl_west_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+- platform: rest
+  name: NHL Playoff East Final gpt
+  unique_id: sensor.nhl_playoff_east_final_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/nhl_east_final_gpt.json
+  value_template: "{{ now()}}"    
+  json_attributes: 
+   - events
+   - series
+
+### Stanley Cup
+- platform: rest
+  name: NHL Stanley Cup Final gpt
+  unique_id: sensor.nhl_stanley_cup_final_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/nhl_stanley_cup_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+
 ###
 ### NHL Divisions
 ###
