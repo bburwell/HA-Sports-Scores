@@ -45,8 +45,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
   - The last piece is that I have an automation that calls the python script every 3 mintues during the playoff season.
   - The call the automation makes is a shell command.  I have updated the configuration.yaml with the shell command calls I make.  Here is the NBA example:   get_nba_first_round: 'python /config/www/nba-1st.py'
   - Here is what my NBA automation looks like:
-    ```
-alias: NHL 1st Round
+    ```alias: NHL 1st Round
 description: ""
 triggers:
   - minutes: /3
@@ -92,6 +91,8 @@ mode: single
   - ncaaw_sensors.yaml (Women's Basketball)
 - Racing
   - racing_sensors.yaml (F1/NASCAR)
+    ```
+
   
 ### Template.yaml
 I also have template.yaml that is used for items that I haven't converted yet or need to be in the template.yaml.
