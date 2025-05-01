@@ -210,7 +210,7 @@ decluttering_templates:
             })()
 views:
   - theme: Backend-selected
-    title: Playoffs - NCAA Men's & Women's March Madness, NFL, MLB, NBA, NHL
+    title: GROK Playoffs - NCAA Men's & Women's March Madness, NFL, MLB, NBA, NHL
     type: panel
     icon: mdi:strategy
     badges: []
