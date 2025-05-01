@@ -25,24 +25,23 @@
 - platform: rest
   name: NBA Playoff West 1st Round
   unique_id: sensor.nba_playoff_west_1st_round
-  resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round.json
+  resource:  http://192.168.100.226:8123/local/nba_west_1st_round.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
-     
+      
 - platform: rest
   name: NBA Playoff East 1st Round
   unique_id: sensor.nba_playoff_east_1st_round
-  resource:  http://192.168.xxx.xxx:8123/local/nba_east_1st_round.json
+  resource:  http://192.168.100.226:8123/local/nba_east_1st_round.json
   value_template: "{{ now()}}"    
   json_attributes: 
    - events
-
 ############################ gpt ####################
 - platform: rest
   name: NBA Playoff West 1st Round gpt
   unique_id: sensor.nba_playoff_west_1st_round_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/nba_west_1st_round_gpt.json
+  resource:  http://192.168.100.226:8123/local/nba_west_1st_round_gpt.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
@@ -51,7 +50,7 @@
 - platform: rest
   name: NBA Playoff East 1st Round gpt
   unique_id: sensor.nba_playoff_east_1st_round_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/nba_east_1st_round_gpt.json
+  resource:  http://192.168.100.226:8123/local/nba_east_1st_round_gpt.json
   value_template: "{{ now()}}"    
   json_attributes: 
    - events
@@ -59,46 +58,46 @@
 
 ###  2nd Round GPT
 - platform: rest
-  name: NBA West 2nd Round gpt
-  unique_id: sensor.nba_west_2nd_round_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/nba_west_2nd_round_gpt.json
+  name: NBA Playoff West Semifinals gpt
+  unique_id: sensor.nba_playoff_west_semifinals_gpt
+  resource:  http://192.168.100.226:8123/local/nba_west_semifinals_gpt.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
    - series
       
 - platform: rest
-  name: NBA Playoff East 2nd Round gpt
-  unique_id: sensor.nba_east_2nd_round_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/nba_east_2nd_round_gpt.json
+  name: NBA Playoff East Semifinals gpt
+  unique_id: sensor.nba_playoff_east_Semifinals_gpt
+  resource:  http://192.168.100.226:8123/local/nba_east_semifinals_gpt.json
   value_template: "{{ now()}}"    
   json_attributes: 
    - events
    - series
 ### finals
 - platform: rest
-  name: NBA West Final gpt
-  unique_id: sensor.nba_west_final_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/nba_west_final_gpt.json
+  name: NBA Playoff West Final gpt
+  unique_id: sensor.nba_playoff_west_final_gpt
+  resource:  http://192.168.100.226:8123/local/nba_west_final_gpt.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
    - series
       
 - platform: rest
-  name: NBA East Final gpt
-  unique_id: sensor.nba_east_final_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/nba_east_final_gpt.json
+  name: NBA Playoff East Final gpt
+  unique_id: sensor.nba_playoff_east_final_gpt
+  resource:  http://192.168.100.226:8123/local/nba_east_final_gpt.json
   value_template: "{{ now()}}"    
   json_attributes: 
    - events
    - series
 
-### Stanley Cup
+### Championship
 - platform: rest
   name: NBA Finals gpt
   unique_id: sensor.nba_finals_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/nba_finals_gpt.json
+  resource:  http://192.168.100.226:8123/local/nba_finals_gpt.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
