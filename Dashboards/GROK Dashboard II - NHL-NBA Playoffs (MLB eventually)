@@ -14,14 +14,22 @@ decluttering_templates:
               overflow: auto;
               border: 2px solid [[color]];
               border-radius: 8px;
+              width: 100% !important;
+              box-sizing: border-box;
             }
           $: |
             .card-header {
               background-color: [[color]];
               color: white;
-              padding: 8px!important;
-              font-size: 14px!important;
-              font-weight: bold!important;
+              padding: 8px !important;
+              font-size: 14px !important;
+              font-weight: bold !important;
+            }
+            @media (max-width: 600px) {
+              .card-header {
+                font-size: 12px !important;
+                padding: 6px !important;
+              }
             }
       sort_by: ID
       entities:
@@ -41,21 +49,50 @@ decluttering_templates:
                 return "No data available";
               }
 
-              const sport = x.seriesDetails.seriesGames[0].sport || 'NBA';  // Default to NBA if sport is not specified
+              const sport = x.seriesDetails.seriesGames[0].sport || 'NBA';
               const games = x.seriesDetails.seriesGames;
-              const maxGames = 7;
-              const seriesSummary = [[show_series]] && x.seriesStatus
-                ? `<div style="background-color: gray; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;"> Series: ${x.seriesStatus} (Best of ${maxGames}) </div>`
-                : "";
+              const maxGames = x.seriesDetails.maxGames || 7;
 
               const team1 = x.seriesDetails.Teams[0];
               const team2 = x.seriesDetails.Teams[1];
+
+              let team1Wins = 0, team2Wins = 0;
+              games.forEach(game => {
+                if (!game || !game["Lowest Seed"] || !game["Highest Seed"]) return;
+                const team1Score = game["Lowest Seed"].Name === team1 ? game["Lowest Seed"].Score : game["Highest Seed"].Score;
+                const team2Score = game["Highest Seed"].Name === team2 ? game["Highest Seed"].Score : game["Lowest Seed"].Score;
+                const team1ScoreNum = isNaN(Number(team1Score)) ? 0 : Number(team1Score);
+                const team2ScoreNum = isNaN(Number(team2Score)) ? 0 : Number(team2Score);
+                if (game.Status === "final" && team1ScoreNum !== team2ScoreNum) {
+                  if (team1ScoreNum > team2ScoreNum) team1Wins++;
+                  if (team2ScoreNum > team1ScoreNum) team2Wins++;
+                }
+              });
+
+              const updatedSeriesStatus = x.seriesStatus || `${team1} vs ${team2}`;
+              const seriesSummary = [[show_series]] && updatedSeriesStatus
+                ? `<div style="background-color: gray; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;"> Series: ${updatedSeriesStatus} (Best of ${maxGames}) </div>`
+                : "";
+
               const team1Logo = games[0]["Lowest Seed"].Name === team1 ? games[0]["Lowest Seed"].Logo : games[0]["Highest Seed"].Logo;
               const team2Logo = games[0]["Highest Seed"].Name === team2 ? games[0]["Highest Seed"].Logo : games[0]["Lowest Seed"].Logo;
               const team1Display = `<div><img src="${team1Logo}" style="height: 16px; vertical-align: middle;" aria-hidden="true"> ${team1}</div>`;
               const team2Display = `<div><img src="${team2Logo}" style="height: 16px; vertical-align: middle;" aria-hidden="true"> ${team2}</div>`;
 
               const gameScores = games.map((game, index) => {
+                if (!game || !game["Lowest Seed"] || !game["Highest Seed"]) {
+                  return `<div class="game-score" style="display: flex; flex-direction: column; align-items: center; margin: 0 5px; flex: 0 0 auto;">
+                    <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 4px;">
+                      <span class="game-date">TBD</span>
+                      <span class="game-time">TBD</span>
+                    </div>
+                    <div class="status-badge" style="visibility: hidden;">PLACEHOLDER</div>
+                    <div class="game-number">Game ${index + 1}</div>
+                    <div class="score">-</div>
+                    <div class="score">-</div>
+                  </div>`;
+                }
+
                 const team1Score = game["Lowest Seed"].Name === team1 ? game["Lowest Seed"].Score : game["Highest Seed"].Score;
                 const team2Score = game["Highest Seed"].Name === team2 ? game["Highest Seed"].Score : game["Lowest Seed"].Score;
                 const isCompleted = game.Status === "final";
@@ -65,29 +102,22 @@ decluttering_templates:
 
                 let team1ScoreDisplay, team2ScoreDisplay;
                 if (isCompleted) {
-                  team1ScoreDisplay = `<div style="font-size: 16px; color: ${team1ScoreNum > team2ScoreNum ? 'green' : 'red'}; text-align: center;">${team1Score}</div>`;
-                  team2ScoreDisplay = `<div style="font-size: 16px; color: ${team2ScoreNum > team1ScoreNum ? 'green' : 'red'}; text-align: center;">${team2Score}</div>`;
+                  team1ScoreDisplay = `<div class="score" style="color: ${team1ScoreNum > team2ScoreNum ? 'green' : 'red'}; text-align: center;">${team1Score}</div>`;
+                  team2ScoreDisplay = `<div class="score" style="color: ${team2ScoreNum > team1ScoreNum ? 'green' : 'red'}; text-align: center;">${team2Score}</div>`;
                 } else if (isLive) {
-                  team1ScoreDisplay = `<div style="font-size: 16px; color: white; text-align: center;">${team1Score}</div>`;
-                  team2ScoreDisplay = `<div style="font-size: 16px; color: white; text-align: center;">${team2Score}</div>`;
+                  team1ScoreDisplay = `<div class="score" style="color: white; text-align: center;">${team1Score}</div>`;
+                  team2ScoreDisplay = `<div class="score" style="color: white; text-align: center;">${team2Score}</div>`;
                 } else {
-                  team1ScoreDisplay = `<div style="font-size: 16px; color: gray; text-align: center;">-</div>`;
-                  team2ScoreDisplay = `<div style="font-size: 16px; color: gray; text-align: center;">-</div>`;
+                  team1ScoreDisplay = `<div class="score" style="color: gray; text-align: center;">-</div>`;
+                  team2ScoreDisplay = `<div class="score" style="color: gray; text-align: center;">-</div>`;
                 }
 
-                // Format the date, time, and broadcast for each game
                 let gameDate, gameTime, gameDateRaw;
                 try {
                   const date = new Date(game.Date);
-                  if (isNaN(date.getTime())) {
-                    throw new Error("Invalid date");
-                  }
+                  if (isNaN(date.getTime())) throw new Error("Invalid date");
                   gameDate = `${date.toLocaleDateString("en-US", { weekday: "short" })} - ${date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-                  gameTime = date.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: true,
-                  });
+                  gameTime = date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
                   gameDateRaw = date.toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
                 } catch (e) {
                   console.log("Date parsing error for game", game.gameNumber, ":", e);
@@ -98,60 +128,84 @@ decluttering_templates:
 
                 const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
                 const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
-
-                // Split the broadcast string and take only the first station
                 const firstBroadcast = game.Broadcast ? game.Broadcast.split(',')[0].trim() : "TBD";
-
                 const gameDateTime = `<div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 4px; ${dateStyle}">
-                  <span style="font-size: 12px; font-weight: bold;">${gameDate}</span>
-                  <span style="font-size: 11px; color: gray;">${gameTime} ${firstBroadcast}</span>
+                  <span class="game-date">${gameDate}</span>
+                  <span class="game-time">${gameTime} ${firstBroadcast}</span>
                 </div>`;
 
-                // Add status badge or placeholder above the game
                 let statusBadge = '';
                 if (isCompleted) {
-                  statusBadge = `<div style="background-color: white; color: black; padding: 1px 4px; border-radius: 4px; font-size: 10px; margin-bottom: 2px;">FINAL</div>`;
+                  statusBadge = `<div class="status-badge" style="background-color: white; color: black; padding: 1px 4px; border-radius: 4px;">FINAL</div>`;
                 } else if (isLive) {
-                  statusBadge = `<div style="background-color: green; color: white; padding: 1px 4px; border-radius: 4px; font-size: 10px; margin-bottom: 2px;">LIVE</div>`;
+                  statusBadge = `<div class="status-badge" style="background-color: green; color: white; padding: 1px 4px; border-radius: 4px;">LIVE</div>`;
+                } else if (game.Odds && game.Odds.PointSpread !== "N/A") {
+                  statusBadge = `<div class="status-badge" style="background-color: blue; color: white; padding: 1px 4px; border-radius: 4px;">${game.Odds.PointSpread} | O/U: ${game.Odds.OverUnder}</div>`;
                 } else {
-                  statusBadge = `<div style="padding: 1px 4px; font-size: 10px; margin-bottom: 2px; visibility: hidden;">PLACEHOLDER</div>`;
+                  statusBadge = `<div class="status-badge" style="visibility: hidden;">PLACEHOLDER</div>`;
                 }
 
-                return `<div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
+                return `<div class="game-score" style="display: flex; flex-direction: column; align-items: center; margin: 0 5px; flex: 0 0 auto;">
                   ${gameDateTime}
                   ${statusBadge}
-                  <div style="font-size: 12px; color: gray;">Game ${game.gameNumber}</div>
+                  <div class="game-number">Game ${game.gameNumber}</div>
                   ${team1ScoreDisplay}
                   ${team2ScoreDisplay}
                 </div>`;
               });
 
-              while (gameScores.length < maxGames) {
-                gameScores.push(`<div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
+              const seriesIsOver = updatedSeriesStatus.includes("wins series");
+              const gamesToShow = seriesIsOver ? (team1Wins + team2Wins) : maxGames;
+              while (gameScores.length < gamesToShow) {
+                gameScores.push(`<div class="game-score" style="display: flex; flex-direction: column; align-items: center; margin: 0 5px; flex: 0 0 auto;">
                   <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 4px;">
-                    <span style="font-size: 12px; font-weight: bold;">TBD</span>
-                    <span style="font-size: 11px; color: gray;">TBD</span>
+                    <span class="game-date">TBD</span>
+                    <span class="game-time">TBD</span>
                   </div>
-                  <div style="padding: 1px 4px; font-size: 10px; margin-bottom: 2px; visibility: hidden;">PLACEHOLDER</div>
-                  <div style="font-size: 12px; color: gray;">Game ${gameScores.length + 1}</div>
-                  <div style="font-size: 16px; color: gray; text-align: center;">-</div>
-                  <div style="font-size: 16px; color: gray; text-align: center;">-</div>
+                  <div class="status-badge" style="visibility: hidden;">PLACEHOLDER</div>
+                  <div class="game-number">Game ${gameScores.length + 1}</div>
+                  <div class="score">-</div>
+                  <div class="score">-</div>
                 </div>`);
               }
 
-              const teamsAndScores = `<div style="display: flex; flex-direction: row; gap: 20px; align-items: center;">
-                <div style="display: flex; flex-direction: column; gap: 5px; min-width: 150px; padding-top: 60px;">
-                  ${team1Display}
-                  ${team2Display}
-                </div>
-                <div style="display: flex; justify-content: flex-start; gap: 10px;">
-                  ${gameScores.join('')}
-                </div>
-              </div>`;
-
-              return `<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
+              return `<style>
+                @media (max-width: 600px) {
+                  .teams-and-scores {
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                  }
+                  .teams-container {
+                    min-width: unset !important;
+                    width: 100% !important;
+                    padding-top: 10px !important;
+                  }
+                  .scores-container {
+                    flex-direction: row !important;
+                    flex-wrap: wrap !important;
+                    justify-content: center !important;
+                    width: 100% !important;
+                  }
+                  .game-score {
+                    margin: 5px !important;
+                    flex: 0 0 30% !important;
+                  }
+                  .game-date, .game-time, .game-number, .score, .status-badge {
+                    font-size: 10px !important;
+                  }
+                }
+              </style>
+              <div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
                 ${seriesSummary}
-                ${teamsAndScores}
+                <div class="teams-and-scores" style="display: flex; flex-direction: row; gap: 20px; align-items: center;">
+                  <div class="teams-container" style="display: flex; flex-direction: column; gap: 5px; min-width: 150px; padding-top: 60px;">
+                    ${team1Display}
+                    ${team2Display}
+                  </div>
+                  <div class="scores-container" style="display: flex; justify-content: flex-start; gap: 10px;">
+                    ${gameScores.slice(0, gamesToShow).join('')}
+                  </div>
+                </div>
               </div>`;
             })()
 views:
@@ -280,6 +334,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
@@ -291,6 +346,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                   - type: custom:expander-card
                                     title: NBA PLayoffs 2nd Round
                                     icon: mdi:basketball
@@ -301,25 +357,27 @@ views:
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
-                                              - title: Eastern Conference 2nd Round
+                                              - title: Eastern Conference Semifinals
                                               - color: '#D50032'
-                                              - entity: sensor.nba_east_2nd_round_gpt
+                                              - entity: sensor.nba_playoff_east_semifinals_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
                                               - title: Western Conference 2nd Round
                                               - color: '#D50032'
-                                              - entity: sensor.nba_west_2nd_round_gpt
+                                              - entity: sensor.nba_playoff_west_semifinals_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                   - type: custom:expander-card
                                     title: NBA PLayoffs Finals
                                     icon: mdi:basketball
@@ -338,6 +396,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
@@ -349,6 +408,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                   - type: custom:expander-card
                                     title: NBA Finals
                                     icon: mdi:basketball
@@ -366,6 +426,7 @@ views:
                                               - series: series
                                               - show_rankings: false
                                               - show_series: true
+                                              - max_games: 7
                             - attributes:
                                 label: NHL
                                 icon: mdi:trophy-outline
@@ -390,6 +451,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
@@ -401,6 +463,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                   - type: custom:expander-card
                                     title: NHL PLayoffs 2nd Round
                                     icon: mdi:hockey-sticks
@@ -419,6 +482,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
@@ -430,6 +494,7 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                   - type: custom:expander-card
                                     title: NHL PLayoffs Finals
                                     icon: mdi:hockey-sticks
@@ -442,23 +507,25 @@ views:
                                             variables:
                                               - title: Eastern Conference Finals
                                               - color: '#D50032'
-                                              - entity: sensor.nhl_playoff_east_finals_gpt
+                                              - entity: sensor.nhl_playoff_east_final_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
                                               - title: Western Conference Finals
                                               - color: '#D50032'
-                                              - entity: sensor.nhl_playoff_west_finals_gpt
+                                              - entity: sensor.nhl_playoff_west_final_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
                                   - type: custom:expander-card
                                     title: NHL Stanley Cup
                                     icon: mdi:hockey-sticks
@@ -477,3 +544,204 @@ views:
                                               - show_rankings: false
                                               - show_series: true
                                               - show_broadcast: true
+                                              - max_games: 7
+                            - attributes:
+                                label: MLB
+                                icon: mdi:baseball
+                              card:
+                                type: vertical-stack
+                                cards:
+                                  - type: custom:expander-card
+                                    title: MLB Wild Card
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: AL Wild Card
+                                              - color: '#003087'
+                                              - entity: sensor.mlb_al_wild_card_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 3
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: NL Wild Card
+                                              - color: '#003087'
+                                              - entity: sensor.mlb_nl_wild_card_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 3
+                                  - type: custom:expander-card
+                                    title: MLB Division Series
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: AL Division Series
+                                              - color: '#003087'
+                                              - entity: sensor.mlb_al_division_series_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 5
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: NL Division Series
+                                              - color: '#003087'
+                                              - entity: sensor.mlb_nl_division_series_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 5
+                                  - type: custom:expander-card
+                                    title: MLB Championship Series
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: AL Championship Series
+                                              - color: '#003087'
+                                              - entity: sensor.mlb_al_championship_series_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 7
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: NL Championship Series
+                                              - color: '#003087'
+                                              - entity: sensor.mlb_nl_championship_series_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 7
+                                  - type: custom:expander-card
+                                    title: World Series
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: World Series
+                                              - color: '#003087'
+                                              - entity: sensor.mlb_world_series_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 7
+                            - attributes:
+                                label: NCAA Baseball
+                                icon: mdi:baseball
+                              card:
+                                type: vertical-stack
+                                cards:
+                                  - type: custom:expander-card
+                                    title: NCAA Regionals
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Regionals
+                                              - color: '#003087'
+                                              - entity: sensor.ncaa_regionals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: null
+                                  - type: custom:expander-card
+                                    title: NCAA Super Regionals
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Super Regionals
+                                              - color: '#003087'
+                                              - entity: sensor.ncaa_super_regionals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 3
+                                  - type: custom:expander-card
+                                    title: College World Series
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: College World Series
+                                              - color: '#003087'
+                                              - entity: sensor.ncaa_college_world_series_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: null
+                                  - type: custom:expander-card
+                                    title: CWS Finals
+                                    icon: mdi:baseball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: CWS Finals
+                                              - color: '#003087'
+                                              - entity: sensor.ncaa_cws_finals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 3
