@@ -77,6 +77,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
 - I have differenct python files for the Grok dashboard but they basically do the same thing.  I tested them against last years data, so as long as nothing changes it should work.  I have left the links to the previous year's api call.  To test you can just comment out this years and remove the comment from last years.
 - I was playing with College Baseball and that is why you see the beginnings of that.  I ran into something strage with the calls on that one.  To get the different playoffs I had to make separate date calls.  When I tried to grab all of the API data from ESPN it didn't include it.  GUessing therre is a limit ESPN has, but if I break them out like I did in the files it works.
 - Anyway, I'll work on that maybe and will watch the sensors for this years playoffs in NHL/NBA.
+- You get an idea of where I was going with the image below.
 ### Sensors directory has the following sesnsor yaml's broken up by sport: 
 - US Sports
   - nhl_sensors.yaml
@@ -138,6 +139,7 @@ Here are a couple pics of the dashboards that use the code in the dashboard and 
 ![image](https://github.com/user-attachments/assets/6f5bc9eb-6a67-444a-bcff-a70020db93a2)
 ![image](https://github.com/user-attachments/assets/62adf59c-5f28-481e-80a4-675d863c0617)
 ![image](https://github.com/user-attachments/assets/ad30e6da-c7e0-407c-80f1-dc452e9d01b1)
+![image](https://github.com/user-attachments/assets/7e43400f-8dc7-48f6-baff-a0b320227f71)
 ![image](https://github.com/user-attachments/assets/8a3abe26-048f-4eec-99f2-58b89ebfbd94)
 ![image](https://github.com/user-attachments/assets/02ad26b9-35ed-48d3-b5ed-7f8113823e5a)
 ![image](https://github.com/user-attachments/assets/7a2c1ec1-0b48-4570-bf90-960a47bf6ef8)
