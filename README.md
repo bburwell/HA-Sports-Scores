@@ -73,6 +73,7 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
    - dashboard is populated with sensor data.
 ### Playoff Dashboard - GROK'd
 - So I didn't like the layout of the playoffs dashboard.  The code is still there but I wanted to have something that was more logical.  So for fun I spoke with GROK.
+- All of the grok files have grok in them - Grok Dashboard, Grok callouts in the sensors, grok python file names, etc.
 - I have differenct python files for the Grok dashboard but they basically do the same thing.  I tested them against last years data, so as long as nothing changes it should work.  I have left the links to the previous year's api call.  To test you can just comment out this years and remove the comment from last years.
 - I was playing with College Baseball and that is why you see the beginnings of that.  I ran into something strage with the calls on that one.  To get the different playoffs I had to make separate date calls.  When I tried to grab all of the API data from ESPN it didn't include it.  GUessing therre is a limit ESPN has, but if I break them out like I did in the files it works.
 - Anyway, I'll work on that maybe and will watch the sensors for this years playoffs in NHL/NBA.
