@@ -1,0 +1,68 @@
+##
+## NCAA Basetball 
+###
+#- platform: rest
+  #scan_interval: 900000
+  #name: NCAAM March Madness
+  #unique_id: sensor.ncaab_playoffs
+  ##2025 - resource: https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard?dates=20250613-20250623
+  #resource: https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard?dates=20240531-20240624
+  #value_template: "{{ now() }}"
+  #json_attributes:
+      #- events   
+      #- odds    
+
+
+#https://site.web.api.espn.com/apis/v2/sports/baseball/college-baseball/standings?seasontype=2&type=0&level=3
+
+### For the GROK II Dashboard - NCAA College Baseball #################################
+
+- platform: rest
+  name: NCAA Regionals gpt
+  unique_id: sensor.ncaa_regionals_gpt
+  resource: http://192.168.100.226:8123/local/ncaa_regionals_gpt.json
+  value_template: "{{ now()}}"
+  json_attributes:
+    - events
+    - series
+    - bracket
+
+- platform: rest
+  name: NCAA Super Regionals gpt
+  unique_id: sensor.ncaa_super_regionals_gpt
+  resource: http://192.168.100.226:8123/local/ncaa_super_regionals_gpt.json
+  value_template: "{{ now()}}"
+  json_attributes:
+    - events
+    - series
+    - bracket
+
+- platform: rest
+  name: NCAA College World Series gpt
+  unique_id: sensor.ncaa_college_world_series_gpt
+  resource: http://192.168.100.226:8123/local/ncaa_college_world_series_gpt.json
+  value_template: "{{ now()}}"
+  json_attributes:
+    - events
+    - series
+    - bracket
+
+- platform: rest
+  name: NCAA CWS Finals gpt
+  unique_id: sensor.ncaa_cws_finals_gpt
+  resource: http://192.168.100.226:8123/local/ncaa_cws_finals_gpt.json
+  value_template: "{{ now()}}"
+  json_attributes:
+    - events
+    - series
+    - bracket
+    
+- platform: rest
+  resource: http://192.168.100.226:8123/local/ncaa_combined_bracket_gpt.json"
+  name: ncaa_combined_bracket_gpt
+  value_template: "{{ value_json.sport }}"
+  json_attributes:
+    - events
+    - series
+    - bracket
+    - superRegionalPairings
