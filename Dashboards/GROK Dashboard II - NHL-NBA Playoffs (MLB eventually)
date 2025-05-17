@@ -390,7 +390,7 @@ views:
                                             variables:
                                               - title: Eastern Conference Finals
                                               - color: '#D50032'
-                                              - entity: sensor.nba_east_final_gpt
+                                               - entity: sensor.nba_playoff_east_final_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
@@ -402,7 +402,7 @@ views:
                                             variables:
                                               - title: Western Conference Finals
                                               - color: '#D50032'
-                                              - entity: sensor.nba_west_final_gpt
+                                              - entity: sensor.nba_playoff_west_final_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
