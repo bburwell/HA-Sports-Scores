@@ -20,7 +20,37 @@
   value_template: "{{ now() }}"
   json_attributes:
       - children
+############################ gpt ####################
+- platform: rest
+  name: WNBA Playoff 1st Round gpt
+  unique_id: sensor.wnba_playoff_1st_round_gpt
+  resource:  http://192.168.x.x:8123/local/wnba_first_round_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
       
+- platform: rest
+  name: WNBA Playoff Semifinals gpt
+  unique_id: sensor.wnba_playoff_semifinals_gpt
+  resource:  http://192.168.x.x:8123/local/wnba_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+
+### finals
+- platform: rest
+  name: WNBA Playoff Finals gpt
+  unique_id: sensor.wnba_playoff_finals_gpt
+  resource:  http://192.168.x.x:8123/local/wnba_finals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+#############################################      
 - platform: rest
   scan_interval: 36000
   name: WNBA Eastern Conference
