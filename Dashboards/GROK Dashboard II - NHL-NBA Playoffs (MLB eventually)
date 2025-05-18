@@ -369,7 +369,7 @@ views:
                                           - type: custom:decluttering-card
                                             template: sports_playoffs_series_gpt
                                             variables:
-                                              - title: Western Conference 2nd Round
+                                              - title: Western Conference Semifinals
                                               - color: '#D50032'
                                               - entity: sensor.nba_playoff_west_semifinals_gpt
                                               - events: series
@@ -390,7 +390,7 @@ views:
                                             variables:
                                               - title: Eastern Conference Finals
                                               - color: '#D50032'
-                                               - entity: sensor.nba_playoff_east_final_gpt
+                                              - entity: sensor.nba_playoff_east_final_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
@@ -422,6 +422,68 @@ views:
                                               - title: NBA Finals
                                               - color: '#D50032'
                                               - entity: sensor.nba_finals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - max_games: 7
+                            - attributes:
+                                label: WNBA
+                                icon: mdi:trophy-outline
+                              card:
+                                type: vertical-stack
+                                cards:
+                                  - type: custom:expander-card
+                                    title: WNBA PLayoffs 1st Round
+                                    icon: mdi:basketball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: WNBA 1st Round
+                                              - color: '#D50032'
+                                              - entity: sensor.wnba_playoff_1st_round_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 7
+                                  - type: custom:expander-card
+                                    title: WNBA PLayoffs Semifinals
+                                    icon: mdi:basketball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: WNBA Semifinals
+                                              - color: '#D50032'
+                                              - entity: sensor.wnba_playoff_semifinals_gpt
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 7
+                                  - type: custom:expander-card
+                                    title: WNBA Finals
+                                    icon: mdi:basketball
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: WNBA Finals
+                                              - color: '#D50032'
+                                              - entity: sensor.wnba_playoff_finals_gpt
                                               - events: series
                                               - series: series
                                               - show_rankings: false
