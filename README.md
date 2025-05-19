@@ -71,6 +71,15 @@ My setup has changed from Kbrowns in that he uses Templates (which work for most
    - 2 JSON files are created/updated for East/West 1st Rounds
    - Sports sensor is monitoring this file and updates on chages
    - dashboard is populated with sensor data.
+### Playoff dashboard (update 5/18/2025)
+- I originally began this as trying to get more of a ESPN look and feel.  I also wanted to simplify the calls.
+- Because of limitations with Homoe Assistant and in some cases (NCAA teams, NBA 1st Round Playoffs, etc. as examples) I had to move away from templates and move to either rest or python to create sensors to hold the data.
+- My goal with keeping the sensors identified by sport (sensors.ncaa, sesnors.nba, etc.) was so the I could limit the scan_interval and change them in off-season.  I wouldn't be polling as frequently in off-season.
+- My path down the playoffs using pyton made me recognize that I was using automation to accomplish what I had been wanting all along.  My Playoffs automation only makes playoff calls during that sports season.  You will note that I created a new dashboard ((new playoff dashboard - moving to python sensors only) Playoffs Dashboard - NCAA Men's & Women's March Madness, NFL, MLB, NBA, NHL) that utilizes the python calls.
+- I created the python files to do 2 things: 1) separate the API events data by rounds, semi-finals, finals, etc and 2) create a series so that in my GROK dashboard it was laid out more logically.
+- Since I have all of the data in those files, there was no reason to have 2 sensors.  Python was giving me everything I needed and I could comment out the template actions.
+- You will still have access to the old dashboards but I am moving on to the python files for the sensor data until I hit another challenge.
+- Hope this helps.
 ### Playoff Dashboard - GROK'd
 - So I didn't like the layout of the playoffs dashboard.  The code is still there but I wanted to have something that was more logical.  So for fun I spoke with GROK.
 - All of the grok files have grok in them - Grok Dashboard, Grok callouts in the sensors, grok python file names, etc.
