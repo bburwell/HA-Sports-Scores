@@ -1,6 +1,41 @@
 ###########################
 ############## European Soccer
 
+############## UEFA Champions -GROK'd
+
+- platform: rest
+  name: Soccer UEFA Champions Round16 gpt
+  unique_id: sensor.soccer_uefa_champions_round16_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_round_of_16_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+    
+- platform: rest
+  name: Soccer UEFA Champions Quarterfinals gpt
+  unique_id: sensor.soccer_uefa_champions_quarterfinals_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_quarterfinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+- platform: rest
+  name: Soccer UEFA Champions Semifinals gpt
+  unique_id: sensor.soccer_uefa_champions_semifinals_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+- platform: rest
+  name: Soccer UEFA Champions Finals gpt
+  unique_id: sensor.soccer_uefa_champions_finals_gpt
+  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
 
 ###########################
 ############## Premier League
