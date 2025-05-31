@@ -13,4 +13,5 @@ shell_command:
   get_nba_first_round_grok: 'python /config/www/nba-1st-grok.py'
   get_nhl_first_round_grok: 'python /config/www/nhl-1st-grok.py'
   get_wnba_first_round_grok: 'python /config/www/wnba-1st-grok.py'
+  get_soccer_first_round_grok: 'python /config/www/soccer-1st-grok.py'
   get_soccer_uefa_champions_grok: 'python /config/www/soccer-uefa-grok.py'
