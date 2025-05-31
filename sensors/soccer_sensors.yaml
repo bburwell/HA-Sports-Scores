@@ -38,6 +38,120 @@
    - series 
 
 ###########################
+###########################
+############### English League One
+#- platform: rest
+  #scan_interval: 36000
+  #name: soccer_english_league_one
+  #unique_id: sensor.soccer_english_league_one
+  #resource: https://site.web.api.espn.com/apis/v2/sports/soccer/eng.3/standings?seasontype=1&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[0]['standings']"
+  #json_attributes: 
+   #- entries
+
+############################
+############### English League One Playoffs for promotion
+#- platform: rest
+  #scan_interval: 604800
+  #name: Soccer_english_league_one_promotion_playoffs
+  #unique_id: sensor.soccer_english_league_one_promotion_playoffs
+  #resource: http://site.api.espn.com/apis/site/v2/sports/soccer/eng.3/scoreboard?dates=20250501-20250530
+  #value_template: "{{ now() }}"
+  #json_attributes:
+      #- leagues
+      #- events
+
+############################
+
+############### English League One Playoffs for promotion -GROK'd
+    
+#- platform: rest
+  #name: Soccer Promotion Playoff English Championship League Semifinals gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_championship_league_semifinals_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.2_semifinals_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series 
+#- platform: rest
+  #name: Soccer Promotion Playoff English Championship League Final gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_championship_league_final_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.2_final_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series   
+############### English League One Playoffs for promotion -GROK'd
+##- platform: rest
+  ##scan_interval: 604800
+  ##resource: https://site.api.espn.com/apis/site/v2/sports/soccer/eng.3/scoreboard?dates=20240501-20240530
+  ##name: Soccer_english_league_one_playoff_data
+  ##unique_id: sensor.soccer_english_league_one_playoff_data
+  ##value_template: "{{ value_json.events | length }}"
+  ##json_attributes:
+    ##- events
+    
+#- platform: rest
+  #name: Soccer Promotion Playoff English League 1 Semifinals gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_league_1_semifinals_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.3_semifinals_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series 
+#- platform: rest
+  #name: Soccer Promotion Playoff English League 1 Final gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_league_1_final_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.3_final_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series      
+
+############### English League Two Playoffs for promotion -GROK'd
+    
+#- platform: rest
+  #name: Soccer Promotion Playoff English League 2 Semifinals gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_league_2_semifinals_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.4_semifinals_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series 
+   
+#- platform: rest
+  #name: Soccer Promotion Playoff English League 2 Final gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_league_2_final_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.4_final_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series      
+
+############### English League National Playoffs for promotion -GROK'd
+    
+#- platform: rest
+  #name: Soccer Promotion Playoff English National League Semifinals gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_national_league_semifinals_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.5_semifinals_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series 
+   
+#- platform: rest
+  #name: Soccer Promotion Playoff English National League Final gpt
+  #unique_id: sensor.soccer_promotion_playoff_english_national_league_final_gpt
+  #resource:  http://192.168.100.226:8123/local/soccer_eng.5_final_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series 
+
+############################# Championship and English League 1 Promotion ####################
+
+
 ############## Premier League
 
 - platform: rest
