@@ -7,4 +7,10 @@ Using Flextable probably not how it really should be used but I feel comfortable
   get_soccer_fifa_club_worldcup: 'python /config/www/fifaclubworldcup.py') like I do with my other sectionns show, and you will need to update the save locations to point to your local directory eg. /config/www/.
 - soccer_sensors.yaml has the updates you will need to change the file location's IP address right now they are 192.168.xxx.xxx or should be
 - the Dashboard is called Unified World Cup, Club World Cup, NBA, NHL - I eventually plan to try to combine sports
-- 
+- I have put Group Stage A-H at the top so I can see what is populating and what is not.
+- I am trying to highlight those that advance but the logic is off.
+- I am sure something will break and feel free to offer any ideas or suggestions - I watch this link more than anything else - https://community.home-assistant.io/t/sports-standings-and-scores/547094 
+Here are a couple screen shots:
+![image](https://github.com/user-attachments/assets/8eaf3288-404f-4ce1-b052-446a8910b32f)
+![image](https://github.com/user-attachments/assets/1d667df7-7773-48c4-9799-eb9641731cba)
+
