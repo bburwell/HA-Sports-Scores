@@ -65,6 +65,16 @@ def create_series_structure(data, stage_or_group):
     all_teams = set(GROUP_TEAMS.get(group_letter, [])) if group_letter else set()
     all_games = []
     print(f"Processing events for {stage_or_group}: {len(data['events'])} events")  # Debug
+    
+    # Map team names to logos
+    team_logo_map = {}
+    for event in data['events']:
+        for competition in event.get('competitions', []):
+            for competitor in competition.get('competitors', []):
+                team_name = competitor['team']['displayName']
+                team_logo = competitor['team'].get('logo', '')
+                team_logo_map[team_name] = team_logo
+
     for event in data['events']:
         for competition in event.get('competitions', []):
             team1 = competition['competitors'][0]['team']['displayName']
@@ -86,20 +96,34 @@ def create_series_structure(data, stage_or_group):
             venue = competition.get('venue', {}).get('fullName', 'TBD')
             date = competition.get('date', 'TBD')
 
+            # Determine seeds based on alphabetical order
+            if team1 <= team2:
+                lowest_team, highest_team = team1, team2
+                lowest_score = str(competition['competitors'][0].get('score', 0))
+                highest_score = str(competition['competitors'][1].get('score', 0))
+                lowest_advance = competition['competitors'][0].get('advance', False)
+                highest_advance = competition['competitors'][1].get('advance', False)
+            else:
+                lowest_team, highest_team = team2, team1
+                lowest_score = str(competition['competitors'][1].get('score', 0))
+                highest_score = str(competition['competitors'][0].get('score', 0))
+                lowest_advance = competition['competitors'][1].get('advance', False)
+                highest_advance = competition['competitors'][0].get('advance', False)
+
             game = {
                 "gameNumber": len(all_games) + 1,
                 "Date": date,
                 "Lowest Seed": {
-                    "Name": min(team1, team2),  # Simple sorting for consistency
-                    "Score": str(competition['competitors'][0].get('score', 0)),
-                    "Logo": competition['competitors'][0]['team'].get('logo', ''),
-                    "Advance": competition['competitors'][0].get('advance', False)
+                    "Name": lowest_team,
+                    "Score": lowest_score,
+                    "Logo": team_logo_map.get(lowest_team, ''),
+                    "Advance": lowest_advance
                 },
                 "Highest Seed": {
-                    "Name": max(team1, team2),
-                    "Score": str(competition['competitors'][1].get('score', 0)),
-                    "Logo": competition['competitors'][1]['team'].get('logo', ''),
-                    "Advance": competition['competitors'][1].get('advance', False)
+                    "Name": highest_team,
+                    "Score": highest_score,
+                    "Logo": team_logo_map.get(highest_team, ''),
+                    "Advance": highest_advance
                 },
                 "Broadcast": broadcast,
                 "Status": game_status,
@@ -200,18 +224,18 @@ def save_to_file(filename, data):
 if __name__ == "__main__":
     print("Fetching 2025 FIFA Club World Cup live data...")
     club_world_cup_stages = [
-        ("group-A", "fifa_club_worldcup_group_a_gpt.json"),
-        ("group-B", "fifa_club_worldcup_group_b_gpt.json"),
-        ("group-C", "fifa_club_worldcup_group_c_gpt.json"),
-        ("group-D", "fifa_club_worldcup_group_d_gpt.json"),
-        ("group-E", "fifa_club_worldcup_group_e_gpt.json"),
-        ("group-F", "fifa_club_worldcup_group_f_gpt.json"),
-        ("group-G", "fifa_club_worldcup_group_g_gpt.json"),
-        ("group-H", "fifa_club_worldcup_group_h_gpt.json"),
-        ("round-of-16", "fifa_club_worldcup_round_of_16_gpt.json"),
-        ("quarterfinals", "fifa_club_worldcup_quarterfinals_gpt.json"),
-        ("semifinals", "fifa_club_worldcup_semifinals_gpt.json"),
-        ("final", "fifa_club_worldcup_final_gpt.json")
+        ("group-A", "/config/www/fifa_club_worldcup_group_a_gpt.json"),
+        ("group-B", "/config/www/fifa_club_worldcup_group_b_gpt.json"),
+        ("group-C", "/config/www/fifa_club_worldcup_group_c_gpt.json"),
+        ("group-D", "/config/www/fifa_club_worldcup_group_d_gpt.json"),
+        ("group-E", "/config/www/fifa_club_worldcup_group_e_gpt.json"),
+        ("group-F", "/config/www/fifa_club_worldcup_group_f_gpt.json"),
+        ("group-G", "/config/www/fifa_club_worldcup_group_g_gpt.json"),
+        ("group-H", "/config/www/fifa_club_worldcup_group_h_gpt.json"),
+        ("round-of-16", "/config/www/fifa_club_worldcup_round_of_16_gpt.json"),
+        ("quarterfinals", "/config/www/fifa_club_worldcup_quarterfinals_gpt.json"),
+        ("semifinals", "/config/www/fifa_club_worldcup_semifinals_gpt.json"),
+        ("final", "/config/www/fifa_club_worldcup_final_gpt.json")
     ]
 
     for stage_or_group, filename in club_world_cup_stages:
