@@ -219,6 +219,72 @@
    - events
    - series
 ###########################
+########################### Concacaf Gold Cup
+
+- platform: rest
+  name: Concacaf Gold Cup Group A
+  unique_id: sensor.concacaf_gold_cup_group_a
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_group_a_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Group B
+  unique_id: sensor.concacaf_gold_cup_group_b
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_group_b_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Group C
+  unique_id: sensor.concacaf_gold_cup_group_c
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_group_c_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Group D
+  unique_id: sensor.concacaf_gold_cup_group_d
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_group_d_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Round of 16
+  unique_id: sensor.concacaf_gold_cup_round_of_16
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_round_of_16_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Quarterfinals
+  unique_id: sensor.concacaf_gold_cup_quarterfinals
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_quarterfinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Semifinals
+  unique_id: sensor.concacaf_gold_cup_semifinals
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Final
+  unique_id: sensor.concacaf_gold_cup_final
+  resource:  http://192.168.xxx.xxx:8123/local/concacaf_gold_cup_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
 ############## Premier League
 
 - platform: rest
