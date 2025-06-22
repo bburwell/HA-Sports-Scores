@@ -809,3 +809,175 @@ views:
                                               - show_broadcast: true
                                               - max_games: 1
                                               - series: series
+                            - attributes:
+                                label: Concacaf Gold Cup
+                                icon: mdi:soccer
+                              card:
+                                type: vertical-stack
+                                cards:
+                                  - type: custom:expander-card
+                                    title: Concacaf Gold Cup
+                                    icon: mdi:soccer
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage A
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_a
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage B
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_b
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage C
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_c
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage D
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_d
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage A
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_a
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage B
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_b
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage C
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_c
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Group Stage D
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_group_d
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 6
+                                  - type: custom:expander-card
+                                    title: Concacaf Gold Cup  - Quarterfinals
+                                    icon: mdi:soccer
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Quarter Finals
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_quarterfinals
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 4
+                                  - type: custom:expander-card
+                                    title: 'Concacaf Gold Cup - SemiFinals '
+                                    icon: mdi:soccer
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Semifinals
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_semifinals
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 2
+                                              - series: series
+                                  - type: custom:expander-card
+                                    title: Concacaf Gold Cup
+                                    icon: mdi:soccer
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Final
+                                              - color: '#0066CC'
+                                              - entity: sensor.concacaf_gold_cup_final
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 1
+                                              - series: series
