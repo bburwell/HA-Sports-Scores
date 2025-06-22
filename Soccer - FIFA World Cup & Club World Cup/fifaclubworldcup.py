@@ -7,11 +7,11 @@ API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.cwc/scorebo
 
 # Updated group assignments based on 2025 FIFA Club World Cup draw
 GROUP_TEAMS = {
-    "A": ["Inter Miami CF", "Al Ahly", "Palmeiras", "Porto"],
-    "B": ["Paris Saint-Germain", "Atletico Madrid", "Botafogo", "Seattle Sounders"],
+    "A": ["Inter Miami CF", "Al Ahly", "Palmeiras", "FC Porto"],
+    "B": ["Paris Saint-Germain", "Atlético Madrid", "Botafogo", "Seattle Sounders FC"],
     "C": ["Bayern Munich", "Auckland City", "Boca Juniors", "Benfica"],
-    "D": ["Flamengo", "Chelsea", "Esperance de Tunis", "LAFC"],
-    "E": ["River Plate", "Inter Milan", "Urawa Red Diamonds", "Monterrey"],
+    "D": ["Flamengo", "Chelsea", "Esperance Sportive de Tunis", "LAFC"],
+    "E": ["River Plate", "Internazionale", "Urawa Red Diamonds", "Monterrey"],
     "F": ["Fluminense", "Borussia Dortmund", "Mamelodi Sundowns", "Ulsan HD"],
     "G": ["Manchester City", "Juventus", "Wydad AC", "Al Ain"],
     "H": ["Real Madrid", "RB Salzburg", "Pachuca", "Al Hilal"]
