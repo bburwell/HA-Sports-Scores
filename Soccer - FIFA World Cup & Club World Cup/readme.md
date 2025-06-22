@@ -6,6 +6,7 @@ Using Flextable probably not how it really should be used but I feel comfortable
 - You will need to automate the calls to update during the season.  Automation is not here, you will need to add the python call in configuration.yaml (eg. get_soccer_fifa_worldcup: 'python /config/www/worldcup.py')
 
 ** Update 6-22-2025 - Python file now has a few fixes: displayNames being pulled didn't match ESPN API names (fixed), logos weren't matched up correctly in some cases (fixed), Code is updated with changes.
+
 ** Added Concacaf Gold Cup
 
 
@@ -18,4 +19,6 @@ Using Flextable probably not how it really should be used but I feel comfortable
 Here are a couple screen shots:
 ![image](https://github.com/user-attachments/assets/8eaf3288-404f-4ce1-b052-446a8910b32f)
 ![image](https://github.com/user-attachments/assets/1d667df7-7773-48c4-9799-eb9641731cba)
+![image](https://github.com/user-attachments/assets/893db1ea-534a-4bec-9142-d2de6fdecf42)
+
 
