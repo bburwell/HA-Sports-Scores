@@ -361,7 +361,7 @@
   scan_interval: 86400
   name: ncaaf_schedule_big_12_university_of_arizona
   unique_id: sensor.ncaaf_schedule_big_12_university_of_arizona
-  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ARIZ/schedule
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ARIZ/schedule?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
   json_attributes:
       - team
