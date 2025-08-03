@@ -5,9 +5,9 @@
 - You will find various APIs and endpoints listed below.
 
 - Also you will notice that there are multiple ways to access data.  If you don't get data one way try a different path.  Some examples inlcude:
-  -- https://site.web.api.espn.com/apis/v2/sports
-  -- https://site.api.espn.com/apis/site/v2/sports
-  -- http://sports.core.api.espn.com/v2/sports
+  - https://site.web.api.espn.com/apis/v2/sports 
+  - https://site.api.espn.com/apis/site/v2/sports 
+  - http://sports.core.api.espn.com/v2/sports 
 
 - Season types vary by sport but share some commonality. For example:
 
