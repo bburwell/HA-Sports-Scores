@@ -3,6 +3,12 @@
 ## Some Notes
 - This document is for informational purposes only, with big thanks to ESPN for providing access to these APIs. The ability to view specific stats while watching ESPN is fantastic.
 - You will find various APIs and endpoints listed below.
+
+- Also you will notice that there are multiple ways to access data.  If you don't get data one way try a different path.  Some examples inlcude:
+  -- https://site.web.api.espn.com/apis/v2/sports
+  -- https://site.api.espn.com/apis/site/v2/sports
+  -- http://sports.core.api.espn.com/v2/sports
+
 - Season types vary by sport but share some commonality. For example:
 
 | Sport                | Season Type 1       | Season Type 2         | Season Type 3       | Season Type 4       | Season Type 5       | Season Type 6       |
