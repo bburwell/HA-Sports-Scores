@@ -1,159 +1,288 @@
+################## Promotion/Relegation for 2024/2025 added for English team.  A note:  I have now added sport path and name to all.  If a team gets relegated from a team that isn't being tracked by team tracker it needs an XXX in league_id.  Same with promotion to a known league.  Change the league_id from XXX to the known league#########
 ###########################
-############## European Soccer
+############## World Cup
 
-############## UEFA Champions -GROK'd
-
-- platform: rest
-  name: Soccer UEFA Champions Round16 gpt
-  unique_id: sensor.soccer_uefa_champions_round16_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_round_of_16_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series 
-    
-- platform: rest
-  name: Soccer UEFA Champions Quarterfinals gpt
-  unique_id: sensor.soccer_uefa_champions_quarterfinals_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_quarterfinals_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series 
-- platform: rest
-  name: Soccer UEFA Champions Semifinals gpt
-  unique_id: sensor.soccer_uefa_champions_semifinals_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_semifinals_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series 
-- platform: rest
-  name: Soccer UEFA Champions Finals gpt
-  unique_id: sensor.soccer_uefa_champions_finals_gpt
-  resource:  http://192.168.xxx.xxx:8123/local/soccer_uefa.champions_final_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series 
-
-###########################
-###########################
-############### English League One
 #- platform: rest
-  #scan_interval: 36000
-  #name: soccer_english_league_one
-  #unique_id: sensor.soccer_english_league_one
-  #resource: https://site.web.api.espn.com/apis/v2/sports/soccer/eng.3/standings?seasontype=1&type=0&level=3
+  #scan_interval: 360000
+  #name: soccer_world_cup
+  #unique_id: sensor.soccer_world_cup
+  #resource: https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20221203-20221218
   #value_template: "{{ now() }}"
-  #json_attributes_path: "$.[0]['standings']"
-  #json_attributes: 
-   #- entries
-
-############################
-############### English League One Playoffs for promotion
-#- platform: rest
-  #scan_interval: 604800
-  #name: Soccer_english_league_one_promotion_playoffs
-  #unique_id: sensor.soccer_english_league_one_promotion_playoffs
-  #resource: http://site.api.espn.com/apis/site/v2/sports/soccer/eng.3/scoreboard?dates=20250501-20250530
-  #value_template: "{{ now() }}"
-  #json_attributes:
-      #- leagues
-      #- events
-
-############################
-
-############### English League One Playoffs for promotion -GROK'd
-    
-#- platform: rest
-  #name: Soccer Promotion Playoff English Championship League Semifinals gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_championship_league_semifinals_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.2_semifinals_gpt.json
-  #value_template: "{{ now()}}"  
   #json_attributes: 
    #- events
-   #- series 
-#- platform: rest
-  #name: Soccer Promotion Playoff English Championship League Final gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_championship_league_final_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.2_final_gpt.json
-  #value_template: "{{ now()}}"  
-  #json_attributes: 
-   #- events
-   #- series   
-############### English League One Playoffs for promotion -GROK'd
-##- platform: rest
-  ##scan_interval: 604800
-  ##resource: https://site.api.espn.com/apis/site/v2/sports/soccer/eng.3/scoreboard?dates=20240501-20240530
-  ##name: Soccer_english_league_one_playoff_data
-  ##unique_id: sensor.soccer_english_league_one_playoff_data
-  ##value_template: "{{ value_json.events | length }}"
-  ##json_attributes:
-    ##- events
-    
-#- platform: rest
-  #name: Soccer Promotion Playoff English League 1 Semifinals gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_league_1_semifinals_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.3_semifinals_gpt.json
-  #value_template: "{{ now()}}"  
-  #json_attributes: 
-   #- events
-   #- series 
-#- platform: rest
-  #name: Soccer Promotion Playoff English League 1 Final gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_league_1_final_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.3_final_gpt.json
-  #value_template: "{{ now()}}"  
-  #json_attributes: 
-   #- events
-   #- series      
-
-############### English League Two Playoffs for promotion -GROK'd
-    
-#- platform: rest
-  #name: Soccer Promotion Playoff English League 2 Semifinals gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_league_2_semifinals_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.4_semifinals_gpt.json
-  #value_template: "{{ now()}}"  
-  #json_attributes: 
-   #- events
-   #- series 
    
-#- platform: rest
-  #name: Soccer Promotion Playoff English League 2 Final gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_league_2_final_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.4_final_gpt.json
-  #value_template: "{{ now()}}"  
-  #json_attributes: 
-   #- events
-   #- series      
+### For the WC Python Playoffs Dashboard #################################
 
-############### English League National Playoffs for promotion -GROK'd
-    
-#- platform: rest
-  #name: Soccer Promotion Playoff English National League Semifinals gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_national_league_semifinals_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.5_semifinals_gpt.json
-  #value_template: "{{ now()}}"  
-  #json_attributes: 
-   #- events
-   #- series 
-   
-#- platform: rest
-  #name: Soccer Promotion Playoff English National League Final gpt
-  #unique_id: sensor.soccer_promotion_playoff_english_national_league_final_gpt
-  #resource:  http://192.168.xxx.xxx:8123/local/soccer_eng.5_final_gpt.json
-  #value_template: "{{ now()}}"  
-  #json_attributes: 
-   #- events
-   #- series 
+- platform: rest
+  name: Worldcup Group A
+  unique_id: sensor.worldcup_group_a
+  resource:  http://192.168.100.245:8123/local/worldcup_group_a_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Group B
+  unique_id: sensor.worldcup_group_b
+  resource:  http://192.168.100.245:8123/local/worldcup_group_b_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Group C
+  unique_id: sensor.worldcup_group_c
+  resource:  http://192.168.100.245:8123/local/worldcup_group_c_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Group D
+  unique_id: sensor.worldcup_group_d
+  resource:  http://192.168.100.245:8123/local/worldcup_group_d_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Group E
+  unique_id: sensor.worldcup_group_e
+  resource:  http://192.168.100.245:8123/local/worldcup_group_e_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Group F
+  unique_id: sensor.worldcup_group_f
+  resource:  http://192.168.100.245:8123/local/worldcup_group_f_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Group G
+  unique_id: sensor.worldcup_group_g
+  resource:  http://192.168.100.245:8123/local/worldcup_group_g_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Group H
+  unique_id: sensor.worldcup_group_h
+  resource:  http://192.168.100.245:8123/local/worldcup_group_h_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Round of 16
+  unique_id: sensor.worldcup_round_of_16
+  resource:  http://192.168.100.245:8123/local/worldcup_round_of_16_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Quarterfinals
+  unique_id: sensor.worldcup_quarterfinals
+  resource:  http://192.168.100.245:8123/local/worldcup_quarterfinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Semifinals
+  unique_id: sensor.worldcup_semifinals
+  resource:  http://192.168.100.245:8123/local/worldcup_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup 3rd Place
+  unique_id: sensor.worldcup_3rd_place
+  resource:  http://192.168.100.245:8123/local/worldcup_3rd_place_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Worldcup Final
+  unique_id: sensor.worldcup_final
+  resource:  http://192.168.100.245:8123/local/worldcup_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+### For the FIFA Club World Cup Python Playoffs Dashboard #################################
 
-############################# Championship and English League 1 Promotion ####################
+- platform: rest
+  name: FIFA Club Worldcup Group A
+  unique_id: sensor.fifa_club_worldcup_group_a
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_a_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Group B
+  unique_id: sensor.fifa_club_worldcup_group_b
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_b_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Group C
+  unique_id: sensor.fifa_club_worldcup_group_c
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_c_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Group D
+  unique_id: sensor.fifa_club_worldcup_group_d
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_d_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Group E
+  unique_id: sensor.fifa_club_worldcup_group_e
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_e_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Group F
+  unique_id: sensor.fifa_club_worldcup_group_f
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_f_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Group G
+  unique_id: sensor.fifa_club_worldcup_group_g
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_g_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Group H
+  unique_id: sensor.fifa_club_worldcup_group_h
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_group_h_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Round of 16
+  unique_id: sensor.fifa_club_worldcup_round_of_16
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_round_of_16_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Quarterfinals
+  unique_id: sensor.fifa_club_worldcup_quarterfinals
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_quarterfinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Semifinals
+  unique_id: sensor.fifa_club_worldcup_semifinals
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Club Worldcup Final
+  unique_id: sensor.fifa_club_worldcup_final
+  resource:  http://192.168.100.245:8123/local/fifa_club_worldcup_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+########################### Concacaf Gold Cup
 
-
+- platform: rest
+  name: Concacaf Gold Cup Group A
+  unique_id: sensor.concacaf_gold_cup_group_a
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_group_a_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Group B
+  unique_id: sensor.concacaf_gold_cup_group_b
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_group_b_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Group C
+  unique_id: sensor.concacaf_gold_cup_group_c
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_group_c_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Group D
+  unique_id: sensor.concacaf_gold_cup_group_d
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_group_d_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Round of 16
+  unique_id: sensor.concacaf_gold_cup_round_of_16
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_round_of_16_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Quarterfinals
+  unique_id: sensor.concacaf_gold_cup_quarterfinals
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_quarterfinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Semifinals
+  unique_id: sensor.concacaf_gold_cup_semifinals
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: Concacaf Gold Cup Final
+  unique_id: sensor.concacaf_gold_cup_final
+  resource:  http://192.168.100.245:8123/local/concacaf_gold_cup_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
 ############## Premier League
-
 - platform: rest
   scan_interval: 36000
   name: soccer_english_premier_league
@@ -162,111 +291,7 @@
   value_template: "{{ now() }}"
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
-   - entries
-   
-   
-- platform: teamtracker
-  league_id: EPL
-  team_id: BOU
-  name: AFC Bournemouth
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: IPS
-  name: Ipswich Town
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: LEI
-  name: Leicester City
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: LIV
-  name: Liverpool
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: MNC
-  name: Manchester City
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: MAN
-  name: Manchester United
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: NEW
-  name: Newcastle United
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: NFO
-  name: Nottingham Forest
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: SOU
-  name: Southampton
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: TOT
-  name: Tottenham Hotspur
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: WHU
-  name: West Ham United
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: ARS
-  name: Arsenal
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: WOL
-  name: Wolverhampton Wanderers
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: AVL
-  name: Aston Villa
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: BRE
-  name: Brentford
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: BHA
-  name: Brighton & Hove Albion
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: CHE
-  name: Chelsea
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: CRY
-  name: Crystal Palace
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: EVE
-  name: Everton
-  league_path: eng.1
-- platform: teamtracker
-  league_id: EPL
-  team_id: FUL
-  name: Fulham
-  league_path: eng.1
-  
-###########################
+   - entries      
 ############## Championship League   
 - platform: rest
   scan_interval: 36000
@@ -277,155 +302,6 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Sunderland"
-  team_id: SUN
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Burnley"
-  team_id: BUR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Leeds United"
-  team_id: LEE
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "West Bromwich Albion"
-  team_id: WBA
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Sheffield United"
-  team_id: SHU
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Blackburn Rovers"
-  team_id: BLK
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Norwich City"
-  team_id: NOR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Middlesbrough"
-  team_id: MID
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Watford"
-  team_id: WAT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Bristol City"
-  team_id: BRC
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Oxford United"
-  team_id: OXF
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Derby County"
-  team_id: DER
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Millwall"
-  team_id: MIL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Swansea City"
-  team_id: SWA
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Hull City"
-  team_id: HUL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Preston North End"
-  team_id: PNE
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Stoke City"
-  team_id: STK
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Sheffield Wednesday"
-  team_id: SHW
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Luton Town"
-  team_id: LTN
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Cardiff City"
-  team_id: CAR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Plymouth Argyle"
-  team_id: PLY
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Coventry City"
-  team_id: COV
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Queens Park Rangers"
-  team_id: QPR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.2
-  sport_path: soccer
-  name: "Portsmouth"
-  team_id: POR
-
-
-
-###########################
 ############## English League One
 - platform: rest
   scan_interval: 36000
@@ -436,154 +312,129 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Birmingham City"
-  team_id: BIR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Wrexham"
-  team_id: WXM
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Wycombe Wanderers"
-  team_id: WYC
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Mansfield Town"
-  team_id: MNF
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Huddersfield Town"
-  team_id: HUD
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Exeter City"
-  team_id: EXE
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Reading"
-  team_id: REA
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Barnsley"
-  team_id: BAR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Stockport County"
-  team_id: STO
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Lincoln City"
-  team_id: LCN
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Charlton Athletic"
-  team_id: CHA
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Peterborough United"
-  team_id: PET
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Stevenage"
-  team_id: STE
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Bolton Wanderers"
-  team_id: BOL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Bristol Rovers"
-  team_id: BRI
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Blackpool"
-  team_id: BLP
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Rotherham United"
-  team_id: ROT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Wigan Athletic"
-  team_id: WGA
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Northampton Town"
-  team_id: NHT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Leyton Orient"
-  team_id: LEY
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Crawley Town"
-  team_id: CRA
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Shrewsbury Town"
-  team_id: SHR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Cambridge United"
-  team_id: CAM
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.3
-  sport_path: soccer
-  name: "Burton Albion"
-  team_id: BRT
-
-
-###########################
+############## English League One Playoffs for promotion
+- platform: rest
+  scan_interval: 604800
+  name: Soccer_english_league_one_promotion_playoffs
+  unique_id: sensor.soccer_english_league_one_promotion_playoffs
+  resource: http://site.api.espn.com/apis/site/v2/sports/soccer/eng.3/scoreboard?dates=20250501-20250530
+  value_template: "{{ now() }}"
+  json_attributes:
+      - leagues
+      - events
+############## English League One Playoffs for promotion -GROK'd   
+- platform: rest
+  name: Soccer Promotion Playoff English Championship League Semifinals gpt
+  unique_id: sensor.soccer_promotion_playoff_english_championship_league_semifinals_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.2_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+- platform: rest
+  name: Soccer Promotion Playoff English Championship League Final gpt
+  unique_id: sensor.soccer_promotion_playoff_english_championship_league_final_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.2_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series   
+############## English League One Playoffs for promotion -GROK'd
+#- platform: rest
+  #scan_interval: 604800
+  #resource: https://site.api.espn.com/apis/site/v2/sports/soccer/eng.3/scoreboard?dates=20240501-20240530
+  #name: Soccer_english_league_one_playoff_data
+  #unique_id: sensor.soccer_english_league_one_playoff_data
+  #value_template: "{{ value_json.events | length }}"
+  #json_attributes:
+    #- events
+    
+- platform: rest
+  name: Soccer Promotion Playoff English League 1 Semifinals gpt
+  unique_id: sensor.soccer_promotion_playoff_english_league_1_semifinals_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.3_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+- platform: rest
+  name: Soccer Promotion Playoff English League 1 Final gpt
+  unique_id: sensor.soccer_promotion_playoff_english_league_1_final_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.3_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series      
+############## English League Two Playoffs for promotion -GROK'd   
+- platform: rest
+  name: Soccer Promotion Playoff English League 2 Semifinals gpt
+  unique_id: sensor.soccer_promotion_playoff_english_league_2_semifinals_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.4_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+   
+- platform: rest
+  name: Soccer Promotion Playoff English League 2 Final gpt
+  unique_id: sensor.soccer_promotion_playoff_english_league_2_final_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.4_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series      
+############## English League National Playoffs for promotion -GROK'd    
+- platform: rest
+  name: Soccer Promotion Playoff English National League Semifinals gpt
+  unique_id: sensor.soccer_promotion_playoff_english_national_league_semifinals_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.5_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+   
+- platform: rest
+  name: Soccer Promotion Playoff English National League Final gpt
+  unique_id: sensor.soccer_promotion_playoff_english_national_league_final_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_eng.5_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+############## UEFA Champions -GROK'd
+- platform: rest
+  name: Soccer UEFA Champions Round16 gpt
+  unique_id: sensor.soccer_uefa_champions_round16_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_uefa.champions_round_of_16_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+    
+- platform: rest
+  name: Soccer UEFA Champions Quarterfinals gpt
+  unique_id: sensor.soccer_uefa_champions_quarterfinals_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_uefa.champions_quarterfinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+- platform: rest
+  name: Soccer UEFA Champions Semifinals gpt
+  unique_id: sensor.soccer_uefa_champions_semifinals_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_uefa.champions_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
+- platform: rest
+  name: Soccer UEFA Champions Finals gpt
+  unique_id: sensor.soccer_uefa_champions_finals_gpt
+  resource:  http://192.168.100.245:8123/local/soccer_uefa.champions_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series 
 ############## English League Two
 - platform: rest
   scan_interval: 36000
@@ -593,154 +444,23 @@
   value_template: "{{ now() }}"
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
-   - entries
-
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Port Vale"
-  team_id: PTV
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Walsall"
-  team_id: WAL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Notts County"
-  team_id: NOTT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Doncaster Rovers"
-  team_id: DON
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Bradford City"
-  team_id: BRD
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Crewe Alexandra"
-  team_id: CAX
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Grimsby Town"
-  team_id: GRI
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Barrow"
-  team_id: BRW
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Chesterfield"
-  team_id: CHES
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "AFC Wimbledon"
-  team_id: WIM
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Gillingham"
-  team_id: GIL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Milton Keynes Dons"
-  team_id: MKD
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Newport County"
-  team_id: NEW
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Fleetwood Town"
-  team_id: FLE
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Salford City"
-  team_id: SAL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Harrogate Town"
-  team_id: HAR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Cheltenham Town"
-  team_id: CHL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Tranmere Rovers"
-  team_id: TRN
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Bromley"
-  team_id: BRO
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Colchester United"
-  team_id: COL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Accrington Stanley"
-  team_id: ACC
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Swindon Town"
-  team_id: SWI
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Carlisle United"
-  team_id: CAR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.4
-  sport_path: soccer
-  name: "Morecambe"
-  team_id: MOR
-
-###########################
+   - entries   
+#- platform: rest
+  #name: Soccer Promotion Playoff Championship League Semifinals gpt
+  #unique_id: sensor.soccer_promotion_playoff_championship_league_semifinals_gpt
+  #resource:  http://192.168.100.245:8123/local/soccer_eng.2_semifinals_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series 
+#- platform: rest
+  #name: Soccer Promotion Playoff Championship League Final gpt
+  #unique_id: sensor.soccer_promotion_playoff_championship_league_final_gpt
+  #resource:  http://192.168.100.245:8123/local/soccer_eng.2_final_gpt.json
+  #value_template: "{{ now()}}"  
+  #json_attributes: 
+   #- events
+   #- series    
 ############## English National League
 - platform: rest
   scan_interval: 36000
@@ -751,153 +471,6 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Forest Green Rovers"
-  team_id: FGR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "York City"
-  team_id: YORK
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Barnet"
-  team_id: BAR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Gateshead"
-  team_id: GAT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Rochdale"
-  team_id: RCH
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Oldham Athletic"
-  team_id: OLD
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Solihull Moors"
-  team_id: SOL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "FC Halifax Town"
-  team_id: HAL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Yeovil Town"
-  team_id: YEO
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Eastleigh"
-  team_id: ELH
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Dagenham & Redbridge"
-  team_id: D&R
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Tamworth"
-  team_id: TAM
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Altrincham"
-  team_id: ALT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Sutton United"
-  team_id: SUT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Southend United"
-  team_id: SOUT
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Aldershot Town"
-  team_id: ALD
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Hartlepool United"
-  team_id: HAR
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Maidenhead United"
-  team_id: MAID
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Woking"
-  team_id: WOK
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "AFC Fylde"
-  team_id: FYL
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Braintree Town"
-  team_id: BRN
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Wealdstone"
-  team_id: WEA
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Boston United"
-  team_id: BOST
-- platform: teamtracker
-  league_id: XXX
-  league_path: eng.5
-  sport_path: soccer
-  name: "Ebbsfleet United"
-  team_id: EBB
-
-###########################
 ############## Bundesliga
 - platform: rest
   scan_interval: 36000
@@ -908,116 +481,6 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Bayern Munich"
-  team_id: MUN
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "RB Leipzig"
-  team_id: RBL
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "SC Freiburg"
-  team_id: SCF
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Bayer Leverkusen"
-  team_id: B04
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "1. FC Union Berlin"
-  team_id: FCU
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Eintracht Frankfurt"
-  team_id: SGE
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Borussia Dortmund"
-  team_id: DOR
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Werder Bremen"
-  team_id: SVW
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "1. FC Heidenheim 1846"
-  team_id: HDH
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "VfB Stuttgart"
-  team_id: VFB
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Borussia Monchengladbach"
-  team_id: BMG
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Mainz"
-  team_id: M05
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "VfL Wolfsburg"
-  team_id: WOB
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "TSG Hoffenheim"
-  team_id: TSG
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "FC Augsburg"
-  team_id: FCA
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "St. Pauli"
-  team_id: STP
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "Holstein Kiel"
-  team_id: KSV
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.1
-  sport_path: soccer
-  name: "VfL Bochum"
-  team_id: BOC
-
 - platform: rest
   scan_interval: 36000
   name: soccer_bundesliga_two
@@ -1027,118 +490,6 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Fortuna Dusseldorf"
-  team_id: F95
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Karlsruher SC"
-  team_id: KSC
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Hamburg SV"
-  team_id: HSV
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "1. FC Magdeburg"
-  team_id: FCM
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "SC Paderborn 07"
-  team_id: SCP
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Hannover 96"
-  team_id: H96
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Hertha Berlin"
-  team_id: BSC
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "SV 07 Elversberg"
-  team_id: ELV
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "1. FC Nurnberg"
-  team_id: FCN
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "FC Cologne"
-  team_id: KOE
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Kaiserslautern"
-  team_id: FCK
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "SpVgg Greuther Furth"
-  team_id: SGF
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "SV Darmstadt 98"
-  team_id: SVD
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Schalke 04"
-  team_id: S04
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "SSV Ulm 1846"
-  team_id: ULM
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "TSV Eintracht Braunschweig"
-  team_id: EBS
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "Preussen Munster"
-  team_id: PRM
-- platform: teamtracker
-  league_id: XXX
-  league_path: ger.2
-  sport_path: soccer
-  name: "SSV Jahn Regensburg"
-  team_id: REG
-
-
-###########################
 ############## UEFA Champions
 - platform: rest
   scan_interval: 36000
@@ -1149,8 +500,6 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-###########################
 ############## La liga
 - platform: rest
   scan_interval: 36000
@@ -1161,9 +510,26 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-
-###########################
+############## USL Western & Eastern Confernces
+- platform: rest
+  scan_interval: 36000
+  name: soccer_usl_western_conference
+  unique_id: sensor.soccer_usl_west_conference
+  resource: https://site.web.api.espn.com/apis/v2/sports/soccer/usa.usl.1/standings?seasontype=1&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['children'][1]['standings']"
+  json_attributes: 
+   - entries
+   
+- platform: rest
+  scan_interval: 36000
+  name: soccer_usl_eastern_conference
+  unique_id: sensor.soccer_usl_east_conference
+  resource: https://site.web.api.espn.com/apis/v2/sports/soccer/usa.usl.1/standings?seasontype=1&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.['children'][0]['standings']"
+  json_attributes: 
+   - entries
 ############## MLS Western & Eastern Confernces
 - platform: rest
   scan_interval: 36000
@@ -1184,194 +550,7 @@
   json_attributes_path: "$.['children'][0]['standings']"
   json_attributes: 
    - entries
-
-##
-##  MLS 
-##
-- platform: teamtracker
-  league_id: MLS
-  team_id: CHI
-  name: Chicago Fire FC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: CLB
-  name: Columbus Crew
-  
-  league_path: usa.1  
-- platform: teamtracker
-  league_id: MLS
-  team_id: NE
-  name: Chicago New England Revolution
-  
-  league_path: usa.1
-- platform: teamtracker
-  league_id: MLS
-  team_id: NY
-  name: New York Red Bulls
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: DC
-  name: D.C. United
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: TOR
-  name: Toronto FC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: MTL
-  name: CF Montréal
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: PHI
-  name: Philadelphia Union
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: ORL
-  name: Orlando City SC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: NYC
-  name: New York City FC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: CIN
-  name: FC Cincinnati
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: ATL
-  name: Atlanta United FC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: NSH
-  name: Nashville SC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: MIA
-  name: Inter Miami CF
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: CLT
-  name: Charlotte FC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: COL
-  name: Colorado Rapids
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: DAL
-  name: FC Dallas
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: SKC
-  name: Sporting Kansas City
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: LA
-  name: LA Galaxy
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: SJ
-  name: San Jose Earthquakes
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: RSL
-  name: Real Salt Lake
-  league_path: usa.1
-
-- platform: teamtracker
-  league_id: MLS
-  team_id: HOU
-  name: Houston Dynamo FC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: POR
-  name: Portland Timbers
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: SEA
-  name: Seattle Sounders FC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: VAN
-  name: Vancouver Whitecaps
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: MIN
-  name: Minnesota United FC
-  league_path: usa.1 
-   
-- platform: teamtracker
-  league_id: MLS
-  team_id: STL
-  name: St. Louis CITY SC
-  league_path: usa.1 
-   
-- platform: teamtracker
-  league_id: MLS
-  team_id: LAFC
-  name: LAFC
-  league_path: usa.1
-  
-- platform: teamtracker
-  league_id: MLS
-  team_id: ATX
-  name: Austin FC
-  league_path: usa.1
-
-- platform: teamtracker
-  league_id: MLS
-  team_id: SD
-  name: San Diego FC
-  league_path: usa.1
-
-
-###########################
 ############## USA NWSL Confernces
-
 - platform: rest
   scan_interval: 36000
   name: soccer_usanwsl
@@ -1381,84 +560,7 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries
-
-##
-##  USA NWSL
-##
-- platform: teamtracker
-  league_id: NWSL
-  team_id: ORL
-  name: Orlando Pride
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: WAS
-  name: Washington Spirit
-  league_path: usa.nwsl  
-- platform: teamtracker
-  league_id: NWSL
-  team_id: NJY
-  name: NJ/NY Gotham FC
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: KC
-  name: Kansas City Current
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: NC
-  name: North Carolina Courage
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: CHI
-  name: Chicago Red Stars
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: POR
-  name: Portland Thorns FC
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: BAY
-  name: Bay FC
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: LOU
-  name: Racing Louisville FC
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: UTA
-  name: Utah Royals
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: LA
-  name: Angel City FC
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: SEA
-  name: Seattle Reign FC
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: SD
-  name: San Diego Wave FC
-  league_path: usa.nwsl
-- platform: teamtracker
-  league_id: NWSL
-  team_id: HOU
-  name: Houston Dash
-  league_path: usa.nwsl
-   
-###########################
 ############## Italian Serie A   
-
 - platform: rest
   scan_interval: 36000
   name: soccer_italian_serie_a
@@ -1468,114 +570,7 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries   
-
-
-##
-##  Italian Serie A Table
-##
-- platform: teamtracker
-  league_id: SERA
-  team_id: MIL
-  name: AC Milan
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: VER
-  name: Hellas Verona
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: INT
-  name: Internazionale
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: JUV
-  name: Juventus
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: LAZ
-  name: Lazio
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: LEC
-  name: Lecce
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: MON
-  name: Monza
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: NAP
-  name: Napoli
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: PAR
-  name: Parma
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: TOR
-  name: Torino
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: UDI
-  name: Udinese
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: ROMA
-  name: AS Roma
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: VEN
-  name: Venezia
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: ATA
-  name: Atalanta
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: BOL
-  name: Bologna
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: CAG
-  name: Cagliari
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: COMO
-  name: Como
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: EMP
-  name: Empoli
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: FIO
-  name: Fiorentina
-  league_path: ita.1
-- platform: teamtracker
-  league_id: SERA
-  team_id: GEN
-  name: Genoa
-  league_path: ita.1
-###########################
 ############## Mexican Liga BBVA MX
-
 - platform: rest
   scan_interval: 36000
   name: soccer_mexican_liga_bbva
@@ -1585,406 +580,21 @@
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
    - entries 
-   
-   
-###########################
-############## UEFA Champions League
-
+############## Ligue 1 League   
 - platform: rest
   scan_interval: 36000
-  name: soccer_uefa_champions_league
-  unique_id: sensor.soccer_uefa_champions_league
-  resource: https://site.web.api.espn.com/apis/v2/sports/soccer/mex.1/standings?seasontype=1&type=0&level=3
+  name: soccer_ligue_1_league
+  unique_id: sensor.soccer_ligue_1_league
+  resource: https://site.web.api.espn.com/apis/v2/sports/soccer/fra.1/standings?seasontype=1&type=0&level=3
   value_template: "{{ now() }}"
   json_attributes_path: "$.[0]['standings']"
   json_attributes: 
-   - entries 
-   
+   - entries
+## ESPN API Endpoints potentially
+#Soccer
+#fifa.shebelieves
+#Schedules
 
-
-
-##
-##  Spanish LALIGA Table
-##
-- platform: teamtracker
-  league_id: LIGA
-  team_id: ALA
-  name: Alavés
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: LEG
-  name: Leganés
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: MLL
-  name: Mallorca
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: OSA
-  name: Osasuna
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: RAY
-  name: Rayo Vallecano
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: BET
-  name: Real Betis
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: RMA
-  name: Real Madrid
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: RSO
-  name: Real Sociedad
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: VLL
-  name: Real Valladolid
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: SEV
-  name: Sevilla
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: VAL
-  name: Valencia
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: ATH
-  name: Athletic Club
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: VIL
-  name: Villarreal
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: ATM
-  name: Atlético Madrid
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: BAR
-  name: Barcelona
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: CEL
-  name: Celta Vigo
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: ESP
-  name: Espanyol
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: GET
-  name: Getafe
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: GIR
-  name: Girona
-  league_path: esp.1
-- platform: teamtracker
-  league_id: LIGA
-  team_id: LPA
-  name: Las Palmas
-  league_path: esp.1
-
-##
-##  French Ligue 1 Table
-##
-- platform: teamtracker
-  league_id: LIG1
-  team_id: AUX
-  name: AJ Auxerre
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: MON
-  name: Montpellier
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: NAN
-  name: Nantes
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: NICE
-  name: Nice
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: PSG
-  name: Paris Saint-Germain
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: ASSE
-  name: Saint-Etienne
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: REIM
-  name: Stade de Reims
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: REN
-  name: Stade Rennais
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: STR
-  name: Strasbourg
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: TOU
-  name: Toulouse
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: ANG
-  name: Angers
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: MON
-  name: AS Monaco
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: BRES
-  name: Brest
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: HAC
-  name: Le Havre AC
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: RCL
-  name: Lens
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: LILL
-  name: Lille
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: LYON
-  name: Lyon
-  league_path: fra.1
-- platform: teamtracker
-  league_id: LIG1
-  team_id: OLM
-  name: Marseille
-  league_path: fra.1
-##
-##  UEFA Champions Table
-##
-- platform: teamtracker
-  league_id: CL
-  team_id: MIL
-  name: CL-AC Milan
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: BEN
-  name: CL-Benfica
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: BOL
-  name: CL-Bologna
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: DOR
-  name: CL-Borussia Dortmund
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: BRES
-  name: CL-Brest
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: CEL
-  name: CL-Celtic
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: BRU
-  name: CL-Club Brugge
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: DZG
-  name: CL-Dinamo Zagreb
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: FEY
-  name: CL-Feyenoord Rotterdam
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: GIR
-  name: CL-Girona
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: INT
-  name: CL-Internazionale
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: ARS
-  name: CL-Arsenal
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: JUV
-  name: CL-Juventus
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: LILL
-  name: CL-Lille
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: LIV
-  name: CL-Liverpool
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: MNC
-  name: CL-Manchester City
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: PSG
-  name: CL-Paris Saint-Germain
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: PSV
-  name: CL-PSV Eindhoven
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: RBL
-  name: CL-RB Leipzig
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: SLZ
-  name: CL-RB Salzburg
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: RMA
-  name: CL-Real Madrid
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: RSB
-  name: CL-Red Star Belgrade
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: MON
-  name: CL-AS Monaco
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: SHK
-  name: CL-Shakhtar Donetsk
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: STG
-  name: CL-SK Sturm Graz
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: SLB
-  name: CL-Slovan Bratislava
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: AVL
-  name: CL-Aston Villa
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: ATA
-  name: CL-Atalanta
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: ATM
-  name: CL-Atlético Madrid
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: BAR
-  name: CL-Barcelona
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: B04
-  name: CL-Bayer Leverkusen
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: MUN
-  name: CL-Bayern Munich
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: SPP
-  name: CL-Sparta Prague
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: SCP
-  name: CL-Sporting CP
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: VFB
-  name: CL-VfB Stuttgart
-  league_path: uefa.champions
-- platform: teamtracker
-  league_id: CL
-  team_id: YB
-  name: CL-Young Boys
-  league_path: uefa.champions
-##
-##
 - platform: rest
   scan_interval: 604800
   name: Soccer Schedule Games Completed Sunderland
@@ -2003,13 +613,1760 @@
   json_attributes:
       - events      
 
-#- platform: rest
-  #scan_interval: 86400
-  #name: Soccer Schedule Full Sunderland
-  #unique_id: sensor.soccer_schedule_full_sunderland
-  #resource_template: "https://site.api.espn.com/apis/personalized/v2/scoreboard/header?sport=soccer&league=eng.2&team=sun&seasontype=2&dates={{(now() - timedelta(days= 0)).strftime('%Y%m%d')|string}}-{{(now() + timedelta(days= 200)).strftime('%Y%m%d')|string}}"
-  #value_template: "{{ now() }}"
-  #json_attributes:
-    #- sports
-    #- events
+##Teams for Team Tracker
+## Premier League (eng.1)
+- platform: teamtracker
+  league_id: EPL
+  team_id: ARS
+  name: "Arsenal"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: AVL
+  name: "Aston Villa"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: BHA
+  name: "Brighton & Hove Albion"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: BOU
+  name: "AFC Bournemouth"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: BRE
+  name: "Brentford"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: BUR
+  name: "Burnley"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: CHE
+  name: "Chelsea"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: CRY
+  name: "Crystal Palace"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: EVE
+  name: "Everton"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: FUL
+  name: "Fulham"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: LEE
+  name: "Leeds United"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: LIV
+  name: "Liverpool"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: MAN
+  name: "Manchester United"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: MNC
+  name: "Manchester City"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: NEW
+  name: "Newcastle United"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: NFO
+  name: "Nottingham Forest"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: SUN
+  name: "Sunderland"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: TOT
+  name: "Tottenham Hotspur"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: WHU
+  name: "West Ham United"
+  league_path: eng.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: EPL
+  team_id: WOL
+  name: "Wolverhampton Wanderers"
+  league_path: eng.1
+  sport_path: soccer
+## Championship (eng.2)
+- platform: teamtracker
+  league_id: XXX
+  team_id: BLK
+  name: "Blackburn Rovers"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BRC
+  name: "Bristol City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BIR
+  name: "Birmingham City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CHA
+  name: "Charlton Athletic"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: COV
+  name: "Coventry City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: DER
+  name: "Derby County"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: HUL
+  name: "Hull City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: IPS
+  name: "Ipswich Town"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: LEI
+  name: "Leicester City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: MID
+  name: "Middlesbrough"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: MIL
+  name: "Millwall"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: NOR
+  name: "Norwich City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: OXF
+  name: "Oxford United"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: PNE
+  name: "Preston North End"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: POR
+  name: "Portsmouth"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: QPR
+  name: "Queens Park Rangers"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SHU
+  name: "Sheffield United"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SHW
+  name: "Sheffield Wednesday"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SOU
+  name: "Southampton"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: STK
+  name: "Stoke City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SWA
+  name: "Swansea City"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WBA
+  name: "West Bromwich Albion"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WAT
+  name: "Watford"
+  league_path: eng.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WXM
+  name: "Wrexham"
+  league_path: eng.2
+  sport_path: soccer
+## League One (eng.3)
+- platform: teamtracker
+  league_id: XXX
+  team_id: AFC
+  name: "AFC Wimbledon"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BAR
+  name: "Barnsley"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BLP
+  name: "Blackpool"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BOL
+  name: "Bolton Wanderers"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BRD
+  name: "Bradford City"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BRT
+  name: "Burton Albion"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CAR
+  name: "Cardiff City"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: DON
+  name: "Doncaster Rovers"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: EXE
+  name: "Exeter City"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: HUD
+  name: "Huddersfield Town"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: LCN
+  name: "Lincoln City"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: LTN
+  name: "Luton Town"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: LEY
+  name: "Leyton Orient"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: MNF
+  name: "Mansfield Town"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: NHT
+  name: "Northampton Town"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: PET
+  name: "Peterborough United"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: PLY
+  name: "Plymouth Argyle"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: PTV
+  name: "Port Vale"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: REA
+  name: "Reading"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: ROT
+  name: "Rotherham United"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: STE
+  name: "Stevenage"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: STO
+  name: "Stockport County"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WGA
+  name: "Wigan Athletic"
+  league_path: eng.3
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WYC
+  name: "Wycombe Wanderers"
+  league_path: eng.3
+  sport_path: soccer
+## League Two (eng.4)
+- platform: teamtracker
+  league_id: XXX
+  team_id: ACC
+  name: "Accrington Stanley"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BAR
+  name: "Barnet"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BRI
+  name: "Bristol Rovers"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BRO
+  name: "Bromley"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CAM
+  name: "Cambridge United"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CAX
+  name: "Crewe Alexandra"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CHES
+  name: "Chesterfield"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CHL
+  name: "Cheltenham Town"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: COL
+  name: "Colchester United"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CRA
+  name: "Crawley Town"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: FLE
+  name: "Fleetwood Town"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: GIL
+  name: "Gillingham"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: GRI
+  name: "Grimsby Town"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: HAR
+  name: "Harrogate Town"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: MKD
+  name: "Milton Keynes Dons"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: NEW
+  name: "Newport County"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: NOTT
+  name: "Notts County"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: OLD
+  name: "Oldham Athletic"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SAL
+  name: "Salford City"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SHR
+  name: "Shrewsbury Town"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SWI
+  name: "Swindon Town"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: TRN
+  name: "Tranmere Rovers"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WAL
+  name: "Walsall"
+  league_path: eng.4
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BRW
+  name: "Barrow"
+  league_path: eng.4
+  sport_path: soccer
+## National League (eng.5)
+- platform: teamtracker
+  league_id: XXX
+  team_id: ALD
+  name: "Aldershot Town"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: ALT
+  name: "Altrincham"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BOST
+  name: "Boston United"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: BRN
+  name: "Braintree Town"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: CAR
+  name: "Carlisle United"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: D&R
+  name: "Dagenham & Redbridge"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: EBB
+  name: "Ebbsfleet United"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: ELH
+  name: "Eastleigh"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: FGR
+  name: "Forest Green Rovers"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: FYL
+  name: "AFC Fylde"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: GAT
+  name: "Gateshead"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: HAL
+  name: "FC Halifax Town"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: HAR
+  name: "Hartlepool United"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: MAID
+  name: "Maidenhead United"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: MOR
+  name: "Morecambe"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: RCH
+  name: "Rochdale"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SOL
+  name: "Solihull Moors"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SOUT
+  name: "Southend United"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SUT
+  name: "Sutton United"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: TAM
+  name: "Tamworth"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WEA
+  name: "Wealdstone"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: WOK
+  name: "Woking"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: YEO
+  name: "Yeovil Town"
+  league_path: eng.5
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: YORK
+  name: "York City"
+  league_path: eng.5
+  sport_path: soccer
+## Bundesliga (ger.1)
+- platform: teamtracker
+  league_id: BUND
+  team_id: B04
+  name: "Bayer Leverkusen"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: BOC
+  name: "VfL Bochum"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: BMG
+  name: "Borussia Monchengladbach"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: DOR
+  name: "Borussia Dortmund"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: FCA
+  name: "FC Augsburg"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: FCU
+  name: "1. FC Union Berlin"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: HDH
+  name: "1. FC Heidenheim 1846"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: KSV
+  name: "Holstein Kiel"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: M05
+  name: "Mainz"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: MUN
+  name: "Bayern Munich"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: RBL
+  name: "RB Leipzig"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: SCF
+  name: "SC Freiburg"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: SGE
+  name: "Eintracht Frankfurt"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: STP
+  name: "St. Pauli"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: SVW
+  name: "Werder Bremen"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: TSG
+  name: "TSG Hoffenheim"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: VFB
+  name: "VfB Stuttgart"
+  league_path: ger.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: BUND
+  team_id: WOB
+  name: "VfL Wolfsburg"
+  league_path: ger.1
+  sport_path: soccer
+## 2. Bundesliga (ger.2)
+- platform: teamtracker
+  league_id: XXX
+  team_id: BSC
+  name: "Hertha Berlin"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: EBS
+  name: "TSV Eintracht Braunschweig"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: ELV
+  name: "SV 07 Elversberg"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: F95
+  name: "Fortuna Dusseldorf"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: FCM
+  name: "1. FC Magdeburg"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: FCN
+  name: "1. FC Nurnberg"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: FCK
+  name: "Kaiserslautern"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: H96
+  name: "Hannover 96"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: HSV
+  name: "Hamburg SV"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: KOE
+  name: "FC Cologne"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: KSC
+  name: "Karlsruher SC"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: PRM
+  name: "Preussen Munster"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: REG
+  name: "SSV Jahn Regensburg"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: S04
+  name: "Schalke 04"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SGF
+  name: "SpVgg Greuther Furth"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SCP
+  name: "SC Paderborn 07"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: SVD
+  name: "SV Darmstadt 98"
+  league_path: ger.2
+  sport_path: soccer
+- platform: teamtracker
+  league_id: XXX
+  team_id: ULM
+  name: "SSV Ulm 1846"
+  league_path: ger.2
+  sport_path: soccer
+## Major League Soccer (usa.1)
+- platform: teamtracker
+  league_id: MLS
+  team_id: ATL
+  name: "Atlanta United FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: ATX
+  name: "Austin FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: CHI
+  name: "Chicago Fire FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: CIN
+  name: "FC Cincinnati"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: CLT
+  name: "Charlotte FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: CLB
+  name: "Columbus Crew"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: COL
+  name: "Colorado Rapids"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: DAL
+  name: "FC Dallas"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: DC
+  name: "D.C. United"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: HOU
+  name: "Houston Dynamo FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: LA
+  name: "LA Galaxy"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: LAFC
+  name: "LAFC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: MIN
+  name: "Minnesota United FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: MIA
+  name: "Inter Miami CF"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: MTL
+  name: "CF Montréal"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: NE
+  name: "New England Revolution"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: NSH
+  name: "Nashville SC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: NYC
+  name: "New York City FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: NY
+  name: "New York Red Bulls"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: ORL
+  name: "Orlando City SC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: PHI
+  name: "Philadelphia Union"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: POR
+  name: "Portland Timbers"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: RSL
+  name: "Real Salt Lake"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: SD
+  name: "San Diego FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: SEA
+  name: "Seattle Sounders FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: SJ
+  name: "San Jose Earthquakes"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: SKC
+  name: "Sporting Kansas City"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: STL
+  name: "St. Louis CITY SC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: TOR
+  name: "Toronto FC"
+  league_path: usa.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: MLS
+  team_id: VAN
+  name: "Vancouver Whitecaps"
+  league_path: usa.1
+  sport_path: soccer
+## National Women's Soccer League (usa.nwsl)
+- platform: teamtracker
+  league_id: NWSL
+  team_id: ANG
+  name: "Angel City FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: BAY
+  name: "Bay FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: CHI
+  name: "Chicago Red Stars"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: HOU
+  name: "Houston Dash"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: KC
+  name: "Kansas City Current"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: LA
+  name: "Angel City FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: LOU
+  name: "Racing Louisville FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: NC
+  name: "North Carolina Courage"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: NJY
+  name: "NJ/NY Gotham FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: ORL
+  name: "Orlando Pride"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: POR
+  name: "Portland Thorns FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: SD
+  name: "San Diego Wave FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: SEA
+  name: "Seattle Reign FC"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: UTA
+  name: "Utah Royals"
+  league_path: usa.nwsl
+  sport_path: soccer
+- platform: teamtracker
+  league_id: NWSL
+  team_id: WAS
+  name: "Washington Spirit"
+  league_path: usa.nwsl
+  sport_path: soccer
+## Serie A (ita.1)
+- platform: teamtracker
+  league_id: SERA
+  team_id: ATA
+  name: "Atalanta"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: BOL
+  name: "Bologna"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: CAG
+  name: "Cagliari"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: COMO
+  name: "Como"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: EMP
+  name: "Empoli"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: FIO
+  name: "Fiorentina"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: GEN
+  name: "Genoa"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: INT
+  name: "Internazionale"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: JUV
+  name: "Juventus"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: LAZ
+  name: "Lazio"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: LEC
+  name: "Lecce"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: MIL
+  name: "AC Milan"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: MON
+  name: "Monza"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: NAP
+  name: "Napoli"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: PAR
+  name: "Parma"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: ROMA
+  name: "AS Roma"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: TOR
+  name: "Torino"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: UDI
+  name: "Udinese"
+  league_path: ita.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: SERA
+  team_id: VEN
+  name: "Venezia"
+  league_path: ita.1
+  sport_path: soccer
+## La Liga (esp.1)
+- platform: teamtracker
+  league_id: LIGA
+  team_id: ALA
+  name: "Alavés"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: ATH
+  name: "Athletic Club"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: ATM
+  name: "Atlético Madrid"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: BAR
+  name: "Barcelona"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: CEL
+  name: "Celta Vigo"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: ESP
+  name: "Espanyol"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: GET
+  name: "Getafe"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: GIR
+  name: "Girona"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: LPA
+  name: "Las Palmas"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: LEG
+  name: "Leganés"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: MLL
+  name: "Mallorca"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: OSA
+  name: "Osasuna"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: RAY
+  name: "Rayo Vallecano"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: BET
+  name: "Real Betis"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: RMA
+  name: "Real Madrid"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: RSO
+  name: "Real Sociedad"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: VLL
+  name: "Real Valladolid"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: SEV
+  name: "Sevilla"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: VAL
+  name: "Valencia"
+  league_path: esp.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIGA
+  team_id: VIL
+  name: "Villarreal"
+  league_path: esp.1
+  sport_path: soccer
+## Ligue 1 (fra.1)
+- platform: teamtracker
+  league_id: LIG1
+  team_id: ANG
+  name: "Angers"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: ASSE
+  name: "Saint-Etienne"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: AUX
+  name: "AJ Auxerre"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: BRES
+  name: "Brest"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: HAC
+  name: "Le Havre AC"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: LILL
+  name: "Lille"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: LYON
+  name: "Lyon"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: MON
+  name: "AS Monaco"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: MONT
+  name: "Montpellier"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: NAN
+  name: "Nantes"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: NICE
+  name: "Nice"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: OLM
+  name: "Marseille"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: PSG
+  name: "Paris Saint-Germain"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: RCL
+  name: "Lens"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: REIM
+  name: "Stade de Reims"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: REN
+  name: "Stade Rennais"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: STR
+  name: "Strasbourg"
+  league_path: fra.1
+  sport_path: soccer
+- platform: teamtracker
+  league_id: LIG1
+  team_id: TOU
+  name: "Toulouse"
+  league_path: fra.1
+  sport_path: soccer
+## UEFA Champions League (uefa.champions)
+- platform: teamtracker
+  league_id: CL
+  team_id: ARS
+  name: "CL-Arsenal"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: ATA
+  name: "CL-Atalanta"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: ATM
+  name: "CL-Atlético Madrid"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: AVL
+  name: "CL-Aston Villa"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: BAR
+  name: "CL-Barcelona"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: B04
+  name: "CL-Bayer Leverkusen"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: BEN
+  name: "CL-Benfica"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: BOL
+  name: "CL-Bologna"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: BRES
+  name: "CL-Brest"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: BRU
+  name: "CL-Club Brugge"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: CEL
+  name: "CL-Celtic"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: DOR
+  name: "CL-Borussia Dortmund"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: DZG
+  name: "CL-Dinamo Zagreb"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: FEY
+  name: "CL-Feyenoord Rotterdam"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: GIR
+  name: "CL-Girona"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: INT
+  name: "CL-Internazionale"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: JUV
+  name: "CL-Juventus"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: LILL
+  name: "CL-Lille"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: LIV
+  name: "CL-Liverpool"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: MNC
+  name: "CL-Manchester City"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: MIL
+  name: "CL-AC Milan"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: MON
+  name: "CL-AS Monaco"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: MUN
+  name: "CL-Bayern Munich"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: PSG
+  name: "CL-Paris Saint-Germain"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: PSV
+  name: "CL-PSV Eindhoven"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: RBL
+  name: "CL-RB Leipzig"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: RMA
+  name: "CL-Real Madrid"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: RSB
+  name: "CL-Red Star Belgrade"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: SCP
+  name: "CL-Sporting CP"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: SHK
+  name: "CL-Shakhtar Donetsk"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: SLB
+  name: "CL-Slovan Bratislava"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: SLZ
+  name: "CL-RB Salzburg"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: SPP
+  name: "CL-Sparta Prague"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: STG
+  name: "CL-SK Sturm Graz"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: VFB
+  name: "CL-VfB Stuttgart"
+  league_path: uefa.champions
+  sport_path: soccer
+- platform: teamtracker
+  league_id: CL
+  team_id: YB
+  name: "CL-Young Boys"
+  league_path: uefa.champions
+  sport_path: soccer
+
       
+
