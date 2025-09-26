@@ -116,8 +116,8 @@ views:
             '--mdc-typography-button-font-size': 12px
           tabs:
             - attributes:
-                label: NCAA
-                icon: mdi:school
+                label: Playoffs Dashboard
+                icon: mdi:trophy                
               card:
                 type: custom:mod-card
                 card_mod:
@@ -157,9 +157,9 @@ views:
                         color: black !important
                       }
                   tabs:
-                    - attributes:
-                        label: NCAA Basketball
-                        icon: mdi:basketball-hoop-outline
+                    - attributes:                        
+                        label: College-Professional Sports
+                        icon: mdi:trophy-variant-outline
                       card:
                         type: custom:mod-card
                         card_mod:
