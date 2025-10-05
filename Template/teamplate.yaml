@@ -1540,7 +1540,7 @@ sensor:
       {% for event in state_attr('sensor.mlb_playoffs_worldseries', 'events') %}
         {% if event.competitions %}
           {% for competition in event.competitions %}
-            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
               {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
             {% endif %}
           {% endfor %}
@@ -1597,7 +1597,7 @@ sensor:
       {% for event in state_attr('sensor.mlb_playoffs_worldseries', 'events') %}
         {% if event.competitions %}
           {% for competition in event.competitions %}
-            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
               {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
             {% endif %}
           {% endfor %}
@@ -1617,7 +1617,7 @@ sensor:
       {% for event in state_attr('sensor.mlb_playoffs_worldseries', 'events') %}
         {% if event.competitions %}
           {% for competition in event.competitions %}
-            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
               {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
             {% endif %}
           {% endfor %}
@@ -1636,7 +1636,7 @@ sensor:
       {% for event in state_attr('sensor.mlb_playoffs_worldseries', 'events') %}
         {% if event.competitions %}
           {% for competition in event.competitions %}
-            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=True) %}
               {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
             {% endif %}
           {% endfor %}
