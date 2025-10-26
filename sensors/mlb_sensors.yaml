@@ -91,7 +91,7 @@
   name: MLB Playoffs WorldSeries
   unique_id: sensor.mlb_playoffs_worldseries
   #resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20241001-20241030
-  resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20250929-20251031
+  resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20250929-20251101
   value_template: "{{ now() }}"
   json_attributes:
       - leagues
@@ -222,5 +222,6 @@
   league_id: MLB
   team_id: TB
   name: Tampa Bay Rays
+
 
 
