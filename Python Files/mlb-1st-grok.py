@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 # Define the API URL for fetching MLB playoff data
 #2024 MLB Playoffs API_URL = "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20241001-20241030"
-API_URL = "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20250929-20251031"
+API_URL = "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20250929-20251101"
 
 def fetch_and_filter_data(region):
     try:
