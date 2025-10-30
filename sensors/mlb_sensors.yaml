@@ -84,21 +84,86 @@
   value_template: "{{ now() }}"
   json_attributes:
      - events
-     
- ######################### Post Season Playoffs Superbowl
+
+######################## Post Season Playoffs 
 - platform: rest
   scan_interval: 604800
   name: MLB Playoffs WorldSeries
   unique_id: sensor.mlb_playoffs_worldseries
-  #resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20241001-20241030
+  #2024 Dataresource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20241001-20241030
   resource: https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20250929-20251101
   value_template: "{{ now() }}"
   json_attributes:
       - leagues
       - events
 
-######################### Post Season Playoffs World Series 
+######################### Post Season Playoffs World Series
+### For the GROK II Dashboard #################################
 
+- platform: rest
+  name: MLB AL Wild Card gpt
+  unique_id: sensor.mlb_al_wild_card_gpt
+  resource:  http://192.168.100.245:8123/local/mlb_al_wild_card_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+- platform: rest
+  name: MLB NL Wild Card gpt
+  unique_id: sensor.mlb_nl_wild_card_gpt
+  resource:  http://192.168.100.245:8123/local/mlb_nl_wild_card_gpt.json
+  value_template: "{{ now()}}"    
+  json_attributes: 
+   - events
+   - series
+
+###  Division Series GPT
+- platform: rest
+  name: MLB AL Division Series gpt
+  unique_id: sensor.mlb_al_division_series_gpt
+  resource:  http://192.168.100.245:8123/local/mlb_al_division_series_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+- platform: rest
+  name: MLB NL Division Series gpt
+  unique_id: sensor.mlb_nl_division_series_gpt
+  resource:  http://192.168.100.245:8123/local/mlb_nl_division_series_gpt.json
+  value_template: "{{ now()}}"    
+  json_attributes: 
+   - events
+   - series
+### Championship Series
+- platform: rest
+  name: MLB AL Championship Series gpt
+  unique_id: sensor.mlb_al_championship_series_gpt
+  resource:  http://192.168.100.245:8123/local/mlb_al_championship_series_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+      
+- platform: rest
+  name: MLB NL Championship Series gpt
+  unique_id: sensor.mlb_nl_championship_series_gpt
+  resource:  http://192.168.100.245:8123/local/mlb_nl_championship_series_gpt.json
+  value_template: "{{ now()}}"    
+  json_attributes: 
+   - events
+   - series
+
+### World Series
+- platform: rest
+  name: MLB World Series gpt
+  unique_id: sensor.mlb_world_series_gpt
+  resource:  http://192.168.100.245:8123/local/mlb_world_series_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
 ###
 ## MLB Teams
 ##
@@ -222,6 +287,4 @@
   league_id: MLB
   team_id: TB
   name: Tampa Bay Rays
-
-
 
