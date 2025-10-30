@@ -1,0 +1,382 @@
+decluttering_templates:
+  f1_standings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%; border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 1%;'
+        tbody tr td:nth-child(3): 'width: 3%;'
+        tbody tr td:nth-child(n+4): 'width: 1%;'
+        tbody tr td:nth-child(5): 'color: green;'
+        tbody tr td:nth-child(6): 'color: yellow;'
+        tbody tr td:nth-child(7): 'color: red;'
+        tbody tr td:nth-child(10): 'background-color: green; color: white;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+        tbody tr:nth-child(4): 'border-bottom: 2px solid green!important;'
+        tbody tr:nth-child(5): 'border-bottom: 2px solid dodgerblue!important;'
+        tbody tr:nth-child(6): 'border-bottom: 2px solid dodgerblue!important;'
+        tbody tr:nth-child(15): 'border-bottom: 2px solid yellow!important;'
+        tbody tr:nth-child(16): 'border-bottom: 2px solid crimson!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by:
+        - entries+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: Rank
+          data: entries
+          modify: x.stats.find(y=>y.name == 'rank').displayValue
+        - name: Country
+          data: entries
+          modify: >
+            (typeof x.athlete.flag !== 'undefined' && typeof x.athlete.flag.alt
+            !== 'undefined') ? x.athlete.flag.alt : '-'
+        - name: Driver
+          data: entries
+          modify: >-
+            '<div>' + (typeof x.athlete.flag !== 'undefined' ? '<img src="' +
+            x.athlete.flag.href + '"
+            style="width:20px;height:20px;margin-right:5px;">' : '') + 
+            x.athlete.displayName + '</div>'
+        - name: Championship Points
+          data: entries
+          modify: x.stats.find(y=>y.name == 'championshipPts').displayValue
+  f1_constructor_standings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%; border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 90%;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by:
+        - entries+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: Rank
+          data: entries
+          modify: x.stats.find(y=>y.name == 'rank').displayValue
+        - name: Team Name
+          data: entries
+          modify: >-
+            '<div style="background-color:#' + x.team.color + ';padding:5px;">'
+            +  x.team.displayName + '</div>'
+  f1_calendar:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%; border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 10%;'
+        tbody tr td:nth-child(2): 'width: 20%;'
+        tbody tr td:nth-child(3): 'width: 20%;'
+        tbody tr td:nth-child(4): 'width: 20%;'
+        tbody tr td:nth-child(5): 'width: 20%;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by:
+        - Date+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: Date
+          data: Races
+          modify: x.date
+        - name: Race
+          data: Races
+          modify: x.Circuit.circuitName
+        - name: Location
+          data: Races
+          modify: >-
+            '<div>' + x.Circuit.Location.locality + " , " + 
+            x.Circuit.Location.country + '</div>'
+  f1_standings_ergast:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%; border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 1%;'
+        tbody tr td:nth-child(2): 'width: 10%;'
+        tbody tr td:nth-child(3+): 'width: 5%;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by:
+        - MRData+
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: Rank
+          data: DriverStandings
+          modify: x.position
+        - name: Driver
+          data: DriverStandings
+          modify: x.Driver.givenName + ' ' + x.Driver.familyName
+        - name: Age
+          data: DriverStandings
+          modify: >
+            const birthDate = new Date(x.Driver.dateOfBirth);  const today = new
+            Date();  let age = today.getFullYear() - birthDate.getFullYear(); 
+            const monthDiff = today.getMonth() - birthDate.getMonth(); 
+              if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) 
+                { age--; } 
+              age;
+        - name: Nationality
+          data: DriverStandings
+          modify: x.Driver.nationality
+        - name: Points
+          data: DriverStandings
+          modify: x.points
+        - name: Wins
+          data: DriverStandings
+          modify: x.wins
+        - name: Logo
+          data: DriverStandings
+          modify: >-
+            const constructorLogos = {
+              red_bull: "https://cdn.racingnews365.com/Teams/Red-Bull/_503xAUTO_crop_center-center_none/f1_2021_redbull_logo.png?v=1643808334",
+              mercedes: "https://cdn.racingnews365.com/Teams/Mercedes/_503xAUTO_crop_center-center_none/f1_2021_mercedes_logo.png?v=1643808334",
+              ferrari: "https://cdn.racingnews365.com/Teams/Ferrari/_503xAUTO_crop_center-center_none/f1_2021_ferrari_logo.png?v=1643808334",
+              mclaren: "https://cdn.racingnews365.com/Teams/McLaren/_503xAUTO_crop_center-center_none/f1_2021_mclaren_logo.png?v=1643808334",
+              alpine: "https://cdn.racingnews365.com/Teams/Alpine/_503xAUTO_crop_center-center_none/f1_2021_alpine_logo.png?v=1643808334",
+              aston_martin: "https://cdn.racingnews365.com/Teams/Aston-Martin/_503xAUTO_crop_center-center_none/f1_2021_astonmartin_logo.png?v=1643808334",
+              williams: "https://cdn.racingnews365.com/Teams/Williams/_503xAUTO_crop_center-center_none/f1_2021_williams_logo.png?v=1643808334",
+              alfa_romeo: "https://cdn.racingnews365.com/Teams/Alfa-Romeo/_503xAUTO_crop_center-center_none/f1_2021_alfaromeo_logo.png?v=1643808334",
+              haas: "https://cdn.racingnews365.com/Teams/Haas/_503xAUTO_crop_center-center_none/f1_2021_haas_logo.png?v=1643808334",
+              alphatauri: "https://cdn.racingnews365.com/Teams/AlphaTauri/_503xAUTO_crop_center-center_none/f1_2021_alphatauri_logo.png?v=1643808334",
+              sauber:  "https://cdn-6.motorsport.com/images/amp/0L17d5W2/s6/logo-stakef1team-rgb-pos-1.jpg",  
+              rb_f1_team: "https://cdn-8.motorsport.com/images/vmt/Dx6zJ6GR/s1/visa-cash-app-rb-logo-unveil-1.jpg",
+            }; '<div>' + (constructorLogos[x.Constructors[0].constructorId] ?
+            '<img src="' + constructorLogos[x.Constructors[0].constructorId] +
+            '" style="width:20px;height:20px;margin-right:5px;">' : '') +
+            '</div>'
+        - name: Team
+          data: DriverStandings
+          modify: x.Constructors[0].name
+        - name: Team Nation
+          data: DriverStandings
+          modify: x.Constructors[0].nationality
+views:
+  - theme: Backend-selected
+    title: Sports
+    type: panel
+    icon: mdi:strategy
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: black;
+                color: silver;
+                border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+                border-width: 2px;
+                border-style: solid;
+                overflow: hidden;
+                width: 20%;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': black
+            '--mdc-tab-text-label-color-default': silver
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: Racing
+                icon: mdi:car-sports
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  card_mod: null
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 10%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                  tabs:
+                    - attributes:
+                        label: Leagues
+                        icon: mdi:football
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Formula 1 Racing
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>F1 Driver Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: f1_standings
+                                        variables:
+                                          - title: F1 Driver Standings
+                                          - entity: sensor.f1_driver_standings
+                                          - attribute: entries
+                                      - type: custom:decluttering-card
+                                        template: f1_constructor_standings
+                                        variables:
+                                          - title: F1 Constructor Standings
+                                          - entity: sensor.f1_constructor_standings
+                                          - attribute: entries
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>F1 Driver Standings Ergast</h1>
+                                      - type: custom:decluttering-card
+                                        template: f1_standings_ergast
+                                        variables:
+                                          - title: F1 Driver Standings
+                                          - entity: sensor.f1_driver_standings_ergast
+                                          - attribute: DriverStandings
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>F1 Calendar</h1>
+                                      - type: custom:decluttering-card
+                                        template: f1_calendar
+                                        variables:
+                                          - title: F1 Calendar Ergast
+                                          - entity: sensor.f1_races_ergast
+                                          - attribute: Races
+                                  - type: custom:formulaone-card
+                                    card_type: results
+                                    show_raceinfo: true
+                            - attributes:
+                                label: NASCAR Premier Racing
+                                icon: mdi:account-group
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: markdown
+                                        content: |
+                                          <h1>NASCAR Driver Standings</h1>
+                                      - type: custom:decluttering-card
+                                        template: f1_standings
+                                        variables:
+                                          - title: NASCAR Driver Standings
+                                          - entity: sensor.nascar_premier_driver_standings
+                                          - attribute: entries
