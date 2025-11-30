@@ -38,7 +38,7 @@
 - platform: rest
   name: NCAAF Regular Bowl Games
   unique_id: sensor.ncaaf_regular_bowl_games
-  resource:  http://192.168.100.245:8123/local/cfb_regular_bowls.json
+  resource:  http://192.168.xxx.xxx:8123/local/cfb_regular_bowls.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events   
@@ -47,7 +47,7 @@
 - platform: rest
   name: NCAAF CFP Playoffs Bowl Games
   unique_id: sensor.ncaaf_cfp_playoffs_bowl_games
-  resource:  http://192.168.100.245:8123/local/cfb_cfp_playoffs.json
+  resource:  http://192.168.xxx.xxx:8123/local/cfb_cfp_playoffs.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
@@ -56,7 +56,7 @@
 - platform: rest
   name: NCAAF CFP Championship Bowl Game
   unique_id: sensor.ncaaf_cfp_championship_bowl_game
-  resource:  http://192.168.100.245:8123/local/cfb_championship.json
+  resource:  http://192.168.xxx.xxx:8123/local/cfb_championship.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
@@ -65,7 +65,7 @@
 - platform: rest
   name: NCAAF All Bowl Games
   unique_id: sensor.ncaaf_all_bowl_games
-  resource:  http://192.168.100.245:8123/local/cfb_all_bowls.json
+  resource:  http://192.168.xxx.xxx:8123/local/cfb_all_bowls.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
@@ -1549,4 +1549,5 @@
   league_path: "college-football"   
   conference_id: 37
   name: "NCAAF Coastal Carolina Chanticleers"
+
 
