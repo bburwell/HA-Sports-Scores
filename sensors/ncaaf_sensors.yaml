@@ -33,6 +33,42 @@
   json_attributes:
     - events    
 
+###########################NCAAF Bowl Games    
+### NCAAF Bowl Games
+- platform: rest
+  name: NCAAF Regular Bowl Games
+  unique_id: sensor.ncaaf_regular_bowl_games
+  resource:  http://192.168.100.245:8123/local/cfb_regular_bowls.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events   
+
+### CFP Bowl Games
+- platform: rest
+  name: NCAAF CFP Playoffs Bowl Games
+  unique_id: sensor.ncaaf_cfp_playoffs_bowl_games
+  resource:  http://192.168.100.245:8123/local/cfb_cfp_playoffs.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+  
+### CFP Championship Bowl Game
+- platform: rest
+  name: NCAAF CFP Championship Bowl Game
+  unique_id: sensor.ncaaf_cfp_championship_bowl_game
+  resource:  http://192.168.100.245:8123/local/cfb_championship.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+
+### NCAAF All bowl Games
+- platform: rest
+  name: NCAAF All Bowl Games
+  unique_id: sensor.ncaaf_all_bowl_games
+  resource:  http://192.168.100.245:8123/local/cfb_all_bowls.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
 ################################################ CFP Poll #####################################
 ##NCAA Men's Football CFP
 - platform: rest
@@ -1513,3 +1549,4 @@
   league_path: "college-football"   
   conference_id: 37
   name: "NCAAF Coastal Carolina Chanticleers"
+
