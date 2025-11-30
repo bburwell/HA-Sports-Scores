@@ -1,0 +1,399 @@
+decluttering_templates:
+  sports_playoffs:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;'
+        tbody tr td:first-child: 'width: 100%; text-align: left; padding: 5px;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px!important;
+              font-size: 14px!important;
+              font-weight: bold!important;
+            }
+      sort_by: Date
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ID
+          data: '[[events]]'
+          modify: x.competitions[0].id
+          hidden: true
+        - name: Date
+          data: '[[events]]'
+          modify: x.competitions[0].date
+          hidden: true
+        - name: Game Details
+          data: '[[events]]'
+          modify: |-
+            (() => {
+              if (!x || !x.competitions || !x.competitions[0]) {
+                return "No data available";
+              }
+              const gameDate = `${new Date(x.date).toLocaleDateString("en-US", { weekday: "short" })} - ${new Date(x.competitions[0].date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+              const gameTime = new Date(x.competitions[0].date).toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              });
+              const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+              const gameDateRaw = new Date(x.competitions[0].date).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" });
+              const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
+              
+              let bowlName = "";
+              let bowlLogo = x.bowl_image || "";
+              
+              if (x.competitions[0].notes && x.competitions[0].notes[0]) {
+                bowlName = x.competitions[0].notes[0].headline || "";              
+                bowlName = bowlName
+                  .replace("College Football Playoff ", "CFP ")
+                  .replace(" at the ", " @ ")
+                  .replace(" Presented by ", " ")
+                  .replace(" Hosted by ", " ");
+              }
+              const bowlHeader = bowlLogo ? `
+                <div style="text-align: center; margin: 10px 0;">
+                  <img src="${bowlLogo}" style="height: 70px; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6));">
+                </div>
+                <div style="text-align: center; font-weight: bold; font-size: 16px; color: #ff9800; text-shadow: 0 1px 3px black; margin-bottom: 8px;">
+                  ${bowlName}
+                </div>` : bowlName ? `
+                <div style="text-align: center; font-weight: bold; font-size: 16px; color: #ff9800; margin: 10px 0;">
+                  ${bowlName}
+                </div>` : "";
+              
+              
+              const oddsSection = x.competitions[0].odds && x.competitions[0].odds[0]
+                ? `<div style="background-color: blue; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;"> Odds: ${x.competitions[0].odds[0].details} | O/U: ${x.competitions[0].odds[0].overUnder} </div>`
+                : "";
+              const seriesSummary = [[show_series]] && x.competitions[0].series && x.competitions[0].series.summary
+                ? `<div style="background-color: gray; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;"> Series: ${x.competitions[0].series.summary} </div>`
+                : "";
+                
+              let statusRight;
+              if (x.status.type.shortDetail === "Final") {
+                statusRight = `<div style="background-color: white; color: black; padding: 2px 5px; border-radius: 4px; display: inline-block;">${x.status.type.shortDetail}</div>`;
+              } else if (x.status.displayClock !== "0:00" && x.status.type.shortDetail !== "Scheduled") {
+                statusRight = `<div style="background-color: red; color: white; padding: 2px 5px; border-radius: 4px; display: inline-block;">H${x.status.period} - ${x.status.displayClock}</div>`;
+              } else {
+                statusRight = `<span>H${x.status.period} - ${x.status.displayClock}</span>`;
+              }
+              
+
+             const headerLine = `
+               <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: bold; margin-bottom: 6px;">
+                 <!-- LEFT: Date + Time -->
+                 <div style="text-align: left; ${dateStyle}">
+                   <div>${gameDate}</div>
+                   <div style="font-size: 13px; color: #aaa; font-weight: normal;">${gameTime} ${x.competitions[0].broadcast || "NA"}</div>
+                 </div>
+                 
+                 <!-- CENTER: Bowl Name (only shows if exists) -->
+                 ${bowlName ? `
+                   <div style="flex: 1; text-align: center; font-size: 15px; color: #ff9800; font-weight: bold; padding: 0 10px;">
+                     ${bowlHeader}
+                   </div>` : '<div style="flex: 1;"></div>'}
+                   
+                 <!-- RIGHT: Final / In-Progress status -->
+                 <div style="text-align: right;">
+                   ${statusRight}
+                 </div>
+               </div>`;
+              
+              const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height: 16px;vertical-align:middle;"> ${x.competitions[0].competitors[1].team.displayName}${[[show_rankings]] ? " (" + x.competitions[0].competitors[1].curatedRank.current + ")" : ""}</div>`;
+              const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height: 16px;vertical-align:middle;"> ${x.competitions[0].competitors[0].team.displayName}${[[show_rankings]] ? " (" + x.competitions[0].competitors[0].curatedRank.current + ")" : ""}</div>`;
+              const awayScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[1].score) > Number(x.competitions[0].competitors[0].score) ? 'green' : 'red'};">${x.competitions[0].competitors[1].score}</div>`;
+              const homeScore = `<div style="font-size:20px;color:${Number(x.competitions[0].competitors[0].score) > Number(x.competitions[0].competitors[1].score) ? 'green' : 'red'};">${x.competitions[0].competitors[0].score}</div>`;
+              
+              return `<div style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
+                ${oddsSection}
+                ${seriesSummary}
+                ${headerLine}
+                <div style="display:flex;justify-content:space-between;">${awayTeam}${awayScore}</div>
+                <div style="display:flex;justify-content:space-between;">${homeTeam}${homeScore}</div>
+              </div>`;
+            })()
+views:
+  - title: Sanbox NCAAF Bowls (with NFL for testing)
+    type: panel
+    icon: mdi:strategy
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: black;
+                color: silver;
+                border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+                border-width: 2px;
+                border-style: solid;
+                overflow: hidden;
+                width: 20%;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': black
+            '--mdc-tab-text-label-color-default': silver
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: NCAAF Bowls Dashboard
+                icon: mdi:trophy
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  card_mod: null
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 10%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                  tabs:
+                    - attributes:
+                        label: College-Professional Sports
+                        icon: mdi:trophy-variant-outline
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $: |
+                              mwc-tab {
+                                background: black;
+                                border-color: silver;
+                                border-width: 2px;
+                                border-top-left-radius: 20px;
+                                border-top-right-radius: 20px;
+                                border-style: solid;
+                                overflow: hidden;
+                                width: 5%;
+                              }
+                              mwc-tab[active] {
+                                background: white !important;
+                                color: black !important;
+                              }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: NFL Playoffs to test decluttering changes
+                                icon: mdi:trophy
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_playoffs
+                                        variables:
+                                          - title: AFC Wildcard
+                                          - color: '#D50A0A'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: afc_wild_card
+                                          - show_rankings: false
+                                          - show_series: false
+                                          - show_broadcast: true
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_playoffs
+                                        variables:
+                                          - title: AFC Divisional
+                                          - color: '#D50A0A'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: afc_divisional
+                                          - show_rankings: false
+                                          - show_series: false
+                                          - show_broadcast: true
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_playoffs
+                                        variables:
+                                          - title: AFC Wildcard
+                                          - color: '#D50A0A'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: afc_championship
+                                          - show_rankings: false
+                                          - show_series: false
+                                          - show_broadcast: true
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_playoffs
+                                        variables:
+                                          - title: Superbowl
+                                          - color: '#DAA520'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: super_bowl
+                                          - show_rankings: false
+                                          - show_series: false
+                                          - show_broadcast: true
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_playoffs
+                                        variables:
+                                          - title: NFC Championship
+                                          - color: '#013369'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: nfc_championship
+                                          - show_rankings: false
+                                          - show_series: false
+                                          - show_broadcast: true
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_playoffs
+                                        variables:
+                                          - title: NFC Divisional
+                                          - color: '#013369'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: nfc_divisional
+                                          - show_rankings: false
+                                          - show_series: false
+                                          - show_broadcast: true
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_playoffs
+                                        variables:
+                                          - title: NFC Wildcard
+                                          - color: '#013369'
+                                          - entity: sensor.nfl_playoff_filtered_events
+                                          - events: nfc_wild_card
+                                          - show_rankings: false
+                                          - show_series: false
+                                          - show_broadcast: true
+                                          - type: horizontal-stack
+                            - attributes:
+                                label: NCAA Bowl Games to CFP
+                                icon: mdi:trophy
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: CFP Playoff Bowl Games
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs
+                                            variables:
+                                              - title: 2024-25 All Bowl Games
+                                              - color: '#003087'
+                                              - entity: sensor.ncaaf_all_bowl_games
+                                              - events: events
+                                              - show_rankings: true
+                                              - show_series: false
+                                              - show_broadcast: true
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: NCAAF Regular Bowl Games
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs
+                                            variables:
+                                              - title: 2024-25 Bowl Games (Non-Playoff)
+                                              - color: '#003087'
+                                              - entity: sensor.ncaaf_regular_bowl_games
+                                              - events: events
+                                              - show_rankings: true
+                                              - show_series: false
+                                              - show_broadcast: true
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: CFP Playoff Bowl Games
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs
+                                            variables:
+                                              - title: CFP Playoff Bowl Games
+                                              - color: '#FFD700'
+                                              - entity: sensor.ncaaf_cfp_playoffs_bowl_games
+                                              - events: events
+                                              - show_rankings: true
+                                              - show_series: false
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: CFP National Championship
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs
+                                            variables:
+                                              - title: CFP National Championship
+                                              - color: '#FFD700'
+                                              - entity: sensor.ncaaf_cfp_championship_bowl_game
+                                              - events: events
+                                              - show_rankings: true
+                                              - show_series: false
