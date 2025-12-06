@@ -350,7 +350,7 @@ views:
                                           - type: custom:decluttering-card
                                             template: sports_playoffs
                                             variables:
-                                              - title: 2024-25 All Bowl Games
+                                              - title: All Bowl Games
                                               - color: '#003087'
                                               - entity: sensor.ncaaf_all_bowl_games
                                               - events: events
