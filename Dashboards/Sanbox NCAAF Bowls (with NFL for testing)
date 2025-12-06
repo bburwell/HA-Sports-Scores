@@ -53,25 +53,39 @@ decluttering_templates:
               const dateStyle = gameDateRaw === today ? "background-color: green; color: white; padding: 2px 5px; border-radius: 4px;" : "";
               
               let bowlName = "";
+              let bowlvenue = "";
+              let bowlLocation = "";
               let bowlLogo = x.bowl_image || "";
               
-              if (x.competitions[0].notes && x.competitions[0].notes[0]) {
-                bowlName = x.competitions[0].notes[0].headline || "";              
-                bowlName = bowlName
-                  .replace("College Football Playoff ", "CFP ")
-                  .replace(" at the ", " @ ")
-                  .replace(" Presented by ", " ")
-                  .replace(" Hosted by ", " ");
+              if (x.competitions && x.competitions[0]) {
+                const comp = x.competitions[0];
+                
+                if (comp.notes && comp.notes[0]) {
+                  bowlName = comp.notes[0].headline || "";
+                  bowlName = bowlName
+                    .replace("College Football Playoff ", "CFP ")
+                    .replace(" at the ", " @ ")
+                    .replace(" Presented by ", " ")
+                    .replace(" Hosted by ", " ");
+                }
+                
+                if (comp.venue && comp.venue.address) {
+                  const city = comp.venue.address.city || "";
+                  const state = comp.venue.address.state || "";
+                  bowlLocation = [city, state].filter(Boolean).join(", ");
+                }
+                
+                if (comp.venue && comp.venue.fullName) {                  
+                  bowlvenue = comp.venue.fullName;
+                }
               }
-              const bowlHeader = bowlLogo ? `
+              
+              const bowlHeader = bowlLogo || bowlName ? `
                 <div style="text-align: center; margin: 10px 0;">
-                  <img src="${bowlLogo}" style="height: 70px; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6));">
-                </div>
-                <div style="text-align: center; font-weight: bold; font-size: 16px; color: #ff9800; text-shadow: 0 1px 3px black; margin-bottom: 8px;">
-                  ${bowlName}
-                </div>` : bowlName ? `
-                <div style="text-align: center; font-weight: bold; font-size: 16px; color: #ff9800; margin: 10px 0;">
-                  ${bowlName}
+                  ${bowlLogo ? `<img src="${bowlLogo}" style="height: 70px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6)); margin-bottom: 6px;">` : ""}
+                  ${bowlName ? `<div style="font-weight: bold; font-size: 16px; color: #ff9800; text-shadow: 0 1px 3px black;">${bowlName}</div>` : ""}
+                  ${bowlvenue ? `<div style="font-size: 13px; color: #ccc; margin-top: 4px;">${bowlvenue}</div>` : ""}
+                  ${bowlLocation ? `<div style="font-size: 13px; color: #ccc; margin-top: 4px;">${bowlLocation}</div>` : ""}
                 </div>` : "";
               
               
@@ -126,7 +140,7 @@ decluttering_templates:
               </div>`;
             })()
 views:
-  - title: Sanbox NCAAF Bowls (with NFL for testing)
+  - title: Sandbox NCAAF Bowls (with NFL for testing)
     type: panel
     icon: mdi:strategy
     badges: []
