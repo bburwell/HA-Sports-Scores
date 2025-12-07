@@ -139,6 +139,122 @@ decluttering_templates:
                 <div style="display:flex;justify-content:space-between;">${homeTeam}${homeScore}</div>
               </div>`;
             })()
+  sports_playoffsv2:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;'
+        tbody tr td:first-child: 'width: 100%; text-align: left; padding: 5px;'
+        tbody tr:hover: 'background-color: black!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px!important;
+              font-size: 14px!important;
+              font-weight: bold!important;
+            }
+      sort_by: Date
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ID
+          data: '[[events]]'
+          modify: x.competitions[0].id
+          hidden: true
+        - name: Date
+          data: '[[events]]'
+          modify: x.competitions[0].date
+          hidden: true
+        - name: Game Details
+          data: '[[events]]'
+          modify: |-
+            (() => {
+              if (!x || !x.competitions || !x.competitions[0]) return "No data";
+
+              const gameDate = `${new Date(x.date).toLocaleDateString("en-US", { weekday: "short" })} - ${new Date(x.competitions[0].date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+              const gameTime = new Date(x.competitions[0].date).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+
+              // BOWL INFO
+              let bowlName = "", bowlVenue = "", bowlLocation = "", bowlLogo = x.bowl_image || "";
+              if (x.competitions[0].notes?.[0]) {
+                bowlName = x.competitions[0].notes[0].headline || "";
+                bowlName = bowlName
+                  .replace("College Football Playoff ", "CFP ")
+                  .replace(" at the ", " @ ")
+                  .replace(" Presented by ", " ")
+                  .replace(" Hosted by ", " ")
+                  .replace("IS4S ", "");
+              }
+              if (x.competitions[0].venue) {
+                bowlVenue = x.competitions[0].venue.fullName || "";
+                const city = x.competitions[0].venue.address?.city || "";
+                const state = x.competitions[0].venue.address?.state || "";
+                bowlLocation = [city, state].filter(Boolean).join(", ");
+              }
+
+              // STATUS
+              let statusRight = "";
+              if (x.status.type.shortDetail === "Final") {
+                statusRight = `<div style="background:#fff;color:#000;padding:3px 8px;border-radius:4px;font-weight:bold;">Final</div>`;
+              } else if (x.status.displayClock !== "0:00" && x.status.type.shortDetail !== "Scheduled") {
+                statusRight = `<div style="background:#c00;color:#fff;padding:3px 8px;border-radius:4px;font-weight:bold;">H${x.status.period} - ${x.status.displayClock}</div>`;
+              } else {
+                statusRight = `<span style="color:#888;">H${x.status.period} - ${x.status.displayClock}</span>`;
+              }
+
+              // TEAMS & SCORES
+              const awayTeam = `<div><img src="${x.competitions[0].competitors[1].team.logo}" style="height:16px;vertical-align:middle;margin-right:4px;"> ${x.competitions[0].competitors[1].team.displayName}${[[show_rankings]] ? " (" + x.competitions[0].competitors[1].curatedRank.current + ")" : ""}</div>`;
+              const homeTeam = `<div><img src="${x.competitions[0].competitors[0].team.logo}" style="height:16px;vertical-align:middle;margin-right:4px;"> ${x.competitions[0].competitors[0].team.displayName}${[[show_rankings]] ? " (" + x.competitions[0].competitors[0].curatedRank.current + ")" : ""}</div>`;
+              const awayScore = `<div style="font-size:24px;color:${+x.competitions[0].competitors[1].score > +x.competitions[0].competitors[0].score ? '#0f0' : '#fff'};">${x.competitions[0].competitors[1].score}</div>`;
+              const homeScore = `<div style="font-size:24px;color:${+x.competitions[0].competitors[0].score > +x.competitions[0].competitors[1].score ? '#0f0' : '#fff'};">${x.competitions[0].competitors[0].score}</div>`;
+
+              return `
+                <div style="padding:12px 8px;position:relative;">
+                  <!-- BIG BACKGROUND LOGO (faded) -->
+                  ${bowlLogo ? `
+                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.12;pointer-events:none;z-index:0;">
+                      <img src="${bowlLogo}" style="height:180px;width:auto;">
+                    </div>` : ""}
+
+                  <!-- TOP ROW: Date/Time | Status -->
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:bold;margin-bottom:8px;position:relative;z-index:1;">
+                    <div style="color:#ccc;">
+                      <div>${gameDate}</div>
+                      <div style="font-size:13px;color:#888;">${gameTime} ${x.competitions[0].broadcast || "NA"}</div>
+                    </div>
+                    <div>${statusRight}</div>
+                  </div>
+
+                  <!-- BOWL HEADER (logo + name + venue + location) -->
+                  ${bowlLogo || bowlName ? `
+                    <div style="text-align:center;margin:12px 0;position:relative;z-index:1;">  
+                      ${bowlLogo ? `<img src="${bowlLogo}" style="height:80px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.7));margin-bottom:8px;">` : ""}
+                      ${bowlName ? `<div style="font-weight:bold;font-size:17px;color:#ff9800;text-shadow:0 2px 4px rgba(0,0,0,0.8);">${bowlName}</div>` : ""}
+                      ${bowlVenue ? `<div style="font-size:13px;color:#ccc;margin-top:4px;">${bowlVenue}</div>` : ""}
+                      ${bowlLocation ? `<div style="font-size:12px;color:#999;">${bowlLocation}</div>` : ""}
+                    </div>` : ""}
+
+                  <!-- TEAMS & SCORES -->
+                  <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;">
+                    <div>${awayTeam}</div>
+                    <div>${awayScore}</div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;">
+                    <div>${homeTeam}</div>
+                    <div>${homeScore}</div>
+                  </div>
+                </div>`;
+            })()
 views:
   - title: Sandbox NCAAF Bowls (with NFL for testing)
     type: panel
