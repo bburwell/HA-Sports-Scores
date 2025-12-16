@@ -255,6 +255,227 @@ decluttering_templates:
                   </div>
                 </div>`;
             })()
+  sports_playoffsv5_withsquarterscores:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;'
+        tbody tr td:first-child: 'width: 100%; text-align: left; padding: 0px; border: none;'
+        tbody tr:hover: 'background-color: rgba(255,255,255,0.05)!important;'
+        tbody tr: 'border-bottom: 1px solid rgba(255,255,255,0.08);'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: hidden;
+              border: 2px solid [[color]];
+              border-radius: 12px;
+              background: linear-gradient(135deg, [[color]] 0%, color-mix(in oklab, [[color]], black 20%) 100%);
+            }
+            /* Define the CSS animation keyframes */
+            @keyframes scroll {
+              0% { transform: translateX(0%); }
+              100% { transform: translateX(-50%); }
+            }
+          $: |
+            .card-header {
+              background: transparent;
+              color: white;
+              padding: 12px 16px !important;
+              font-size: 18px !important;
+              font-weight: bold !important;
+              text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+              border-bottom: 1px solid rgba(255,255,255,0.12);              
+              }
+            }
+      sort_by: Date
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ID
+          data: '[[events]]'
+          modify: x.competitions[0].id
+          hidden: true
+        - name: Date
+          data: '[[events]]'
+          modify: x.competitions[0].date
+          hidden: true
+        - name: Game Details
+          data: '[[events]]'
+          modify: |-
+            (() => {
+              if (!x || !x.competitions || !x.competitions[0]) return "No data";
+
+              const gameDate = new Date(x.competitions[0].date).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+              const gameTime = new Date(x.competitions[0].date).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+
+              // Bowl info
+              let bowlName = "", bowlVenue = "", bowlLocation = "", bowlLogo = x.bowl_image || "";
+              if (x.competitions[0].notes?.[0]) {
+                bowlName = x.competitions[0].notes[0].headline || "";
+                bowlName = bowlName
+                  .replace("College Football Playoff ", "CFP ")
+                  .replace(" at the ", " @ ")
+                  .replace(" Presented by ", " ")
+                  .replace(" Hosted by ", " ")
+                  .replace("IS4S ", "");
+              }
+              if (x.competitions[0].venue) {
+                bowlVenue = x.competitions[0].venue.fullName || "";
+                const city = x.competitions[0].venue.address?.city || "";
+                const state = x.competitions[0].venue.address?.state || "";
+                bowlLocation = [city, state].filter(Boolean).join(", ");
+              }
+
+              // Teams
+              const away = x.competitions[0].competitors[1];
+              const home = x.competitions[0].competitors[0];
+              const awayName = away.team.displayName + ([[show_rankings]] ? ` (${away.curatedRank?.current || ""})` : "");
+              const homeName = home.team.displayName + ([[show_rankings]] ? ` (${home.curatedRank?.current || ""})` : "");
+              const awayScore = away.score || "0";
+              const homeScore = home.score || "0";
+
+              // QUARTER SCORE GRID (compact) - NO FLOAT HERE
+              let quarterGrid = "";
+              
+              // Determine if we should show a score grid (if game is started, final, OR scheduled)
+              const statusType = x.status.type.shortDetail;
+              const isScheduled = statusType === "Scheduled";
+              const showGrid = statusType !== "Scheduled" || ([[show_all_games]] && isScheduled); // Assuming a global setting or context controls showing scheduled games
+              
+              if (showGrid) {
+                // Logic to get real scores if available, or use placeholder if scheduled
+                let awayQ = ["-", "-", "-", "-"];
+                let homeQ = ["-", "-", "-", "-"];
+                
+                const hasLinescores = away.linescores && home.linescores && away.linescores.length > 0;
+                
+                if (hasLinescores && !isScheduled) {
+                  // Use actual linescores for in-progress or final games
+                  for (let i = 0; i < 4; i++) {
+                    if (away.linescores[i]) awayQ[i] = away.linescores[i].displayValue || "-";
+                    if (home.linescores[i]) homeQ[i] = home.linescores[i].displayValue || "-";
+                   }
+                } else if (isScheduled) {
+                  // Use 0's for a scheduled game (Dummy Grid)
+                  awayQ = ["0", "0", "0", "0"];
+                  homeQ = ["0", "0", "0", "0"];
+                }
+                
+                // Final score is always current score, or 0 if scheduled
+                const currentAwayScore = isScheduled ? "0" : awayScore;
+                const currentHomeScore = isScheduled ? "0" : homeScore;
+                
+                quarterGrid = `
+                  <div style="width:100%; margin-bottom:4px;background:rgba(0,0,0,0.4);border-radius:8px;padding:8px;font-size:11px;">
+                    <table style="width:100%;border-collapse:collapse;color:#ccc;">
+                      <thead>
+                        <tr style="text-align:center;color:#888;">
+                          <th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th style="color:#ff9800;">F</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr style="text-align:center;">
+                          <td style="text-align:left;padding-right:8px;">${away.team.abbreviation}</td>
+                          <td>${awayQ[0]}</td><td>${awayQ[1]}</td><td>${awayQ[2]}</td><td>${awayQ[3]}</td>
+                          <td style="font-weight:bold;color:#fff;">${currentAwayScore}</td>
+                        </tr>
+                        <tr style="text-align:center;">
+                          <td style="text-align:left;padding-right:8px;">${home.team.abbreviation}</td>
+                          <td>${homeQ[0]}</td><td>${homeQ[1]}</td><td>${homeQ[2]}</td><td>${homeQ[3]}</td>
+                          <td style="font-weight:bold;color:#fff;">${currentHomeScore}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>`;
+              }
+                 
+                                       
+              // RECAP TICKER (fixed scrolling + no card stretch)
+              let recapTicker = "";
+              if (x.competitions[0].headlines?.[0]?.description) {
+                let recap = x.competitions[0].headlines[0].description
+                  .replace(/\\u2014/g, "—")
+                  .replace(/\\u/g, "");
+                                   
+                recapTicker = `
+                  <div style="width:100%; margin-bottom:8px; overflow:hidden; background:rgba(0,0,0,0.3); border-radius:6px; padding:6px; position:relative; height:26px;">
+                    <div style="position:absolute;left:0;top:0;white-space:nowrap;animation:scroll 15s linear infinite;color:#ff9800;font-size:13px;font-weight:500;">
+                      ${recap}&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;${recap}
+                    </div>
+                  </div>`;
+                
+              }
+
+              // LEFT COLUMN (Quarter Grid + Recap Ticker) - THIS IS THE NEW DEFINITION
+              let leftColumn = (quarterGrid || recapTicker) ? `
+                <div style="width:35%; float:left; margin:12px 0 0;">
+                  ${quarterGrid}
+                  ${recapTicker}
+                </div>` : '';
+              
+              // Status
+              let statusRight = "";
+              if (x.status.type.shortDetail === "Final") {
+                statusRight = `<div style="background:rgba(255,255,255,0.95);color:#000;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:bold;">Final</div>`;
+              } else if (x.status.displayClock !== "0:00" && x.status.type.shortDetail !== "Scheduled") {
+                statusRight = `<div style="background:#c00;color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:bold;">${x.status.period}Q ${x.status.displayClock}</div>`;
+              } else {
+                statusRight = `<span style="color:rgba(255,255,255,0.6);font-size:12px;">${x.status.period}Q ${x.status.displayClock}</span>`;
+              }
+
+              return `
+                <div style="padding:16px;position:relative;background:rgba(0,0,0,0.25);min-height:160px;">
+                  ${bowlLogo ? `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.08;pointer-events:none;z-index:0;">
+                    <img src="${bowlLogo}" style="height:140px;">
+                  </div>` : ""}
+                  
+                  <div style="position:relative;z-index:1;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                      <div style="color:rgba(255,255,255,0.85);font-size:13px;">
+                        <div style="font-weight:600;">${gameDate}</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.6);">${gameTime} • ${x.competitions[0].broadcast || "TBA"}</div>
+                      </div>
+                      ${statusRight}
+                    </div>
+                    
+                    ${bowlLogo || bowlName ? `
+                      <div style="position:absolute; top:40px; left:0; right:0; margin:auto; width:120px; text-align:center; z-index:10; pointer-events:none;">
+                        ${bowlLogo ? `<img src="${bowlLogo}" style="height:48px; margin-bottom:4px; filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5));">` : ""}
+                        ${bowlName ? `<div style="font-weight:bold;font-size:13px;color:#FFD700;text-shadow:0 1px 1px #000; line-height:1.2;">${bowlName}</div>` : ""}
+                        ${bowlVenue ? `<div style="font-size:10px;color:rgba(255,255,255,0.75);margin-top:2px; line-height:1;">${bowlVenue}</div>` : ""}
+                        ${bowlLocation ? `<div style="font-size:9px;color:rgba(255,255,255,0.55); line-height:1;">${bowlLocation}</div>` : ""}
+                      </div>` : ""}
+                      
+                    ${leftColumn}
+                    
+                   <div style="clear:both; border-bottom:1px solid rgba(255,255,255,0.15); margin-bottom:12px;"></div>
+                    
+                    
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                      <div style="flex:1;text-align:left;">
+                        ${away.team.logo ? `<img src="${away.team.logo}" style="height:52px;width:52px;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.5);">` : ""}
+                      </div>
+                      <div style="flex:1;text-align:right;">
+                        ${home.team.logo ? `<img src="${home.team.logo}" style="height:52px;width:52px;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.5);">` : ""}
+                      </div>
+                    </div>
+                    
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                      <div style="flex:1;text-align:left;font-weight:600;font-size:14px;color:#FFF;">${awayName}</div>
+                      <div style="flex:1;text-align:center;">
+                        <div style="display:inline-flex;align-items:center;gap:8px;">
+                          <span style="font-size:36px;font-weight:bold;color:#FFF;">${awayScore}</span>
+                          <span style="font-size:16px;color:rgba(255,255,255,0.5);">–</span>
+                          <span style="font-size:36px;font-weight:bold;color:#FFF;">${homeScore}</span>
+                        </div>
+                      </div>
+                      <div style="flex:1;text-align:right;font-weight:600;font-size:14px;color:#FFF;">${homeName}</div>
+                    </div>
+                  </div>
+                </div>`;
+              })()
 views:
   - title: Sandbox NCAAF Bowls (with NFL for testing)
     type: panel
