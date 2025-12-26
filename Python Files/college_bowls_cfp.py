@@ -64,6 +64,36 @@ BOWL_NAME_MAP = {
     "College Football Playoff National Championship Presented by AT&T": "https://bowlseason.com/images/2022/12/6/CFP_VERT_NC_MARK_LT_BG.png?width=80&height=80&mode=max",
 }
 
+CONFERENCE_MAP = {
+    "1":   "ACC",
+    "4":   "Big 12",
+    "5":   "Big Ten",
+    "8":   "SEC",
+    "9":   "Pac-12",
+    "12":  "C-USA",
+    "15":  "MAC",
+    "16":  "WAC",
+    "17":  "Mountain West",
+    "18":  "FBS Independent",
+    "20":  "Big Sky",
+    "21":  "MVFC",
+    "22":  "Ivy",
+    "24":  "MEAC",
+    "25":  "NEC",
+    "26":  "OVC",
+    "27":  "Patriot",
+    "28":  "Pioneer",
+    "29":  "Southern",
+    "30":  "Southland",
+    "31":  "SWAC",
+    "37":  "Sun Belt",
+    "40":  "Big South",
+    "151": "American",  # Updated from "ASUN" based on ESPN data (e.g., AAC for teams like Army)
+    "176": "OVC-Big South",
+    "179": "Big South-OVC",
+    # Add more if needed
+}
+
 def fetch_data():
     try:
         response = urllib.request.urlopen(API_URL, timeout=30)
@@ -95,6 +125,24 @@ def is_championship(event):
                 return True
     return False
 
+def add_conferences_to_teams(event):
+    for comp in event.get("competitions", []):
+        for competitor in comp.get("competitors", []):
+            team = competitor.get("team", {})
+            if not team:
+                continue
+            # ESPN usually puts conferenceId in team.conferenceId
+            conf_id = team.get("conferenceId")
+            if conf_id and conf_id in CONFERENCE_MAP:
+                team["conference"] = CONFERENCE_MAP[conf_id]
+            else:
+                # Fallback: sometimes it's under group.id
+                conf_id = team.get("group", {}).get("id")
+                if conf_id and conf_id in CONFERENCE_MAP:
+                    team["conference"] = CONFERENCE_MAP[conf_id]
+                else:
+                    team["conference"] = "Unknown"
+
 def is_any_bowl(event):
     return is_bowl_game(event) or is_cfp_playoff(event) or is_championship(event)
 
@@ -114,6 +162,7 @@ def get_bowl_image_url(event):
 def add_bowl_images(events, filename):
     for event in events:
         event["bowl_image"] = get_bowl_image_url(event)
+        add_conferences_to_teams(event)  # ← this adds conference to each team's object
     save_json(filename, events)
 
 def save_json(filename, data):
