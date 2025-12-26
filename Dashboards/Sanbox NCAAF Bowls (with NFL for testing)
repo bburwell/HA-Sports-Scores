@@ -738,7 +738,7 @@ views:
                                           - show_series: false
                                           - show_broadcast: true
                                           - type: horizontal-stack
-                            - attributes:
+                                                        - attributes:
                                 label: NCAA Bowl Games to CFP
                                 icon: mdi:trophy
                               card:
@@ -749,17 +749,45 @@ views:
                                       - type: custom:expander-card
                                         child-margin-top: 0.6em
                                         padding: 0
+                                        title: Ticker Test
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: ncaaf_game_card_with_ticker
+                                            variables:
+                                              - entity: sensor.ncaaf_all_bowl_games
+                                              - show_rankings: true
+                                          - type: custom:button-card
+                                            show_icon: false
+                                            show_state: false
+                                            name: |
+                                              [[[   
+                                                return `<div id='news-marquee'><marquee> <span style='color: red;'> ${states['sensor.ncaaf_latest_news'].attributes.articles[0].description}</span>
+                                                <span  style='color: var(--primary-color);'>${states['sensor.ncaaf_latest_news'].attributes.articles[1].description}</span>
+                                                <span style='color: green;'>${states['sensor.ncaaf_latest_news'].attributes.articles[2].description}</span>
+                                                <span style='color: red;'>${states['sensor.ncaaf_latest_news'].attributes.articles[3].description}</span>
+                                                <span  style='color: var(--primary-color);'>${states['sensor.ncaaf_latest_news'].attributes.articles[4].description}</span>
+                                                <span style='color: green;'>${states['sensor.ncaaf_latest_news'].attributes.articles[5].description}</span>
+                                                </marquee></div>`;
+                                              ]]]        
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
                                         title: CFP Playoff Bowl Games
                                         title-card-button-overlay: true
                                         title-card-clickable: true
                                         expanded: false
                                         cards:
                                           - type: custom:decluttering-card
-                                            template: sports_playoffs
+                                            template: sports_playoffsv5_withsquarterscores
                                             variables:
                                               - title: All Bowl Games
                                               - color: '#003087'
                                               - entity: sensor.ncaaf_all_bowl_games
+                                              - news_sensor: sensor.ncaaf_latest_news
+                                              - news_articles: articles
                                               - events: events
                                               - show_rankings: true
                                               - show_series: false
@@ -775,7 +803,7 @@ views:
                                         expanded: false
                                         cards:
                                           - type: custom:decluttering-card
-                                            template: sports_playoffs
+                                            template: sports_playoffsv4
                                             variables:
                                               - title: 2024-25 Bowl Games (Non-Playoff)
                                               - color: '#003087'
@@ -793,7 +821,7 @@ views:
                                         expanded: false
                                         cards:
                                           - type: custom:decluttering-card
-                                            template: sports_playoffs
+                                            template: sports_playoffsv5_withsquarterscores
                                             variables:
                                               - title: CFP Playoff Bowl Games
                                               - color: '#FFD700'
@@ -810,11 +838,28 @@ views:
                                         expanded: false
                                         cards:
                                           - type: custom:decluttering-card
-                                            template: sports_playoffs
+                                            template: sports_playoffsv5_withsquarterscores
                                             variables:
                                               - title: CFP National Championship
                                               - color: '#FFD700'
                                               - entity: sensor.ncaaf_cfp_championship_bowl_game
+                                              - events: events
+                                              - show_rankings: true
+                                              - show_series: false
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: sports_playoffsv5_withsquarterscores
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffsv5_withsquarterscores
+                                            variables:
+                                              - title: sports_playoffsv5_withsquarterscores
+                                              - color: '#003087'
+                                              - entity: sensor.ncaaf_regular_bowl_games
                                               - events: events
                                               - show_rankings: true
                                               - show_series: false
