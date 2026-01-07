@@ -19,7 +19,8 @@
   scan_interval: 604800
   name: NFL Playoffs Superbowl
   unique_id: sensor.nfl_playoffs_superbowl
-  resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20250111-20250215
+  #2025 resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20250111-20250215
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20260103-20260208
   value_template: "{{ now() }}"
   json_attributes:
       - leagues
@@ -517,3 +518,4 @@
   league_id: NFL
   team_id: SEA
   name: Seattle Seahawks
+
