@@ -25,6 +25,7 @@
 |--------------------------|--------------------------------------------------------------------------|----------------|
 | `/baseball/{leagues}/`   | [View Link](https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings?seasontype=2&type=0&level=3) | MLB            |
 | `/baseball/{leagues}/`   | https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard    | MLB            |
+| `/baseball/{leagues}/`   | https://site.api.espn.com/apis/site/v2/sports/baseball/caribbean-series/scoreboard | caribbean-series            |
 
 ### Basketball
 | Sport Path              | URL Path                                                                 | League         |
