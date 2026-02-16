@@ -1,0 +1,155 @@
+
+######################### Olympic Winter 
+#####################  Hockey
+- platform: rest
+  scan_interval: 14400
+  name: Olympics Winter Hockey
+  unique_id: sensor.olympics_winter_hockey
+  resource: https://site.api.espn.com/apis/site/v2/sports/hockey/olympics-mens-ice-hockey/scoreboard?dates=20260101-20260222
+  value_template: "{{ now() }}"
+  json_attributes:
+      - leagues
+      - events
+
+- platform: rest
+  scan_interval: 14400
+  name: Olympics Winter Hockey Standings Group A
+  unique_id: sensor.olympics_winter_hockey_standings_group_a
+  resource: https://site.api.espn.com/apis/v2/sports/hockey/olympics-mens-ice-hockey/standings?season=2026&level=3
+  #2022 resource: https://site.api.espn.com/apis/v2/sports/hockey/olympics-mens-ice-hockey/standings?season=2022&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[0].standings" 
+  json_attributes:
+    - entries
+  
+  
+- platform: rest
+  scan_interval: 14400
+  name: Olympics Winter Hockey Standings Group B
+  unique_id: sensor.olympics_winter_hockey_standings_group_b
+  resource: https://site.api.espn.com/apis/v2/sports/hockey/olympics-mens-ice-hockey/standings?season=2026&level=3
+  #2022 resource: https://site.api.espn.com/apis/v2/sports/hockey/olympics-mens-ice-hockey/standings?season=2022&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[1].standings" 
+  json_attributes:
+    - entries
+  
+
+
+- platform: rest
+  scan_interval: 14400
+  name: Olympics Winter Hockey Standings Group C
+  unique_id: sensor.olympics_winter_hockey_standings_group_c
+  resource: https://site.api.espn.com/apis/v2/sports/hockey/olympics-mens-ice-hockey/standings?season=2026&level=3
+  #2022 resource: https://site.api.espn.com/apis/v2/sports/hockey/olympics-mens-ice-hockey/standings?season=2022&level=3  
+  value_template: "{{ now() }}"  
+  json_attributes_path: "$.children[2].standings" 
+  json_attributes:
+    - entries
+  #json_attributes:
+  #  - name
+  #  - standings
+  
+  
+########################## Teams
+#- platform: teamtracker
+  #league_id: XXX
+  #sport_path: hockey
+  #league_path: olympics-mens-ice-hockey
+  #team_id: USA
+  #name: United States
+ 
+## Group A  
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: CAN
+  name: Canada
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: SUI
+  name: Switzerland
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: CZE
+  name: Czechia
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: FRA
+  name: France
+  
+## Group B
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: FIN
+  name: Finland
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: SWE
+  name: Sweden
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: SVK
+  name: Slovakia
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: ITA
+  name: Italy
+  
+## Group C
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: USA
+  name: United States
+  #date_range: 20260201-20260222
+  #https://site.api.espn.com/apis/site/v2/sports/hockey/olympics-mens-ice-hockey/scoreboard?dates=20180214-20180225
+  #https://site.api.espn.com/apis/site/v2/sports/hockey/olympics-mens-ice-hockey/scoreboard?dates=20140212-20140223
+  #https://site.api.espn.com/apis/site/v2/sports/hockey/olympics-mens-ice-hockey/scoreboard?dates=20100216-20100228
+  
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: GER
+  name: Germany
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: LAT
+  name: Latvia
+
+- platform: teamtracker
+  league_id: XXX
+  sport_path: hockey
+  league_path: olympics-mens-ice-hockey
+  team_id: DEN
+  name: Denmark
+
+
+ 
