@@ -1987,4 +1987,88 @@ sensor:
           {% set filtered_events.events = filtered_events.events + [event] %}
         {% endif %}
       {% endfor %}
+      {{ filtered_events.events }}  
+
+##########  Olympics
+########## Winter Hockey ##############################################################
+- name: olympics_winter_hockey_filtered_events
+  unique_id: sensor.olympics_winter_hockey_filtered_events
+  state: "{{ now() }}"
+  attributes:
+    
+    olympic_hockey: >
+      {% set region = 'Preliminary Round' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }} 
+    olympic_hockey_qualifications: >
+      {% set region = 'Qualifications' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}                
+    olympic_hockey_bronze: >
+      {% set region = 'Bronze Medal Game' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
       {{ filtered_events.events }}    
+    olympic_hockey_gold: >
+      {% set region = 'Gold Medal Game' %}
+      {% set filtered_ids = namespace(ids=[]) %}
+      {% set filtered_events = namespace(events=[]) %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.competitions %}
+          {% for competition in event.competitions %}
+            {% if competition.notes and competition.notes[0].headline | regex_search(region, ignorecase=False) %}
+              {% set filtered_ids.ids = filtered_ids.ids + [competition.id] %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      {% for event in state_attr('sensor.olympics_winter_hockey', 'events') %}
+        {% if event.id in filtered_ids.ids %}
+          {% set filtered_events.events = filtered_events.events + [event] %}
+        {% endif %}
+      {% endfor %}
+      {{ filtered_events.events }}
