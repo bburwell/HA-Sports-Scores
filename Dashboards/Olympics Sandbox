@@ -1,0 +1,491 @@
+decluttering_templates:
+  olympic_hockey_settings:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 1600px;'
+        tbody tr td:first-child: 'width: 2%;'
+        tbody tr td:nth-child(2): 'width: 1%;'
+        tbody tr td:nth-child(n+3): 'width: 1%;'
+        tbody tr:hover: 'background-color: green!important; color:white!important;'
+        tbody tr td:nth-child(7): 'background-color: green; color: white;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      sort_by: W-
+      columns:
+        - name: Team
+          data: '[[attribute]]'
+          modify: >-
+            '<div>' +  (x.team.logos && x.team.logos[0] ? '<img src="' +
+            x.team.logos[0].href + '" style="height:
+            20px;vertical-align:middle;">' : '') +  '&nbsp;' +
+            x.team.displayName +  '</div>'
+        - name: <div>GP</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'GP')?.displayValue || '0'
+        - name: <div>W</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'W')?.displayValue || '0'
+        - name: <div>L</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'L')?.displayValue || '0'
+        - name: <div>OTL</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'OTL')?.displayValue || '0'
+        - name: <div>PTS</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'PTS')?.displayValue || '0'
+        - name: <div>DIFF</div>
+          data: '[[attribute]]'
+          modify: >-
+            if(typeof x.stats.find(y=>y.abbreviation == 'DIFF') !== 'undefined'
+            ){x.stats.find(y=>y["abbreviation"] =='DIFF').displayValue}else{'-'}
+        - name: <div>POS</div>
+          data: '[[attribute]]'
+          modify: x.stats.find(y=>y.abbreviation == 'POS')?.displayValue || '-'
+  sports_olympic_hockey_v1:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: padding:0;width:100%;
+        tbody tr td:first-child: width:100%;padding:0;border:none;
+        tbody tr:hover: background-color:rgba(255,255,255,0.05)!important;
+        tbody tr: border-bottom:1px solid rgba(255,255,255,0.08);
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: hidden;
+              border: 2px solid [[color]];
+              border-radius: 14px;
+              background: linear-gradient(
+                135deg,
+                [[color]] 0%,
+                color-mix(in oklab, [[color]], black 22%) 100%
+              );
+            }
+            @keyframes scroll {
+              0% { transform: translateX(0%); }
+              100% { transform: translateX(-50%); }
+            }
+          $: |
+            .card-header {
+              background: transparent;
+              color: white;
+              padding: 14px 18px !important;
+              font-size: 18px !important;
+              font-weight: bold !important;
+              text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+              border-bottom: 1px solid rgba(255,255,255,0.12);
+            }
+      sort_by: Date
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ID
+          data: '[[events]]'
+          modify: x.competitions[0].id
+          hidden: true
+        - name: Date
+          data: '[[events]]'
+          modify: x.competitions[0].date
+          hidden: true
+        - name: Game
+          data: '[[events]]'
+          modify: |-
+            (() => {
+              if (!x?.competitions?.[0]) return "No data";
+              const c = x.competitions[0];
+
+              /* Dates */
+              const gameDate = new Date(c.date).toLocaleDateString("en-US",
+                { weekday:"short", month:"short", day:"numeric" });
+              const gameTime = new Date(c.date).toLocaleTimeString("en-US",
+                { hour:"numeric", minute:"2-digit", hour12:true });
+
+              /* Teams */
+              const competitors = c.competitors;
+              const home = competitors.find(t => t.homeAway === "home");
+              const away = competitors.find(t => t.homeAway === "away");
+
+              /* Venue */
+              const venue = c.venue?.fullName || "";
+              const city = c.venue?.address?.city || "";
+              const country = c.venue?.address?.country || "";
+              const location = [city, country].filter(Boolean).join(", ");
+
+              /* Round / Group */
+              let roundName = "";
+              if (c.notes?.[0]?.headline) {
+                roundName = c.notes[0].headline
+                  .replace("Milano Cortina 2026 ", "")
+                  .replace("Men's Hockey - ", "");
+              }
+
+              /* Status */
+              const state = c.status?.type?.state || "pre";
+              let statusBadge = "";
+
+              if (state === "post") {
+                statusBadge = `<div style="background:#fff;color:#000;
+                  padding:4px 14px;border-radius:18px;font-size:12px;font-weight:bold;">
+                  Final</div>`;
+              } else if (state === "pre") {
+                statusBadge = `<div style="background:#2ecc71;color:#fff;
+                  padding:4px 14px;border-radius:18px;font-size:12px;font-weight:bold;">
+                  Upcoming</div>`;
+              } else {
+                statusBadge = `
+                  <div style="text-align:center;">
+                    <div style="background:#c00;color:#fff;
+                      padding:2px 10px;border-radius:12px;
+                      font-size:10px;font-weight:bold;letter-spacing:1px;">
+                      LIVE
+                    </div>
+                    <div style="margin-top:4px;font-size:13px;font-weight:bold;">
+                      ${c.status.displayClock}
+                      <span style="font-size:11px;opacity:.7;">P${c.status.period}</span>
+                    </div>
+                  </div>`;
+              }
+
+              /* Hockey period grid (3) */
+              let awayP = ["0","0","0"];
+              let homeP = ["0","0","0"];
+
+              if (state !== "pre" && away.linescores?.length) {
+                for (let i = 0; i < 3; i++) {
+                  if (away.linescores[i]) awayP[i] = away.linescores[i].displayValue || "0";
+                  if (home.linescores[i]) homeP[i] = home.linescores[i].displayValue || "0";
+                }
+              }
+
+              const awayScore = state === "pre" ? "0" : away.score;
+              const homeScore = state === "pre" ? "0" : home.score;
+
+              const periodGrid = `
+                <div style="margin:8px 0;background:rgba(0,0,0,.4);
+                  border-radius:10px;padding:8px;font-size:11px;">
+                  <table style="width:100%;color:#ccc;">
+                    <thead>
+                      <tr style="text-align:center;color:#888;">
+                        <th></th><th>P1</th><th>P2</th><th>P3</th>
+                        <th style="color:#ff9800;">F</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="text-align:center;">
+                        <td style="text-align:left;">${away.team.abbreviation}</td>
+                        <td>${awayP[0]}</td><td>${awayP[1]}</td><td>${awayP[2]}</td>
+                        <td style="color:#fff;font-weight:bold;">${awayScore}</td>
+                      </tr>
+                      <tr style="text-align:center;">
+                        <td style="text-align:left;">${home.team.abbreviation}</td>
+                        <td>${homeP[0]}</td><td>${homeP[1]}</td><td>${homeP[2]}</td>
+                        <td style="color:#fff;font-weight:bold;">${homeScore}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>`;
+
+              return `
+                <div style="padding:16px;background:rgba(0,0,0,.25);">
+                  <div style="display:flex;justify-content:space-between;">
+                    <div>
+                      <div style="font-weight:600;">${gameDate}</div>
+                      <div style="font-size:12px;opacity:.7;">
+                        ${gameTime}
+                      </div>
+                    </div>
+                    ${statusBadge}
+                  </div>
+
+                  ${roundName ? `
+                    <div style="text-align:center;margin:10px 0;">
+                      <div style="color:#FFD700;font-weight:bold;font-size:13px;">
+                        ${roundName}
+                      </div>
+                      <div style="font-size:11px;opacity:.7;">
+                        ${venue} • ${location}
+                      </div>
+                    </div>` : ""}
+
+                  ${periodGrid}
+
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="flex:1;text-align:left;">
+                      <img src="${away.team.logo}"
+                        style="height:56px;border-radius:50%;">
+                      <div style="font-weight:600;">${away.team.displayName}</div>
+                    </div>
+
+                    <div style="flex:1;text-align:center;font-size:36px;
+                      font-weight:bold;">
+                      ${awayScore} – ${homeScore}
+                    </div>
+
+                    <div style="flex:1;text-align:right;">
+                      <img src="${home.team.logo}"
+                        style="height:56px;border-radius:50%;">
+                      <div style="font-weight:600;">${home.team.displayName}</div>
+                    </div>
+                  </div>
+                </div>`;
+            })()
+views:
+  - title: Sandbox Dashboard Testing
+    type: panel
+    icon: mdi:strategy
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: black;
+                color: silver;
+                border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+                border-width: 2px;
+                border-style: solid;
+                overflow: hidden;
+                width: 20%;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            '--mdc-theme-primary': black
+            '--mdc-tab-text-label-color-default': silver
+            '--mdc-typography-button-font-size': 12px
+          tabs:
+            - attributes:
+                label: Olympics Dashboard
+                icon: mdi:trophy
+              card:
+                type: custom:mod-card
+                card_mod:
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 15%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                card:
+                  type: custom:tabbed-card
+                  card_mod: null
+                  style:
+                    tabbed-card $: |
+                      mwc-tab {
+                        background: black;
+                        border-color: silver;
+                        border-width: 2px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                        border-style: solid;
+                        overflow: hidden;
+                        width: 10%;
+                      }
+                      mwc-tab[active] {
+                        background: white !important;
+                        color: black !important
+                      }
+                  tabs:
+                    - attributes:
+                        label: Sports
+                        icon: mdi:trophy-variant-outline
+                      card:
+                        type: custom:mod-card
+                        card_mod:
+                          style:
+                            tabbed-card $:
+                              mwc-tab-bar $: |
+                                .mdc-tab-scroller {
+                                  position: relative;
+                                  padding-bottom: 28px !important;
+                                }
+                                .mdc-tab-scroller::after {
+                                  content: "";
+                                  position: absolute;
+                                  bottom: 0;
+                                  left: 0;
+                                  right: 0;
+                                  height: 28px;
+                                  background: rgba(0,0,0,0.35);
+                                  overflow: hidden;
+                                }
+                                .mdc-tab-scroller::before {
+                                  content: "{{ state_attr('sensor.ncaaf_sports_news_ticker', 'news') }} {{ state_attr('sensor.ncaaf_sports_news_ticker', 'news') }}";
+                                  position: absolute;
+                                  bottom: 2px;
+                                  left: 0;
+                                  white-space: nowrap;
+                                  display: inline-block;
+                                  line-height: 28px;
+                                  font-size: 14px;
+                                  padding-left: 100%;
+                                  animation: ticker-scroll 90s linear infinite;
+                                  color: white;
+                                  z-index: 1;
+                                }
+                                @keyframes ticker-scroll {
+                                  0%   { transform: translateX(0); }
+                                  100% { transform: translateX(-100%); }
+                                }
+                              .: |
+                                mwc-tab {
+                                  background: black;
+                                  border-color: silver;
+                                  border-width: 2px;
+                                  border-top-left-radius: 20px;
+                                  border-top-right-radius: 20px;
+                                  border-style: solid;
+                                  overflow: hidden;
+                                  width: 5%;
+                                }
+                                mwc-tab[active] {
+                                  background: white !important;
+                                  color: black !important;
+                                }
+                        card:
+                          type: custom:tabbed-card
+                          styles:
+                            '--mdc-theme-primary': black
+                            '--mdc-tab-text-label-color-default': silver
+                            '--mdc-typography-button-font-size': 12px
+                          tabs:
+                            - attributes:
+                                label: Olympics
+                                icon: mdi:hockey-sticks
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Hockey Group A
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: olympic_hockey_settings
+                                            variables:
+                                              - title: Olympic Hockey Group A
+                                              - entity: >-
+                                                  sensor.olympics_winter_hockey_standings_group_a
+                                              - attribute: entries
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Hockey Group B
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: olympic_hockey_settings
+                                            variables:
+                                              - title: Olympic Hockey Group B
+                                              - entity: >-
+                                                  sensor.olympics_winter_hockey_standings_group_b
+                                              - attribute: entries
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Hockey Group C
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: olympic_hockey_settings
+                                            variables:
+                                              - title: Olympic Hockey Group C
+                                              - entity: >-
+                                                  sensor.olympics_winter_hockey_standings_group_c
+                                              - attribute: entries
+                                      - type: custom:teamtracker-card
+                                        entity: sensor.united_states
+                                      - type: custom:teamtracker-card
+                                        entity: sensor.sweden
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_olympic_hockey_v1
+                                        variables:
+                                          - title: 🏒 Olympic Hockey
+                                          - color: '#1e88e5'
+                                          - entity: >-
+                                              sensor.olympics_winter_hockey_filtered_events
+                                          - events: olympic_hockey
+                                          - show_rankings: true
+                                          - show_series: false
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_olympic_hockey_v1
+                                        variables:
+                                          - title: 🏒 Olympic Hockey
+                                          - color: '#1e88e5'
+                                          - entity: >-
+                                              sensor.olympics_winter_hockey_filtered_events
+                                          - events: olympic_hockey_qualifications
+                                          - show_rankings: true
+                                          - show_series: false
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_olympic_hockey_v1
+                                        variables:
+                                          - title: 🏒 Olympic Hockey
+                                          - color: '#1e88e5'
+                                          - entity: >-
+                                              sensor.olympics_winter_hockey_filtered_events
+                                          - events: olympic_hockey_bronze
+                                          - show_rankings: true
+                                          - show_series: false
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_olympic_hockey_v1
+                                        variables:
+                                          - title: 🏒 Olympic Hockey
+                                          - color: '#1e88e5'
+                                          - entity: >-
+                                              sensor.olympics_winter_hockey_filtered_events
+                                          - events: olympic_hockey_gold
+                                          - show_rankings: true
+                                          - show_series: false
