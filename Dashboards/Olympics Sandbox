@@ -446,6 +446,16 @@ views:
                                       - type: custom:decluttering-card
                                         template: sports_olympic_hockey_v1
                                         variables:
+                                          - title: 🏒 Olympic Hockey Bronze
+                                          - color: '#1e88e5'
+                                          - entity: >-
+                                              sensor.olympics_winter_hockey_filtered_events
+                                          - events: olympic_hockey_bronze
+                                          - show_rankings: true
+                                          - show_series: false
+                                      - type: custom:decluttering-card
+                                        template: sports_olympic_hockey_v1
+                                        variables:
                                           - title: 🏒 Olympic Hockey Preliminary
                                           - color: '#1e88e5'
                                           - entity: >-
@@ -455,6 +465,16 @@ views:
                                           - show_series: false
                                   - type: vertical-stack
                                     cards:
+                                      - type: custom:decluttering-card
+                                        template: sports_olympic_hockey_v1
+                                        variables:
+                                          - title: 🏒 Olympic Hockey Gold/Silver
+                                          - color: '#1e88e5'
+                                          - entity: >-
+                                              sensor.olympics_winter_hockey_filtered_events
+                                          - events: olympic_hockey_gold
+                                          - show_rankings: true
+                                          - show_series: false
                                       - type: custom:decluttering-card
                                         template: sports_olympic_hockey_v1
                                         variables:
@@ -470,11 +490,11 @@ views:
                                       - type: custom:decluttering-card
                                         template: sports_olympic_hockey_v1
                                         variables:
-                                          - title: 🏒 Olympic Hockey Bronze
+                                          - title: 🏒 Olympic Hockey Quarterfinals
                                           - color: '#1e88e5'
                                           - entity: >-
                                               sensor.olympics_winter_hockey_filtered_events
-                                          - events: olympic_hockey_bronze
+                                          - events: olympic_hockey_quarterfinals
                                           - show_rankings: true
                                           - show_series: false
                                   - type: vertical-stack
@@ -482,10 +502,10 @@ views:
                                       - type: custom:decluttering-card
                                         template: sports_olympic_hockey_v1
                                         variables:
-                                          - title: 🏒 Olympic Hockey Gold/Silver
+                                          - title: 🏒 Olympic Hockey Semifinals
                                           - color: '#1e88e5'
                                           - entity: >-
                                               sensor.olympics_winter_hockey_filtered_events
-                                          - events: olympic_hockey_gold
+                                          - events: olympic_hockey_semifinals
                                           - show_rankings: true
                                           - show_series: false
