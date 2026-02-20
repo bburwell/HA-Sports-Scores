@@ -1,6 +1,30 @@
-
 ######################### Olympic Winter 
-#####################  Hockey
+###############  Medals
+- platform: rest
+  name: Olympics Winter Medals 
+  unique_id: sensor.olympics_winter_medals
+  resource: https://site.web.api.espn.com/apis/site/v2/olympics/winter/2026/medals
+  value_template: "{{ now() }}"
+  json_attributes:
+      - medals
+      
+- platform: rest
+  name: Olympics Winter Results
+  unique_id: sensor.olympics_winter_results
+  resource: https://site.web.api.espn.com/apis/site/v2/olympics/winter/2026/results
+  value_template: "{{ now() }}"
+  json_attributes:
+      - competitions
+
+- platform: rest
+  name: Olympics Winter Events
+  unique_id: sensor.olympics_winter_events
+  resource: https://site.web.api.espn.com/apis/site/v2/olympics/winter/2026/scoreboard
+  value_template: "{{ now() }}"
+  json_attributes:
+      - competitions      
+     
+#####################  Hockey      
 - platform: rest
   scan_interval: 14400
   name: Olympics Winter Hockey
