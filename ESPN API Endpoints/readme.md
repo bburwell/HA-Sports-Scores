@@ -93,6 +93,7 @@
 | `/golf/{leagues}/`       | https://site.web.api.espn.com/apis/site/v2/sports/golf/liv/scoreboard     | LIV            |
 | `/golf/{leagues}/`       | https://site.web.api.espn.com/apis/site/v2/sports/golf/eur/scoreboard     | DP World Tour  |
 | `/golf/{leagues}/`       | https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=ntw | Korn Ferry     |
+| `/golf/{leagues}/`       | https://site.web.api.espn.com/apis/site/v2/sports/golf/tgl/scoreboard     | Tomorrow's Golf League  |
 
 ### MMA
 | Sport Path              | URL Path                                                                 | League |
