@@ -1,4 +1,51 @@
 decluttering_templates:
+  olympics_medals:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: 'padding: 0px; width: 100%;border-collapse: collapse; margin-top:12px;'
+        tbody tr td:first-child: 'width: 10%;'
+        tbody tr td:nth-child(2): 'width: 2%;'
+        tbody tr td:nth-child(3): 'width: 1%;'
+        tbody tr td:nth-child(4): 'width: 2%;'
+        tbody tr:hover: 'background-color: dimgrey!important; color:white!important;'
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              }
+          $: |
+            .card-header {
+               padding-top: 6px!important;
+               padding-bottom: 4px!important;
+               font-size: 14px!important;
+               line-height: 14px!important;
+               font-weight: bold!important;
+             }
+      sort_by: Total Medals-
+      entities:
+        include: '[[entity]]'
+        exclude: '[[excluded_entities]]'
+      columns:
+        - name: Country
+          data: '[[attribute]]'
+          modify: >-
+            '<div><img src="' + x.flag.href + '" style="height:
+            20px;vertical-align:middle;">&nbsp;' + x.name + '</div>'
+        - name: Total Medals
+          data: '[[attribute]]'
+          modify: x.medalStandings.totalMedals
+        - name: Gold Medals
+          data: '[[attribute]]'
+          modify: x.medalStandings.goldMedalCount
+        - name: Silver Medals
+          data: '[[attribute]]'
+          modify: x.medalStandings.silverMedalCount
+        - name: Bronze Medals
+          data: '[[attribute]]'
+          modify: x.medalStandings.bronzeMedalCount
   olympic_hockey_settings:
     card:
       type: custom:flex-table-card
@@ -384,6 +431,28 @@ views:
                             '--mdc-tab-text-label-color-default': silver
                             '--mdc-typography-button-font-size': 12px
                           tabs:
+                            - attributes:
+                                label: Olympics Medals
+                                icon: mdi:medal-outline
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - type: custom:expander-card
+                                        child-margin-top: 0.6em
+                                        padding: 0
+                                        title: Olympic Medals
+                                        title-card-button-overlay: true
+                                        title-card-clickable: true
+                                        expanded: false
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: olympics_medals
+                                            variables:
+                                              - title: Olympic Medals
+                                              - entity: sensor.olympics_winter_medals
+                                              - attribute: medals
                             - attributes:
                                 label: Olympics
                                 icon: mdi:hockey-sticks
