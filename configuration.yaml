@@ -15,3 +15,4 @@ shell_command:
   get_wnba_first_round_grok: 'python /config/www/wnba-1st-grok.py'
   get_soccer_first_round_grok: 'python /config/www/soccer-1st-grok.py'
   get_soccer_uefa_champions_grok: 'python /config/www/soccer-uefa-grok.py'
+  get_fifa_worldcup: 'python /config/www/fifa_worldcup.py'
