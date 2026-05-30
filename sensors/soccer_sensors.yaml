@@ -13,6 +13,144 @@
    
 ### For the WC Python Playoffs Dashboard #################################
 
+
+######################## World Cup
+- platform: rest
+  name: FIFA Worldcup Group A
+  unique_id: sensor.fifa_worldcup_group_a
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_A_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group B
+  unique_id: sensor.fifa_worldcup_group_b
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_B_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group C
+  unique_id: sensor.fifa_worldcup_group_c
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_C_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group D
+  unique_id: sensor.fifa_worldcup_group_d
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_D_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group E
+  unique_id: sensor.fifa_worldcup_group_e
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_E_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group F
+  unique_id: sensor.fifa_worldcup_group_f
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_F_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group G
+  unique_id: sensor.fifa_worldcup_group_g
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_G_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group H
+  unique_id: sensor.fifa_worldcup_group_h
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_H_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group I
+  unique_id: sensor.fifa_worldcup_group_i
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_I_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group J
+  unique_id: sensor.fifa_worldcup_group_j
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_J_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group K
+  unique_id: sensor.fifa_worldcup_group_k
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_K_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Group L
+  unique_id: sensor.fifa_worldcup_group_l
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_group_L_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Round of 16
+  unique_id: sensor.fifa_worldcup_round_of_16
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_round_of_16_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Round of 32
+  unique_id: sensor.fifa_worldcup_round_of_32
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_round_of_32_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Quarterfinals
+  unique_id: sensor.fifa_worldcup_semifinals
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup 3rd Place
+  unique_id: sensor.fifa_worldcup_3rd_place
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_third_place_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+- platform: rest
+  name: FIFA Worldcup Final
+  unique_id: sensor.fifa_worldcup_final
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_final_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
 - platform: rest
   name: Worldcup Group A
   unique_id: sensor.worldcup_group_a
