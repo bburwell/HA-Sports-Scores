@@ -7,17 +7,17 @@ API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/score
 
 # 2026 FIFA World Cup groups (post-draw, with placeholders for unresolved playoff winners)
 GROUP_TEAMS = {
-    "A": ["Mexico", "South Africa", "Korea Republic", "UEFA Path D winner"],  # e.g. Denmark/Czechia/Ireland/N. Macedonia winner
-    "B": ["Canada", "UEFA Path A winner", "Qatar", "Switzerland"],
+    "A": ["Mexico", "South Africa", "South Korea", "Czechia"],
+    "B": ["Canada", "Bosnia-Herzegovina", "Qatar", "Switzerland"],   # UEFA Path A winner was Bosnia-Herzegovina
     "C": ["Brazil", "Morocco", "Haiti", "Scotland"],
-    "D": ["United States", "Paraguay", "Australia", "UEFA Path C winner"],
+    "D": ["United States", "Paraguay", "Australia", "Türkiye"],       # UEFA Path C winner was Türkiye
     "E": ["Germany", "Curaçao", "Ivory Coast", "Ecuador"],
-    "F": ["Netherlands", "Japan", "UEFA Path B winner", "Tunisia"],
+    "F": ["Netherlands", "Japan", "Sweden", "Tunisia"],               # UEFA Path B winner was Sweden
     "G": ["Belgium", "Egypt", "Iran", "New Zealand"],
     "H": ["Spain", "Cape Verde", "Saudi Arabia", "Uruguay"],
-    "I": ["France", "Senegal", "Inter-confed Path 2 winner", "Norway"],
+    "I": ["France", "Senegal", "DR Congo", "Norway"],                 # Inter-confed Path 2 winner was DR Congo
     "J": ["Argentina", "Algeria", "Austria", "Jordan"],
-    "K": ["Portugal", "Inter-confed Path 1 winner", "Uzbekistan", "Colombia"],
+    "K": ["Portugal", "Iraq", "Uzbekistan", "Colombia"],              # Inter-confed Path 1 winner was Iraq
     "L": ["England", "Croatia", "Ghana", "Panama"]
 }
 
