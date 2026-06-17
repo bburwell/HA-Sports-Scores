@@ -255,7 +255,258 @@
   json_attributes: 
    - events
    - series
-      
+
+# Group A
+- platform: teamtracker
+  league_id: WC
+  team_id: MEX
+  name: soccer.world_cup.Mexico
+
+- platform: teamtracker
+  league_id: WC
+  team_id: RSA
+  name: soccer.world_cup.South_Africa
+
+- platform: teamtracker
+  league_id: WC
+  team_id: KOR
+  name: soccer.world_cup.South_Korea
+
+- platform: teamtracker
+  league_id: WC
+  team_id: CZE
+  name: soccer.world_cup.Czechia
+
+# Group B
+- platform: teamtracker
+  league_id: WC
+  team_id: CAN
+  name: soccer.world_cup.Canada
+
+- platform: teamtracker
+  league_id: WC
+  team_id: BIH
+  name: soccer.world_cup.Bosnia_and_Herzegovina
+
+- platform: teamtracker
+  league_id: WC
+  team_id: QAT
+  name: soccer.world_cup.Qatar
+
+- platform: teamtracker
+  league_id: WC
+  team_id: SUI
+  name: soccer.world_cup.Switzerland
+
+# Group C
+- platform: teamtracker
+  league_id: WC
+  team_id: BRA
+  name: soccer.world_cup.Brazil
+
+- platform: teamtracker
+  league_id: WC
+  team_id: MAR
+  name: soccer.world_cup.Morocco
+
+- platform: teamtracker
+  league_id: WC
+  team_id: HAI
+  name: soccer.world_cup.Haiti
+
+- platform: teamtracker
+  league_id: WC
+  team_id: SCO
+  name: soccer.world_cup.Scotland
+
+# Group D
+- platform: teamtracker
+  league_id: WC
+  team_id: USA
+  name: soccer.world_cup.United_States
+
+- platform: teamtracker
+  league_id: WC
+  team_id: PAR
+  name: soccer.world_cup.Paraguay
+
+- platform: teamtracker
+  league_id: WC
+  team_id: AUS
+  name: soccer.world_cup.Australia
+
+- platform: teamtracker
+  league_id: WC
+  team_id: TUR
+  name: soccer.world_cup.Turkey
+
+# Group E
+- platform: teamtracker
+  league_id: WC
+  team_id: GER
+  name: soccer.world_cup.Germany
+
+- platform: teamtracker
+  league_id: WC
+  team_id: CUW
+  name: soccer.world_cup.Curacao
+
+- platform: teamtracker
+  league_id: WC
+  team_id: CIV
+  name: soccer.world_cup.Ivory_Coast
+
+- platform: teamtracker
+  league_id: WC
+  team_id: ECU
+  name: soccer.world_cup.Ecuador
+
+# Group F
+- platform: teamtracker
+  league_id: WC
+  team_id: NED
+  name: soccer.world_cup.Netherlands
+
+- platform: teamtracker
+  league_id: WC
+  team_id: JPN
+  name: soccer.world_cup.Japan
+
+- platform: teamtracker
+  league_id: WC
+  team_id: SWE
+  name: soccer.world_cup.Sweden
+
+- platform: teamtracker
+  league_id: WC
+  team_id: TUN
+  name: soccer.world_cup.Tunisia
+
+# Group G
+- platform: teamtracker
+  league_id: WC
+  team_id: BEL
+  name: soccer.world_cup.Belgium
+
+- platform: teamtracker
+  league_id: WC
+  team_id: EGY
+  name: soccer.world_cup.Egypt
+
+- platform: teamtracker
+  league_id: WC
+  team_id: "IRN"
+  name: soccer.world_cup.Iran
+
+- platform: teamtracker
+  league_id: WC
+  team_id: NZL
+  name: soccer.world_cup.New_Zealand
+
+# Group H
+- platform: teamtracker
+  league_id: WC
+  team_id: ESP
+  name: soccer.world_cup.Spain
+
+- platform: teamtracker
+  league_id: WC
+  team_id: CPV
+  name: soccer.world_cup.Cape_Verde
+
+- platform: teamtracker
+  league_id: WC
+  team_id: KSA
+  name: soccer.world_cup.Saudi_Arabia
+
+- platform: teamtracker
+  league_id: WC
+  team_id: URU
+  name: soccer.world_cup.Uruguay
+
+# Group I
+- platform: teamtracker
+  league_id: WC
+  team_id: FRA
+  name: soccer.world_cup.France
+
+- platform: teamtracker
+  league_id: WC
+  team_id: SEN
+  name: soccer.world_cup.Senegal
+
+- platform: teamtracker
+  league_id: WC
+  team_id: IRQ
+  name: soccer.world_cup.Iraq
+
+- platform: teamtracker
+  league_id: WC
+  team_id: NOR
+  name: soccer.world_cup.Norway
+
+# Group J
+- platform: teamtracker
+  league_id: WC
+  team_id: ARG
+  name: soccer.world_cup.Argentina
+
+- platform: teamtracker
+  league_id: WC
+  team_id: ALG
+  name: soccer.world_cup.Algeria
+
+- platform: teamtracker
+  league_id: WC
+  team_id: AUT
+  name: soccer.world_cup.Austria
+
+- platform: teamtracker
+  league_id: WC
+  team_id: JOR
+  name: soccer.world_cup.Jordan
+
+# Group K
+- platform: teamtracker
+  league_id: WC
+  team_id: POR
+  name: soccer.world_cup.Portugal
+
+- platform: teamtracker
+  league_id: WC
+  team_id: COD
+  name: soccer.world_cup.DR_Congo
+
+- platform: teamtracker
+  league_id: WC
+  team_id: UZB
+  name: soccer.world_cup.Uzbekistan
+
+- platform: teamtracker
+  league_id: WC
+  team_id: COL
+  name: soccer.world_cup.Colombia
+
+# Group L
+- platform: teamtracker
+  league_id: WC
+  team_id: ENG
+  name: soccer.world_cup.England
+
+- platform: teamtracker
+  league_id: WC
+  team_id: CRO
+  name: soccer.world_cup.Croatia
+
+- platform: teamtracker
+  league_id: WC
+  team_id: GHA
+  name: soccer.world_cup.Ghana
+
+- platform: teamtracker
+  league_id: WC
+  team_id: PAN
+  name: soccer.world_cup.Panama
 ### For the FIFA Club World Cup Python Playoffs Dashboard #################################
 
 - platform: rest
