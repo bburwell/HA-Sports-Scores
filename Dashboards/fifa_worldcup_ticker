@@ -1,0 +1,529 @@
+                                  - type: custom:button-card
+                                    update_interval: 10
+                                    triggers_update: all
+                                    show_name: false
+                                    show_icon: false
+                                    show_state: false
+                                    show_label: false
+                                    custom_fields:
+                                      title: |
+                                        [[[
+                                          return `
+                                            <div style="
+                                              font-size:16px;
+                                              font-weight:700;
+                                              color:white;
+                                              white-space:nowrap;
+                                            ">
+                                              Upcoming Games
+                                            </div>
+                                          `;
+                                        ]]]
+                                      ticker: |
+                                        [[[
+                                          let games = [];
+
+                                          Object.keys(states).forEach(entity_id => {
+
+                                            if (!entity_id.startsWith('sensor.soccer_world_cup_'))
+                                              return;
+
+                                            const s = states[entity_id];
+                                            if (!s || s.state !== 'PRE')
+                                              return;
+
+                                            const a = s.attributes;
+
+                                            if (a.team_homeaway !== 'home')
+                                              return;
+
+                                            const dateObj = new Date(a.date);
+
+                                            const dayStr = dateObj.toLocaleDateString([], {
+                                              weekday: 'short',
+                                              month: 'short',
+                                              day: 'numeric'
+                                            });
+
+                                            const timeStr = dateObj.toLocaleTimeString([], {
+                                              hour: 'numeric',
+                                              minute: '2-digit'
+                                            });
+
+                                            games.push({
+                                              date: dateObj,
+                                              html: `
+                                                <span style="display:inline-flex;align-items:center;">
+
+                                                  <img src="${a.team_logo}" width="26" height="18"
+                                                       style="border-radius:2px;">
+
+                                                  <span style="margin-left:4px;font-weight:bold;">
+                                                    ${a.team_name}
+                                                  </span>
+
+                                                  <span style="margin:0 8px;color:#888;font-size:12px;">
+                                                    vs
+                                                  </span>
+
+                                                  <img src="${a.opponent_logo}" width="26" height="18"
+                                                       style="border-radius:2px;">
+
+                                                  <span style="margin-left:4px;font-weight:bold;">
+                                                    ${a.opponent_name}
+                                                  </span>
+
+                                                  <span style="display:inline-flex;flex-direction:column;
+                                                               margin-left:14px;line-height:1.05;">
+                                                    <span style="font-size:10px;color:#999;">
+                                                      ${dayStr}
+                                                    </span>
+                                                    <span style="font-size:13px;color:#00ff88;font-weight:bold;">
+                                                      ${timeStr}
+                                                    </span>
+                                                  </span>
+
+                                                </span>
+                                              `
+                                            });
+                                          });
+
+                                          games.sort((a,b) => a.date - b.date);
+
+                                          if (games.length === 0) {
+                                            return `<span style="color:#aaa;">No upcoming World Cup matches</span>`;
+                                          }
+
+                                          const ticker =
+                                            games.map(g => g.html)
+                                                 .join('&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;width:2px;height:18px;background:#666;vertical-align:middle;"></span>&nbsp;&nbsp;&nbsp;&nbsp;');
+
+                                          return `
+                                            <div class="wc-marquee">
+                                              ${ticker}
+                                              &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;
+                                              ${ticker}
+                                            </div>
+                                          `;
+                                        ]]]
+                                    styles:
+                                      grid:
+                                        - grid-template-areas: "\"title ticker\""
+                                        - grid-template-columns: 180px 1fr
+                                      card:
+                                        - background-color: rgba(20,20,35,0.9)
+                                        - border-radius: 12px
+                                        - padding: 8px 16px
+                                        - height: 72px
+                                        - overflow: hidden
+                                      custom_fields:
+                                        title:
+                                          - justify-self: start
+                                          - align-self: center
+                                        ticker:
+                                          - overflow: hidden
+                                          - white-space: nowrap
+                                          - width: 100%
+                                    extra_styles: |
+                                      .wc-marquee {
+                                        display: inline-block;
+                                        white-space: nowrap;
+                                        animation: wc-scroll 140s linear infinite;
+                                      }
+
+                                      @keyframes wc-scroll {
+                                        from { transform: translateX(0); }
+                                        to   { transform: translateX(-50%); }
+                                      }
+                                  - type: custom:button-card
+                                    update_interval: 10
+                                    triggers_update: all
+                                    show_name: false
+                                    show_icon: false
+                                    show_state: false
+                                    show_label: false
+                                    custom_fields:
+                                      title: |
+                                        [[[
+                                          return `
+                                            <div style="
+                                              font-size:16px;
+                                              font-weight:700;
+                                              color:white;
+                                              white-space:nowrap;
+                                            ">
+                                              Completed Games
+                                            </div>
+                                          `;
+                                        ]]]
+                                      ticker: |
+                                        [[[
+                                          let games = [];
+
+                                          Object.keys(states).forEach(entity_id => {
+
+                                            if (!entity_id.startsWith('sensor.soccer_world_cup_'))
+                                              return;
+
+                                            const s = states[entity_id];
+
+                                            if (!s || s.state !== 'POST')
+                                              return;
+
+                                            const a = s.attributes;
+
+                                            // Only use home-team sensors
+                                            if (a.team_homeaway !== 'home')
+                                              return;
+
+                                            const homeScore = Number(a.team_score || 0);
+                                            const awayScore = Number(a.opponent_score || 0);
+
+                                            let homeColor = '#aaaaaa';
+                                            let awayColor = '#aaaaaa';
+
+                                            if (homeScore > awayScore) {
+                                              homeColor = '#00ff66';
+                                              awayColor = '#ff4444';
+                                            } else if (awayScore > homeScore) {
+                                              homeColor = '#ff4444';
+                                              awayColor = '#00ff66';
+                                            }
+
+                                            games.push({
+                                              date: new Date(a.date),
+
+                                              html: `
+                                                <span style="
+                                                  display:inline-flex;
+                                                  align-items:center;
+                                                ">
+
+                                                  <img src="${a.team_logo}"
+                                                       width="26"
+                                                       height="18"
+                                                       style="border-radius:2px;">
+
+                                                  <span style="
+                                                    margin-left:4px;
+                                                    font-weight:bold;
+                                                  ">
+                                                    ${a.team_name}
+                                                  </span>
+
+                                                  <span style="
+                                                    display:inline-flex;
+                                                    flex-direction:column;
+                                                    align-items:center;
+                                                    justify-content:center;
+                                                    margin:0 12px;
+                                                    line-height:1.0;
+                                                  ">
+
+                                                    <span>
+                                                      <span style="
+                                                        color:${homeColor};
+                                                        font-size:18px;
+                                                        font-weight:bold;
+                                                      ">
+                                                        ${homeScore}
+                                                      </span>
+
+                                                      <span style="
+                                                        margin:0 4px;
+                                                        color:#888;
+                                                        font-weight:bold;
+                                                      ">
+                                                        -
+                                                      </span>
+
+                                                      <span style="
+                                                        color:${awayColor};
+                                                        font-size:18px;
+                                                        font-weight:bold;
+                                                      ">
+                                                        ${awayScore}
+                                                      </span>
+                                                    </span>
+
+                                                    <span style="
+                                                      font-size:10px;
+                                                      color:#999;
+                                                      font-weight:bold;
+                                                      letter-spacing:1px;
+                                                      margin-top:2px;
+                                                    ">
+                                                      FINAL
+                                                    </span>
+
+                                                  </span>
+
+                                                  <img src="${a.opponent_logo}"
+                                                       width="26"
+                                                       height="18"
+                                                       style="border-radius:2px;">
+
+                                                  <span style="
+                                                    margin-left:4px;
+                                                    font-weight:bold;
+                                                  ">
+                                                    ${a.opponent_name}
+                                                  </span>
+
+                                                </span>
+                                              `
+                                            });
+                                          });
+
+                                          // Newest completed games first
+                                          games.sort((a, b) => b.date - a.date);
+
+                                          if (games.length === 0) {
+                                            return `
+                                              <span style="
+                                                color:#aaa;
+                                                font-size:14px;
+                                              ">
+                                                No completed World Cup matches
+                                              </span>
+                                            `;
+                                          }
+
+                                          const separator =
+                                            '&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;width:2px;height:22px;background:#666;vertical-align:middle;"></span>&nbsp;&nbsp;&nbsp;&nbsp;';
+
+                                          const ticker =
+                                            games.map(g => g.html)
+                                                 .join(separator);
+
+                                          return `
+                                            <div class="wc-marquee">
+                                              ${ticker}
+                                              ${separator}
+                                              ${ticker}
+                                            </div>
+                                          `;
+                                        ]]]
+                                    styles:
+                                      grid:
+                                        - grid-template-areas: "\"title ticker\""
+                                        - grid-template-columns: 180px 1fr
+                                      card:
+                                        - background-color: rgba(20,20,35,0.9)
+                                        - border-radius: 12px
+                                        - padding: 8px 16px
+                                        - height: 72px
+                                        - overflow: hidden
+                                      custom_fields:
+                                        title:
+                                          - justify-self: start
+                                          - align-self: center
+                                        ticker:
+                                          - overflow: hidden
+                                          - white-space: nowrap
+                                          - width: 100%
+                                    extra_styles: |
+                                      .wc-marquee {
+                                        display: inline-block;
+                                        white-space: nowrap;
+                                        animation: wc-scroll 30s linear infinite;
+                                      }
+
+                                      @keyframes wc-scroll {
+                                        from {
+                                          transform: translateX(0);
+                                        }
+
+                                        to {
+                                          transform: translateX(-50%);
+                                        }
+                                      } 
+                                  - type: custom:button-card
+                                    update_interval: 5
+                                    triggers_update: all
+                                    show_name: false
+                                    show_icon: false
+                                    show_state: false
+                                    show_label: false
+                                    custom_fields:
+                                      title: |
+                                        [[[
+                                          return `
+                                            <div style="
+                                              font-size:16px;
+                                              font-weight:700;
+                                              color:white;
+                                              white-space:nowrap;
+                                            ">
+                                              Live Matches
+                                            </div>
+                                          `;
+                                        ]]]
+                                      ticker: |
+                                        [[[
+                                          let games = [];
+
+                                          Object.keys(states).forEach(entity_id => {
+
+                                            if (!entity_id.startsWith('sensor.soccer_world_cup_'))
+                                              return;
+
+                                            const s = states[entity_id];
+
+                                            if (!s || s.state !== 'IN')
+                                              return;
+
+                                            const a = s.attributes;
+
+                                            if (a.team_homeaway !== 'home')
+                                              return;
+
+                                            const homeScore = Number(a.team_score || 0);
+                                            const awayScore = Number(a.opponent_score || 0);
+
+                                            let homeColor = '#ffffff';
+                                            let awayColor = '#ffffff';
+
+                                            if (homeScore > awayScore) {
+                                              homeColor = '#00ff66';
+                                            }
+
+                                            if (awayScore > homeScore) {
+                                              awayColor = '#00ff66';
+                                            }
+
+                                            games.push({
+                                              date: new Date(a.date),
+                                              html: `
+                                                <span style="
+                                                  display:inline-flex;
+                                                  align-items:center;
+                                                ">
+
+                                                  <img src="${a.team_logo}" width="26" height="18"
+                                                       style="border-radius:2px;">
+
+                                                  <span style="margin-left:4px;font-weight:bold;">
+                                                    ${a.team_name}
+                                                  </span>
+
+                                                  <span style="
+                                                    display:inline-flex;
+                                                    flex-direction:column;
+                                                    align-items:center;
+                                                    justify-content:center;
+                                                    margin:0 12px;
+                                                    line-height:1.0;
+                                                  ">
+
+                                                    <span>
+                                                      <span style="
+                                                        color:${homeColor};
+                                                        font-size:18px;
+                                                        font-weight:bold;
+                                                      ">
+                                                        ${homeScore}
+                                                      </span>
+
+                                                      <span style="
+                                                        margin:0 4px;
+                                                        color:#888;
+                                                        font-weight:bold;
+                                                      ">-</span>
+
+                                                      <span style="
+                                                        color:${awayColor};
+                                                        font-size:18px;
+                                                        font-weight:bold;
+                                                      ">
+                                                        ${awayScore}
+                                                      </span>
+                                                    </span>
+
+                                                    <span style="
+                                                      font-size:10px;
+                                                      color:#00ff88;
+                                                      font-weight:bold;
+                                                      margin-top:2px;
+                                                    ">
+                                                      ${a.clock || 'LIVE'}
+                                                    </span>
+
+                                                  </span>
+
+                                                  <img src="${a.opponent_logo}" width="26" height="18"
+                                                       style="border-radius:2px;">
+
+                                                  <span style="margin-left:4px;font-weight:bold;">
+                                                    ${a.opponent_name}
+                                                  </span>
+
+                                                </span>
+                                              `
+                                            });
+                                          });
+
+                                          games.sort((a, b) => a.date - b.date);
+
+                                          if (games.length === 0) {
+                                            return `
+                                              <span style="color:#aaa;font-size:14px;">
+                                                No World Cup matches in progress
+                                              </span>
+                                            `;
+                                          }
+
+                                          const separator =
+                                            '&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;width:2px;height:22px;background:#666;vertical-align:middle;"></span>&nbsp;&nbsp;&nbsp;&nbsp;';
+
+                                          const MIN_ITEMS = 2;
+
+                                          let items = games.map(g => g.html);
+
+                                          while (items.length < MIN_ITEMS) {
+                                            items.push(`
+                                              <span style="display:inline-flex;opacity:0;">
+                                                <span style="width:220px;">&nbsp;</span>
+                                              </span>
+                                            `);
+                                          }
+
+                                          const ticker = items.join(separator);
+
+                                          return `
+                                            <div class="wc-marquee">
+                                              ${ticker}
+                                              ${separator}
+                                              ${ticker}
+                                            </div>
+                                          `;
+                                        ]]]
+                                    styles:
+                                      grid:
+                                        - grid-template-areas: "\"title ticker\""
+                                        - grid-template-columns: 180px 1fr
+                                      card:
+                                        - background-color: rgba(20,20,35,0.9)
+                                        - border-radius: 12px
+                                        - padding: 8px 16px
+                                        - height: 72px
+                                        - overflow: hidden
+                                      custom_fields:
+                                        title:
+                                          - justify-self: start
+                                          - align-self: center
+                                        ticker:
+                                          - overflow: hidden
+                                          - white-space: nowrap
+                                          - width: 100%
+                                    extra_styles: |
+                                      .wc-marquee {
+                                        display: inline-block;
+                                        white-space: nowrap;
+                                        animation: wc-scroll 120s linear infinite;
+                                      }
+
+                                      @keyframes wc-scroll {
+                                        from { transform: translateX(0); }
+                                        to { transform: translateX(-50%); }
+                                      }
