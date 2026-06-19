@@ -15,9 +15,9 @@ GROUP_TEAMS = {
     "F": ["Netherlands", "Japan", "Sweden", "Tunisia"],               # UEFA Path B winner was Sweden
     "G": ["Belgium", "Egypt", "Iran", "New Zealand"],
     "H": ["Spain", "Cape Verde", "Saudi Arabia", "Uruguay"],
-    "I": ["France", "Senegal", "DR Congo", "Norway"],                 # Inter-confed Path 2 winner was DR Congo
+    "I": ["France", "Senegal","Iraq" , "Norway"],                 # Inter-confed Path 2 winner was DR Congo
     "J": ["Argentina", "Algeria", "Austria", "Jordan"],
-    "K": ["Portugal", "Iraq", "Uzbekistan", "Colombia"],              # Inter-confed Path 1 winner was Iraq
+    "K": ["Portugal", "DR Congo","Uzbekistan", "Colombia"],              # Inter-confed Path 1 winner was Iraq
     "L": ["England", "Croatia", "Ghana", "Panama"]
 }
 
