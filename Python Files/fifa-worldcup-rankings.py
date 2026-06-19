@@ -181,12 +181,13 @@ def create_series_structure(data, stage_or_group):
     # Calculate standings / advancing
     advancing_teams = set()
     team_stats = {t: {"points": 0,"played": 0,"wins": 0,"losses": 0,"draws": 0,"gf": 0,"ga": 0} for t in all_teams}
-    sorted_teams = list(all_teams)
 
+    
     if stage.startswith("Group"):
         # Group standings
         
-           
+        clinched_teams = set()           
+        
         for game in all_games:
             if game["Status"] != "full_time":
                 continue
@@ -246,7 +247,20 @@ def create_series_structure(data, stage_or_group):
         # Here we just mark group 3rd if applicable
         if len(sorted_teams) >= 3:
             advancing_teams.add(sorted_teams[2])  # but best 8 only advance; full logic needs all groups
+        
+        # -----------------------------
+        # CLINCHED LOGIC
+        # -----------------------------
 
+        for game in all_games:
+           if game["Status"] != "full_time":
+              continue
+
+           if game["Lowest Seed"].get("Advance"):
+              clinched_teams.add(game["Lowest Seed"]["Name"])
+
+           if game["Highest Seed"].get("Advance"):
+                clinched_teams.add(game["Highest Seed"]["Name"])
     else:
         # Knockout
         for game in all_games:
@@ -273,6 +287,7 @@ def create_series_structure(data, stage_or_group):
         "gf": team_stats[t]["gf"],
         "ga": team_stats[t]["ga"],
         "gd": team_stats[t]["gf"] - team_stats[t]["ga"],
+        "clinched": t in clinched_teams,
         "logo": team_logo_map.get(t, "")
     }
     for t in sorted_teams
