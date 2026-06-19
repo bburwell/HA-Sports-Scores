@@ -477,6 +477,7 @@ decluttering_templates:
                         <th>GF</th>
                         <th>GA</th>
                         <th>GD</th>
+                        <th>C</th>
                       </tr>
                     </thead>
 
@@ -484,14 +485,22 @@ decluttering_templates:
 
                       ${stats.map((team, idx) => {
 
-                        const advancing = AdvancingTeams.includes(team.name);
+                        const clinched = team.clinched === true;
+                        const advancing = (series.seriesDetails.AdvancingTeams || []).includes(team.name);
 
-                        return `
-                          <tr style="
-                            ${advancing
-                              ? 'background:white;color:black;font-weight:bold;'
-                              : ''}
-                          ">
+                       
+
+                          let rowStyle = '';
+             
+                          if (clinched) {
+                               rowStyle = 'background:#0066cc;color:white;font-weight:bold;';
+                          } 
+                          else if (advancing) {
+                               rowStyle = 'background:white;color:black;font-weight:bold;';
+                          } 
+               
+                          return `
+                            <tr style="${rowStyle}">                          
 
                             <td style="text-align:center;">
                               ${idx + 1}
@@ -535,7 +544,8 @@ decluttering_templates:
 
                             <td style="text-align:center;">
                               ${team.ga}
-                            </td>
+                            </td> 
+
 
                             <td style="
                               text-align:center;
@@ -550,6 +560,9 @@ decluttering_templates:
                               ${team.gd > 0 ? '+' : ''}${team.gd}
                             </td>
 
+                            <td style="text-align:center;">
+                              ${team.clinched}
+                            </td>
                           </tr>
                         `;
 
@@ -2317,6 +2330,25 @@ views:
                                               - show_series: true
                                               - show_broadcast: true
                                               - max_games: 6
+                                  - type: custom:expander-card
+                                    title: FIFA World Cup 2026 - Round of 32/Knockout
+                                    icon: mdi:soccer
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Round of 32
+                                              - color: "#0066CC"
+                                              - entity: sensor.fifa_worldcup_round_of_32
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 8
                                   - type: custom:expander-card
                                     title: >-
                                       FIFA World Cup 2026 - Round of 16 &
