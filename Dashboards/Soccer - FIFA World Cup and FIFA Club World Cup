@@ -1283,6 +1283,25 @@ views:
                                               - show_broadcast: true
                                               - max_games: 6
                                   - type: custom:expander-card
+                                    title: FIFA World Cup 2026 - Round of 32/Knockout
+                                    icon: mdi:soccer
+                                    expanded: false
+                                    cards:
+                                      - type: horizontal-stack
+                                        cards:
+                                          - type: custom:decluttering-card
+                                            template: sports_playoffs_series_gpt
+                                            variables:
+                                              - title: Round of 32
+                                              - color: "#0066CC"
+                                              - entity: sensor.fifa_worldcup_round_of_32
+                                              - events: series
+                                              - series: series
+                                              - show_rankings: false
+                                              - show_series: true
+                                              - show_broadcast: true
+                                              - max_games: 8
+                                  - type: custom:expander-card
                                     title: >-
                                       FIFA World Cup 2026 - Round of 16 &
                                       Quarterfinals
