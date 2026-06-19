@@ -393,6 +393,197 @@ decluttering_templates:
                 </div>
               </div>`;
             })()
+  fifa_worldcup_standings_only:
+    card:
+      type: custom:flex-table-card
+      title: "[[title]]"
+      css:
+        table+: "padding: 0px; width: 100%;"
+        tbody tr td:first-child: "width: 100%; text-align: left; padding: 5px;"
+        tbody tr:hover: "background-color: black!important; color:white!important;"
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+              width: 100% !important;
+              box-sizing: border-box;
+              background-color: #1a1a1a;
+              color: white;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px !important;
+              font-size: 14px !important;
+              font-weight: bold !important;
+            }
+            @media (max-width: 600px) {
+              .card-header {
+                font-size: 12px !important;
+                padding: 6px !important;
+              }
+            }
+      entities:
+        include: "[[entity]]"
+      columns:
+        - name: ID
+          data: "[[events]]"
+          modify: x.seriesTitle
+          hidden: true
+        - name: Match Details
+          data: "[[events]]"
+          modify: |-
+            (() => {
+              let series = x;
+              if (Array.isArray(x) && x.length > 0) {
+                series = x[0]; // Use the first series
+              }
+              if (!series || !series.seriesDetails || !series.seriesDetails.seriesGames || series.seriesDetails.seriesGames.length === 0) {
+                return "No data available";
+              }
+
+              const { stage, AdvancingTeams, maxGames, sport } = series.seriesDetails;
+              const isSoccer = sport === "Soccer";
+              const isGroupStage = stage && stage.toLowerCase().startsWith("group");
+              const seriesStatus = series.seriesStatus || (isGroupStage ? `${stage} Standings` : `${stage} Matches`);
+              const seriesSummary = `<div style="background-color: gray; color: white; padding: 2px 5px; border-radius: 4px; font-size: 13px; margin-bottom: 6px;">${stage}: ${seriesStatus} ${!isGroupStage && maxGames > 1 ? `(Best of ${maxGames})` : ''}</div>`;
+
+                            const teamDisplays = (() => {
+
+                const stats = series.seriesDetails.TeamStats || [];
+
+                return `
+                  <table style="
+                    width:100%;
+                    border-collapse:collapse;
+                    font-size:12px;
+                  ">
+
+                    <thead>
+                      <tr style="
+                        border-bottom:2px solid white;
+                        font-weight:bold;
+                      ">
+                        <th>Rank</th>
+                        <th style="text-align:left;padding:4px;">Team</th>
+                        <th>Pts</th>          
+                        <th>W</th>
+                        <th>D</th>
+                        <th>L</th>                        
+                        <th>GF</th>
+                        <th>GA</th>
+                        <th>GD</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+
+                      ${stats.map((team, idx) => {
+
+                        const advancing = AdvancingTeams.includes(team.name);
+
+                        return `
+                          <tr style="
+                            ${advancing
+                              ? 'background:white;color:black;font-weight:bold;'
+                              : ''}
+                          ">
+
+                            <td style="text-align:center;">
+                              ${idx + 1}
+                            </td>
+
+                            <td style="
+                              text-align:left;
+                              padding:4px;
+                              white-space:nowrap;
+                            ">
+                              <img
+                                src="${team.logo}"
+                                style="
+                                  height:16px;
+                                  vertical-align:middle;
+                                  margin-right:4px;
+                                "
+                              >
+                              ${team.name}
+                            </td>
+
+                            <td style="text-align:center;">
+                              ${team.points}
+                            </td>
+                            
+                            <td style="text-align:center;">
+                              ${team.wins}
+                            </td>
+
+                            <td style="text-align:center;">
+                              ${team.draws}
+                            </td>
+
+                            <td style="text-align:center;">
+                              ${team.losses}
+                            </td>
+                            
+                            <td style="text-align:center;">
+                              ${team.gf}
+                            </td>
+
+                            <td style="text-align:center;">
+                              ${team.ga}
+                            </td>
+
+                            <td style="
+                              text-align:center;
+                              color:${
+                                team.gd > 0
+                                  ? '#00ff66'
+                                  : team.gd < 0
+                                    ? '#ff4444'
+                                    : 'inherit'
+                              };
+                            ">
+                              ${team.gd > 0 ? '+' : ''}${team.gd}
+                            </td>
+
+                          </tr>
+                        `;
+
+                      }).join('')}
+
+                    </tbody>
+
+                  </table>
+                `;
+
+              })();
+
+
+              return `<style>
+                @media (max-width: 600px) {
+                  .teams-container {width: 100% !important; min-width: unset !important; 
+                  }
+                }
+              </style>
+
+              <div style="
+                display:flex;
+                flex-direction:column;
+                gap:6px;
+                padding:8px;
+              ">
+
+                 ${seriesSummary}
+
+                 <div class="teams-container">
+                    ${teamDisplays}
+                </div>
+              </div>`;
+            })()
   game_stats:
     card:
       type: custom:auto-entities
@@ -2213,7 +2404,6 @@ views:
                                               - show_broadcast: true
                                               - max_games: 1
                                               - series: series
-                                 
                                   - type: custom:decluttering-card
                                     template: fifa_worldcup
                                     variables:
@@ -2226,3 +2416,163 @@ views:
                                       - show_series: true
                                       - show_broadcast: true
                                       - max_games: 6
+                                  - type: custom:decluttering-card
+                                    template: fifa_worldcup
+                                    variables:
+                                      - title: Group Stage A
+                                      - color: "#0066CC"
+                                      - entity: sensor.fifa_worldcup_group_a
+                                      - events: series
+                                      - series: series
+                                      - show_rankings: false
+                                      - show_series: true
+                                      - show_broadcast: true
+                                      - max_games: 6
+                                  - type: horizontal-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage A
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_a
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage B
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_b
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage C
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_c
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage D
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_d
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage E
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_e
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage F
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_f
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                  - type: horizontal-stack
+                                    cards:
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage G
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_g
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage H
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_h
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage I
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_i
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage J
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_j
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage K
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_k
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
+                                      - type: custom:decluttering-card
+                                        template: fifa_worldcup_standings_only
+                                        variables:
+                                          - title: Group Stage L
+                                          - color: "#0066CC"
+                                          - entity: sensor.fifa_worldcup_group_l
+                                          - events: series
+                                          - series: series
+                                          - show_rankings: false
+                                          - show_series: true
+                                          - show_broadcast: true
+                                          - max_games: 6
