@@ -5,6 +5,14 @@ from datetime import datetime, timezone
 # API URL for 2026 FIFA World Cup
 API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719"
 
+# ==================== CONFIGURABLE PATH ====================
+# Change this one line to switch output folder easily
+BASE_PATH = "/config/www/sports/soccer/fifa.worldcup"   # ← Change this
+ 
+# Optional: Add trailing slash if missing
+if BASE_PATH and not BASE_PATH.endswith("/"):
+    BASE_PATH += "/"
+
 # 2026 FIFA World Cup groups (post-draw, with placeholders for unresolved playoff winners)
 GROUP_TEAMS = {
     "A": ["Mexico", "South Africa", "South Korea", "Czechia"],
@@ -180,14 +188,20 @@ def create_series_structure(data, stage_or_group):
 
     # Calculate standings / advancing
     advancing_teams = set()
-
+    team_stats = {t: {"points": 0,"played": 0,"wins": 0,"losses": 0,"draws": 0,"gf": 0,"ga": 0} for t in all_teams}
+    
+    sorted_teams = []
+    clinched_teams = set()
+    
     if stage.startswith("Group"):
         # Group standings
-        team_stats = {t: {"points": 0, "gf": 0, "ga": 0, "played": 0} for t in all_teams}
-
+        
+        clinched_teams = set()           
+        
         for game in all_games:
             if game["Status"] != "full_time":
                 continue
+
             t1 = game["Lowest Seed"]["Name"]
             t2 = game["Highest Seed"]["Name"]
             s1 = int(game["Lowest Seed"]["Score"])
@@ -199,14 +213,31 @@ def create_series_structure(data, stage_or_group):
             team_stats[t1]["ga"] += s2
             team_stats[t2]["gf"] += s2
             team_stats[t2]["ga"] += s1
+        #######################################
+            # if s1 > s2:
+                # team_stats[t1]["points"] += 3
+            # elif s2 > s1:
+                # team_stats[t2]["points"] += 3
+            # else:
+                # team_stats[t1]["points"] += 1
+                # team_stats[t2]["points"] += 1
+            #######################################    
 
             if s1 > s2:
                 team_stats[t1]["points"] += 3
+                team_stats[t1]["wins"] += 1
+                team_stats[t2]["losses"] += 1
+
             elif s2 > s1:
                 team_stats[t2]["points"] += 3
+                team_stats[t2]["wins"] += 1
+                team_stats[t1]["losses"] += 1
+
             else:
                 team_stats[t1]["points"] += 1
                 team_stats[t2]["points"] += 1
+                team_stats[t1]["draws"] += 1
+                team_stats[t2]["draws"] += 1
 
         # Sort: points > GD > GF
         sorted_teams = sorted(
@@ -226,7 +257,20 @@ def create_series_structure(data, stage_or_group):
         # Here we just mark group 3rd if applicable
         if len(sorted_teams) >= 3:
             advancing_teams.add(sorted_teams[2])  # but best 8 only advance; full logic needs all groups
+        
+        # -----------------------------
+        # CLINCHED LOGIC
+        # -----------------------------
 
+        for game in all_games:
+           if game["Status"] != "full_time":
+              continue
+
+           if game["Lowest Seed"].get("Advance"):
+              clinched_teams.add(game["Lowest Seed"]["Name"])
+
+           if game["Highest Seed"].get("Advance"):
+                clinched_teams.add(game["Highest Seed"]["Name"])
     else:
         # Knockout
         for game in all_games:
@@ -239,9 +283,33 @@ def create_series_structure(data, stage_or_group):
                     advancing_teams.add(low)
                 elif s2 > s1 or game["Highest Seed"]["Advance"]:
                     advancing_teams.add(high)
+                    
+        # Build team list for the card
+        sorted_teams = sorted(all_teams)
+        # No clinched concept in knockout rounds
+        clinched_teams = set()
+                    
+                    
+                    
 
     series_title = f"{stage} Matches"
     series_status = f"{stage} {'Standings' if stage.startswith('Group') else 'Matches'}"
+    ranked_teams = [
+    {
+        "name": t,
+        "points": team_stats[t]["points"],
+        "played": team_stats[t]["played"],
+        "wins": team_stats[t]["wins"],
+        "losses": team_stats[t]["losses"],
+        "draws": team_stats[t]["draws"],
+        "gf": team_stats[t]["gf"],
+        "ga": team_stats[t]["ga"],
+        "gd": team_stats[t]["gf"] - team_stats[t]["ga"],
+        "clinched": t in clinched_teams,
+        "logo": team_logo_map.get(t, "")
+    }
+    for t in sorted_teams
+]
 
     return {
         series_title: {
@@ -249,16 +317,35 @@ def create_series_structure(data, stage_or_group):
             "seriesStatus": series_status,
             "seriesDetails": {
                 "stage": stage,
-                "Teams": list(all_teams),
+                "Teams": sorted_teams,
+                "TeamStats": ranked_teams,
                 "AdvancingTeams": list(advancing_teams),
                 "seriesGames": all_games,
-                "maxGames": 6 if stage.startswith("Group") else len(all_games),  # per group 6 matches (4 teams)
+                "maxGames": 6 if stage.startswith("Group") else len(all_games),
                 "sport": "Soccer",
                 "slug": stage_or_group
             }
         }
     }
-
+    #######################################
+    # return {
+        # series_title: {
+            # "seriesTitle": series_title,
+            # "seriesStatus": series_status,
+            # "seriesDetails": {
+                # "stage": stage,
+                # ranked_teams = sorted_teams
+                # "Teams": ranked_teams,
+                # #"Teams": list(all_teams),
+                # "AdvancingTeams": list(advancing_teams),
+                # "seriesGames": all_games,
+                # "maxGames": 6 if stage.startswith("Group") else len(all_games),  # per group 6 matches (4 teams)
+                # "sport": "Soccer",
+                # "slug": stage_or_group
+            # }
+        # }
+    # }
+    #######################################
 def merge_original_and_series(data, series):
     return {
         "sport": "Soccer",
@@ -276,16 +363,17 @@ def save_to_file(filename, data):
 
 if __name__ == "__main__":
     print("Fetching 2026 FIFA World Cup data...")
+    print(f"Output folder: {BASE_PATH}")
 
     world_cup_stages = [
-        (f"group-{chr(65+i)}", f"/config/www/fifa_worldcup_group_{chr(65+i)}_gpt.json") for i in range(12)
+        (f"group-{chr(65+i)}", f"fifa_worldcup_group_{chr(65+i)}_gpt.json") for i in range(12)
     ] + [
-        ("round-of-32", "/config/www/fifa_worldcup_round_of_32_gpt.json"),
-        ("round-of-16", "/config/www/fifa_worldcup_round_of_16_gpt.json"),
-        ("quarterfinals", "/config/www/fifa_worldcup_quarterfinals_gpt.json"),
-        ("semifinals", "/config/www/fifa_worldcup_semifinals_gpt.json"),
-        ("third-place", "/config/www/fifa_worldcup_third_place_gpt.json"),  # if exists
-        ("final", "/config/www/fifa_worldcup_final_gpt.json")
+        ("round-of-32", "fifa_worldcup_round_of_32_gpt.json"),
+        ("round-of-16", "fifa_worldcup_round_of_16_gpt.json"),
+        ("quarterfinals", "fifa_worldcup_quarterfinals_gpt.json"),
+        ("semifinals", "fifa_worldcup_semifinals_gpt.json"),
+        ("third-place", "fifa_worldcup_third_place_gpt.json"),
+        ("final", "fifa_worldcup_final_gpt.json")
     ]
 
     for stage_or_group, filename in world_cup_stages:
@@ -293,4 +381,7 @@ if __name__ == "__main__":
         round_data = fetch_and_filter_data(stage_or_group)
         round_series = create_series_structure(round_data, stage_or_group)
         combined = merge_original_and_series(round_data, round_series)
-        save_to_file(filename, combined)
+        
+        # Use the base path
+        full_path = BASE_PATH + filename
+        save_to_file(full_path, combined)
