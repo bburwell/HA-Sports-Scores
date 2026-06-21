@@ -5,6 +5,14 @@ from datetime import datetime, timezone
 # API URL for 2026 FIFA World Cup
 API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719"
 
+# ==================== CONFIGURABLE PATH ====================
+# Change this one line to switch output folder easily
+BASE_PATH = "/config/www/sports/soccer/fifa.worldcup"   # ← Change this
+
+# Optional: Add trailing slash if missing
+if BASE_PATH and not BASE_PATH.endswith("/"):
+    BASE_PATH += "/"
+
 # 2026 FIFA World Cup groups (post-draw, with placeholders for unresolved playoff winners)
 GROUP_TEAMS = {
     "A": ["Mexico", "South Africa", "South Korea", "Czechia"],
@@ -181,7 +189,9 @@ def create_series_structure(data, stage_or_group):
     # Calculate standings / advancing
     advancing_teams = set()
     team_stats = {t: {"points": 0,"played": 0,"wins": 0,"losses": 0,"draws": 0,"gf": 0,"ga": 0} for t in all_teams}
-
+    
+    sorted_teams = []
+    clinched_teams = set()
     
     if stage.startswith("Group"):
         # Group standings
@@ -273,6 +283,14 @@ def create_series_structure(data, stage_or_group):
                     advancing_teams.add(low)
                 elif s2 > s1 or game["Highest Seed"]["Advance"]:
                     advancing_teams.add(high)
+                    
+        # Build team list for the card
+        sorted_teams = sorted(all_teams)
+        # No clinched concept in knockout rounds
+        clinched_teams = set()
+                    
+                    
+                    
 
     series_title = f"{stage} Matches"
     series_status = f"{stage} {'Standings' if stage.startswith('Group') else 'Matches'}"
@@ -345,16 +363,17 @@ def save_to_file(filename, data):
 
 if __name__ == "__main__":
     print("Fetching 2026 FIFA World Cup data...")
+    print(f"Output folder: {BASE_PATH}")
 
     world_cup_stages = [
-        (f"group-{chr(65+i)}", f"/config/www/sports/soccer/fifa.worldcup/fifa_worldcup_group_{chr(65+i)}_gpt.json") for i in range(12)
+        (f"group-{chr(65+i)}", f"fifa_worldcup_group_{chr(65+i)}_gpt.json") for i in range(12)
     ] + [
-        ("round-of-32", "/config/www/sports/soccer/fifa.worldcup/fifa_worldcup_round_of_32_gpt.json"),
-        ("round-of-16", "/config/www/sports/soccer/fifa.worldcup/fifa_worldcup_round_of_16_gpt.json"),
-        ("quarterfinals", "/config/www/sports/soccer/fifa.worldcup/fifa_worldcup_quarterfinals_gpt.json"),
-        ("semifinals", "/config/www/sports/soccer/fifa.worldcup/fifa_worldcup_semifinals_gpt.json"),
-        ("third-place", "/config/www/sports/soccer/fifa.worldcup/fifa_worldcup_third_place_gpt.json"),  # if exists
-        ("final", "/config/www/sports/soccer/fifa.worldcup/fifa_worldcup_final_gpt.json")
+        ("round-of-32", "fifa_worldcup_round_of_32_gpt.json"),
+        ("round-of-16", "fifa_worldcup_round_of_16_gpt.json"),
+        ("quarterfinals", "fifa_worldcup_quarterfinals_gpt.json"),
+        ("semifinals", "fifa_worldcup_semifinals_gpt.json"),
+        ("third-place", "fifa_worldcup_third_place_gpt.json"),
+        ("final", "fifa_worldcup_final_gpt.json")
     ]
 
     for stage_or_group, filename in world_cup_stages:
@@ -362,4 +381,7 @@ if __name__ == "__main__":
         round_data = fetch_and_filter_data(stage_or_group)
         round_series = create_series_structure(round_data, stage_or_group)
         combined = merge_original_and_series(round_data, round_series)
-        save_to_file(filename, combined)
+        
+        # Use the base path
+        full_path = BASE_PATH + filename
+        save_to_file(full_path, combined)
