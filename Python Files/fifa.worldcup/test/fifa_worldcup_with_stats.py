@@ -1,0 +1,499 @@
+import urllib.request
+import json
+from datetime import datetime, timezone
+import os
+
+# ==================== CONFIG ====================
+SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719"
+STATS_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/statistics?dates=20260611-20260719"
+
+BASE_PATH = "./test"
+
+if BASE_PATH and not BASE_PATH.endswith("/"):
+    BASE_PATH += "/"
+
+# 2026 FIFA World Cup groups
+GROUP_TEAMS = {
+    "A": ["Mexico", "South Africa", "South Korea", "Czechia"],
+    "B": ["Canada", "Bosnia-Herzegovina", "Qatar", "Switzerland"],
+    "C": ["Brazil", "Morocco", "Haiti", "Scotland"],
+    "D": ["United States", "Paraguay", "Australia", "Türkiye"],
+    "E": ["Germany", "Curaçao", "Ivory Coast", "Ecuador"],
+    "F": ["Netherlands", "Japan", "Sweden", "Tunisia"],
+    "G": ["Belgium", "Egypt", "Iran", "New Zealand"],
+    "H": ["Spain", "Cape Verde", "Saudi Arabia", "Uruguay"],
+    "I": ["France", "Senegal", "Iraq", "Norway"],
+    "J": ["Argentina", "Algeria", "Austria", "Jordan"],
+    "K": ["Portugal", "DR Congo", "Uzbekistan", "Colombia"],
+    "L": ["England", "Croatia", "Ghana", "Panama"]
+}
+
+def fetch_top_leaders():
+    print("Fetching Top Leaders from Statistics API...")
+    try:
+        with urllib.request.urlopen(STATS_URL) as response:
+            data = json.loads(response.read().decode('utf-8'))
+
+        leaders_output = {
+            "tournament": "FIFA World Cup 2026",
+            "last_updated": datetime.now(timezone.utc).isoformat(),
+            "stats": {}
+        }
+
+        for stat in data.get("stats", []):
+            stat_name = stat.get("name", "")
+            display_name = stat.get("displayName", stat_name)
+
+            leaders = []
+
+            for i, leader in enumerate(stat.get("leaders", [])):
+
+                athlete = leader.get("athlete") or {}
+
+                # -------------------------
+                # STATS (source of truth)
+                # -------------------------
+                stats_map = {
+                    s.get("name"): s.get("value")
+                    for s in athlete.get("statistics", []) or []
+                    if isinstance(s, dict)
+                }
+
+                matches = stats_map.get("appearances", "")
+                goals = stats_map.get("totalGoals", "")
+                assists = stats_map.get("goalAssists", "")
+
+                # -------------------------
+                # TEAM + LOGO
+                # -------------------------
+                team = leader.get("team") or athlete.get("team", {})
+                if isinstance(team, str):
+                    team = {"displayName": team}
+
+                team_logo = ""
+                if isinstance(team, dict):
+                    logos = team.get("logos", [])
+                    if isinstance(logos, list) and logos:
+                        team_logo = logos[0].get("href", "")
+
+                # -------------------------
+                # COUNTRY
+                # -------------------------
+                country = athlete.get("country", {})
+                country_name = ""
+
+                if isinstance(country, dict):
+                    country_name = (
+                        country.get("displayName")
+                        or country.get("abbreviation")
+                        or ""
+                    )
+
+                if not country_name:
+                    country_name = (
+                        team.get("displayName") if isinstance(team, dict) else ""
+                    )
+
+                # -------------------------
+                # HEADSHOT
+                # -------------------------
+                headshot = ""
+                hs = athlete.get("headshot")
+
+                if isinstance(hs, dict):
+                    headshot = hs.get("href", "")
+
+                if not headshot:
+                    images = athlete.get("images", [])
+                    if isinstance(images, list):
+                        for img in images:
+                            if isinstance(img, dict) and img.get("href"):
+                                headshot = img["href"]
+                                break
+
+                # -------------------------
+                # BUILD LEADER OBJECT
+                # -------------------------
+                leaders.append({
+                    "rank": i + 1,
+                    "player": athlete.get("displayName"),
+                    "headshot": headshot,
+                    "country": country_name,
+                    "team": team.get("displayName") if isinstance(team, dict) else str(team),
+                    "team_logo": team_logo,
+                    "matches": matches,
+                    "goals": goals,
+                    "assists": assists
+                })
+
+            if leaders:
+                leaders_output["stats"][stat_name] = {
+                    "displayName": display_name,
+                    "leaders": leaders
+                }
+
+        # -------------------------
+        # SAVE FILE
+        # -------------------------
+        leaders_path = BASE_PATH + "fifa_worldcup_2026_top_leaders.json"
+
+        with open(leaders_path, "w", encoding="utf-8") as f:
+            json.dump(leaders_output, f, indent=2, ensure_ascii=False)
+
+        print("✅ Successfully saved fifa_worldcup_2026_top_leaders.json")
+        return leaders_output
+
+    except Exception as e:
+        print(f"❌ Error fetching top leaders: {e}")
+        return {}
+        
+def fetch_and_filter_data(stage_or_group):
+    try:
+        response = urllib.request.urlopen(SCOREBOARD_URL)
+        data = json.loads(response.read())
+        print("Full API response events count:", len(data.get('events', [])))
+        events = data.get('events', [])
+        if stage_or_group.startswith("group-"):
+            group_letter = stage_or_group.split("-")[1].upper()
+            if group_letter not in GROUP_TEAMS:
+                return {"events": []}
+            group_teams_lower = [t.lower() for t in GROUP_TEAMS[group_letter]]
+            filtered = []
+            for event in events:
+                comps = event.get('competitions', [{}])
+                if not comps:
+                    continue
+                comp = comps[0]
+                season_slug = event.get('season', {}).get('slug', '')
+                if season_slug != "group-stage":
+                    continue
+                names = []
+                for c in comp.get('competitors', []):
+                    team = c.get('team', {})
+                    names.append(team.get('displayName', '').lower())
+                    names.append(team.get('shortDisplayName', '').lower())
+                if any(team in ' '.join(names) for team in group_teams_lower):
+                    filtered.append(event)
+            print(f"Filtered events for {stage_or_group}: {len(filtered)}")
+            return {"events": filtered}
+        else:
+            slug_map = {
+                "round-of-32": "round-of-32",
+                "round-of-16": "round-of-16",
+                "quarterfinals": "quarterfinals",
+                "semifinals": "semifinals",
+                "third-place": "third-place",
+                "final": "final"
+            }
+            target_slug = slug_map.get(stage_or_group, stage_or_group)
+            filtered = [event for event in events if event.get('season', {}).get('slug') == target_slug]
+            print(f"Filtered events for {stage_or_group}: {len(filtered)}")
+            return {"events": filtered}
+    except Exception as e:
+        print(f"Error fetching data for {stage_or_group}: {e}")
+        return {"events": []}
+
+def extract_round_name(stage_or_group):
+    round_map = {
+        **{f"group-{chr(65+i)}": f"Group {chr(65+i)}" for i in range(12)},
+        "round-of-32": "Round of 32",
+        "round-of-16": "Round of 16",
+        "quarterfinals": "Quarter-finals",
+        "semifinals": "Semifinals",
+        "third-place": "Third-place match",
+        "final": "Final"
+    }
+    return round_map.get(stage_or_group, "Unknown Round")
+
+def create_series_structure(data, stage_or_group):
+    if not data['events']:
+        return {}
+
+    first_event = data['events'][0]
+    slug = first_event.get('season', {}).get('slug', 'unknown')
+    stage = extract_round_name(stage_or_group)
+
+    group_letter = stage_or_group.split("-")[1].upper() if stage_or_group.startswith("group-") else None
+    defined_teams = GROUP_TEAMS.get(group_letter, []) if group_letter else []
+
+    all_teams = set(defined_teams) if group_letter else set()
+    all_games = []
+    team_logo_map = {}
+
+    # Collect logos
+    for event in data['events']:
+        for comp in event.get('competitions', []):
+            for competitor in comp.get('competitors', []):
+                team = competitor['team']
+                name = team['displayName']
+                logo = team.get('logo', '')
+                team_logo_map[name] = logo
+
+    for event in data['events']:
+        for comp in event.get('competitions', []):
+            competitors = comp.get('competitors', [])
+            if len(competitors) != 2:
+                continue
+
+            team1_data = competitors[0]
+            team2_data = competitors[1]
+            team1 = team1_data['team']['displayName']
+            team2 = team2_data['team']['displayName']
+
+            # For groups: skip if not involving defined teams (optional strictness)
+            if group_letter and not (team1 in defined_teams and team2 in defined_teams):
+                continue
+
+            all_teams.add(team1)
+            all_teams.add(team2)
+
+            status_obj = comp.get('status', {}).get('type', {})
+            completed = status_obj.get('completed', False)
+            state = status_obj.get('state', 'scheduled')  # pre, in, post
+
+            if completed:
+                game_status = "full_time"
+            elif state == "in":
+                game_status = "live"
+            else:
+                game_status = "scheduled"
+
+            broadcast = ", ".join(b.get('names', ['TBD'])[0] for b in comp.get('broadcasts', []) if b.get('names'))
+            venue = comp.get('venue', {}).get('fullName', 'TBD')
+            date = comp.get('date', 'TBD')
+
+            # Order by name alphabetically for consistency (Lowest = earlier name)
+            if team1 <= team2:
+                low_team, high_team = team1, team2
+                low_data, high_data = team1_data, team2_data
+            else:
+                low_team, high_team = team2, team1
+                low_data, high_data = team2_data, team1_data
+
+            game = {
+                "gameNumber": len(all_games) + 1,
+                "Date": date,
+                "Lowest Seed": {   # just alphabetical, not actual seed
+                    "Name": low_team,
+                    "Score": str(low_data.get('score', 0)),
+                    "Logo": team_logo_map.get(low_team, ''),
+                    "Advance": low_data.get('advance', False)
+                },
+                "Highest Seed": {
+                    "Name": high_team,
+                    "Score": str(high_data.get('score', 0)),
+                    "Logo": team_logo_map.get(high_team, ''),
+                    "Advance": high_data.get('advance', False)
+                },
+                "Broadcast": broadcast or "TBD",
+                "Status": game_status,
+                "Venue": venue
+            }
+            all_games.append(game)
+
+    # Calculate standings / advancing
+    advancing_teams = set()
+    team_stats = {t: {"points": 0,"played": 0,"wins": 0,"losses": 0,"draws": 0,"gf": 0,"ga": 0} for t in all_teams}
+    
+    sorted_teams = []
+    clinched_teams = set()
+    
+    if stage.startswith("Group"):
+        # Group standings
+        
+        clinched_teams = set()           
+        
+        for game in all_games:
+            if game["Status"] != "full_time":
+                continue
+
+            t1 = game["Lowest Seed"]["Name"]
+            t2 = game["Highest Seed"]["Name"]
+            s1 = int(game["Lowest Seed"]["Score"])
+            s2 = int(game["Highest Seed"]["Score"])
+
+            team_stats[t1]["played"] += 1
+            team_stats[t2]["played"] += 1
+            team_stats[t1]["gf"] += s1
+            team_stats[t1]["ga"] += s2
+            team_stats[t2]["gf"] += s2
+            team_stats[t2]["ga"] += s1
+        #######################################
+            # if s1 > s2:
+                # team_stats[t1]["points"] += 3
+            # elif s2 > s1:
+                # team_stats[t2]["points"] += 3
+            # else:
+                # team_stats[t1]["points"] += 1
+                # team_stats[t2]["points"] += 1
+            #######################################    
+
+            if s1 > s2:
+                team_stats[t1]["points"] += 3
+                team_stats[t1]["wins"] += 1
+                team_stats[t2]["losses"] += 1
+
+            elif s2 > s1:
+                team_stats[t2]["points"] += 3
+                team_stats[t2]["wins"] += 1
+                team_stats[t1]["losses"] += 1
+
+            else:
+                team_stats[t1]["points"] += 1
+                team_stats[t2]["points"] += 1
+                team_stats[t1]["draws"] += 1
+                team_stats[t2]["draws"] += 1
+
+        # Sort: points > GD > GF
+        sorted_teams = sorted(
+            team_stats.keys(),
+            key=lambda t: (
+                team_stats[t]["points"],
+                team_stats[t]["gf"] - team_stats[t]["ga"],
+                team_stats[t]["gf"]
+            ),
+            reverse=True
+        )
+
+        # Top 2 advance for sure
+        advancing_teams = set(sorted_teams[:2])
+
+        # For 3rd place (collect all 3rds across groups later if needed)
+        # Here we just mark group 3rd if applicable
+        if len(sorted_teams) >= 3:
+            advancing_teams.add(sorted_teams[2])  # but best 8 only advance; full logic needs all groups
+        
+        # -----------------------------
+        # CLINCHED LOGIC
+        # -----------------------------
+
+        for game in all_games:
+           if game["Status"] != "full_time":
+              continue
+
+           if game["Lowest Seed"].get("Advance"):
+              clinched_teams.add(game["Lowest Seed"]["Name"])
+
+           if game["Highest Seed"].get("Advance"):
+                clinched_teams.add(game["Highest Seed"]["Name"])
+    else:
+        # Knockout
+        for game in all_games:
+            if game["Status"] in ["full_time", "live"]:
+                s1 = int(game["Lowest Seed"]["Score"])
+                s2 = int(game["Highest Seed"]["Score"])
+                low = game["Lowest Seed"]["Name"]
+                high = game["Highest Seed"]["Name"]
+                if s1 > s2 or game["Lowest Seed"]["Advance"]:
+                    advancing_teams.add(low)
+                elif s2 > s1 or game["Highest Seed"]["Advance"]:
+                    advancing_teams.add(high)
+                    
+        # Build team list for the card
+        sorted_teams = sorted(all_teams)
+        # No clinched concept in knockout rounds
+        clinched_teams = set()
+                    
+                    
+                    
+
+    series_title = f"{stage} Matches"
+    series_status = f"{stage} {'Standings' if stage.startswith('Group') else 'Matches'}"
+    ranked_teams = [
+    {
+        "name": t,
+        "points": team_stats[t]["points"],
+        "played": team_stats[t]["played"],
+        "wins": team_stats[t]["wins"],
+        "losses": team_stats[t]["losses"],
+        "draws": team_stats[t]["draws"],
+        "gf": team_stats[t]["gf"],
+        "ga": team_stats[t]["ga"],
+        "gd": team_stats[t]["gf"] - team_stats[t]["ga"],
+        "clinched": t in clinched_teams,
+        "logo": team_logo_map.get(t, "")
+    }
+    for t in sorted_teams
+]
+
+    return {
+        series_title: {
+            "seriesTitle": series_title,
+            "seriesStatus": series_status,
+            "seriesDetails": {
+                "stage": stage,
+                "Teams": sorted_teams,
+                "TeamStats": ranked_teams,
+                "AdvancingTeams": list(advancing_teams),
+                "seriesGames": all_games,
+                "maxGames": 6 if stage.startswith("Group") else len(all_games),
+                "sport": "Soccer",
+                "slug": stage_or_group
+            }
+        }
+    }
+    #######################################
+    # return {
+        # series_title: {
+            # "seriesTitle": series_title,
+            # "seriesStatus": series_status,
+            # "seriesDetails": {
+                # "stage": stage,
+                # ranked_teams = sorted_teams
+                # "Teams": ranked_teams,
+                # #"Teams": list(all_teams),
+                # "AdvancingTeams": list(advancing_teams),
+                # "seriesGames": all_games,
+                # "maxGames": 6 if stage.startswith("Group") else len(all_games),  # per group 6 matches (4 teams)
+                # "sport": "Soccer",
+                # "slug": stage_or_group
+            # }
+        # }
+    # }
+    #######################################
+
+def merge_original_and_series(data, series):
+    return {
+        "sport": "Soccer",
+        "events": data.get("events", []),
+        "series": list(series.values())
+    }
+
+def save_to_file(filename, data):
+    try:
+        with open(filename, "w") as file:
+            json.dump(data, file, indent=2)
+        print(f"Saved to {filename}")
+    except IOError as e:
+        print(f"Error saving {filename}: {e}")
+
+# ==================== MAIN ====================
+if __name__ == "__main__":
+    print("Fetching 2026 FIFA World Cup data...")
+    print(f"Output folder: {BASE_PATH}")
+
+    # Fetch Top Leaders from the second API
+    fetch_top_leaders()
+
+    # Your original processing
+    world_cup_stages = [
+        (f"group-{chr(65+i)}", f"fifa_worldcup_group_{chr(65+i)}_gpt.json") for i in range(12)
+    ] + [
+        ("round-of-32", "fifa_worldcup_round_of_32_gpt.json"),
+        ("round-of-16", "fifa_worldcup_round_of_16_gpt.json"),
+        ("quarterfinals", "fifa_worldcup_quarterfinals_gpt.json"),
+        ("semifinals", "fifa_worldcup_semifinals_gpt.json"),
+        ("third-place", "fifa_worldcup_third_place_gpt.json"),
+        ("final", "fifa_worldcup_final_gpt.json")
+    ]
+
+    for stage_or_group, filename in world_cup_stages:
+        print(f"Processing {stage_or_group}...")
+        round_data = fetch_and_filter_data(stage_or_group)
+        round_series = create_series_structure(round_data, stage_or_group)
+        combined = merge_original_and_series(round_data, round_series)
+       
+        full_path = BASE_PATH + filename
+        save_to_file(full_path, combined)
+
+    print("✅ All processing completed!")
