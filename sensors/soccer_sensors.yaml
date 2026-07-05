@@ -134,7 +134,16 @@
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
-   - series   
+   - series  
+- platform: rest
+  name: FIFA Worldcup Semifinals
+  unique_id: sensor.fifa_worldcup_semifinal
+  resource:  http://192.168.1.245:8123/local/FIFA/fifa_worldcup_semifinals_gpt.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+   - series
+
 - platform: rest
   name: FIFA Worldcup 3rd Place
   unique_id: sensor.fifa_worldcup_3rd_place
