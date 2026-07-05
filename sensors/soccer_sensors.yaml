@@ -129,12 +129,12 @@
    - series
 - platform: rest
   name: FIFA Worldcup Quarterfinals
-  unique_id: sensor.fifa_worldcup_semifinals
-  resource:  http://192.168.100.246:8123/local/fifa_worldcup_semifinals_gpt.json
+  unique_id: sensor.fifa_worldcup_quarterfinals
+  resource:  http://192.168.100.246:8123/local/sports/soccer/fifa.worldcup/fifa_worldcup_quarterfinals_gpt.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
-   - series
+   - series   
 - platform: rest
   name: FIFA Worldcup 3rd Place
   unique_id: sensor.fifa_worldcup_3rd_place
@@ -151,110 +151,7 @@
   json_attributes: 
    - events
    - series
-- platform: rest
-  name: Worldcup Group A
-  unique_id: sensor.worldcup_group_a
-  resource:  http://192.168.100.245:8123/local/worldcup_group_a_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Group B
-  unique_id: sensor.worldcup_group_b
-  resource:  http://192.168.100.245:8123/local/worldcup_group_b_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Group C
-  unique_id: sensor.worldcup_group_c
-  resource:  http://192.168.100.245:8123/local/worldcup_group_c_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Group D
-  unique_id: sensor.worldcup_group_d
-  resource:  http://192.168.100.245:8123/local/worldcup_group_d_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Group E
-  unique_id: sensor.worldcup_group_e
-  resource:  http://192.168.100.245:8123/local/worldcup_group_e_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Group F
-  unique_id: sensor.worldcup_group_f
-  resource:  http://192.168.100.245:8123/local/worldcup_group_f_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Group G
-  unique_id: sensor.worldcup_group_g
-  resource:  http://192.168.100.245:8123/local/worldcup_group_g_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Group H
-  unique_id: sensor.worldcup_group_h
-  resource:  http://192.168.100.245:8123/local/worldcup_group_h_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Round of 16
-  unique_id: sensor.worldcup_round_of_16
-  resource:  http://192.168.100.245:8123/local/worldcup_round_of_16_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Quarterfinals
-  unique_id: sensor.worldcup_quarterfinals
-  resource:  http://192.168.100.245:8123/local/worldcup_quarterfinals_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Semifinals
-  unique_id: sensor.worldcup_semifinals
-  resource:  http://192.168.100.245:8123/local/worldcup_semifinals_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup 3rd Place
-  unique_id: sensor.worldcup_3rd_place
-  resource:  http://192.168.100.245:8123/local/worldcup_3rd_place_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
-- platform: rest
-  name: Worldcup Final
-  unique_id: sensor.worldcup_final
-  resource:  http://192.168.100.245:8123/local/worldcup_final_gpt.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-   - series
+
 
 # Group A
 - platform: teamtracker
