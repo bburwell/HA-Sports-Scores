@@ -147,6 +147,176 @@ decluttering_templates:
                 </div>
               </div>`;
             })()
+  sports_playoffs_series_test:
+    card:
+      type: custom:flex-table-card
+      title: "[[title]]"
+      css:
+        table+: "padding: 0px; width: 100%;"
+        tbody tr td:first-child: "width: 100%; text-align: left; padding: 5px;"
+        tbody tr:hover: "background-color: black!important; color:white!important;"
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: auto !important;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+              width: 100% !important;
+              max-width: 100% !important;
+              box-sizing: border-box;
+              background-color: #1a1a1a;
+              color: white;
+              height: auto !important;           # important
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px !important;
+              font-size: 14px !important;
+              font-weight: bold !important;
+            }
+
+            /* Force horizontal scrolling for many games */
+            .scores-container {
+              display: flex !important;
+              flex-wrap: nowrap !important;
+              overflow-x: auto !important;
+              overflow-y: hidden !important;
+              padding-bottom: 12px;
+              scrollbar-width: thin;
+              scrollbar-color: #666 #333;
+            }
+
+            .scores-container::-webkit-scrollbar {
+              height: 8px;
+            }
+
+            .scores-container::-webkit-scrollbar-thumb {
+              background: #666;
+              border-radius: 4px;
+            }
+
+            .game-score {
+              flex: 0 0 auto !important;
+              min-width: 160px;          # adjust if needed
+            }
+
+            @media (max-width: 600px) {
+              .card-header {
+                font-size: 12px !important;
+                padding: 6px !important;
+              }
+              .game-score {
+                min-width: 130px;
+              }
+            }
+      entities:
+        include: "[[entity]]"
+      columns:
+        - name: ID
+          data: "[[events]]"
+          modify: x.seriesTitle
+          hidden: true
+        - name: Match Details
+          data: "[[events]]"
+          modify: |-
+            (() => {
+              let series = x;
+              if (Array.isArray(x) && x.length > 0) {
+                series = x[0];
+              }
+              if (!series || !series.seriesDetails || !series.seriesDetails.seriesGames || series.seriesDetails.seriesGames.length === 0) {
+                return "No data available";
+              }
+
+              const { stage, seriesGames, AdvancingTeams } = series.seriesDetails;
+
+              const seriesSummary = `<div style="background-color: #333; color: white; padding: 4px 8px; border-radius: 4px; font-size: 13px; margin-bottom: 8px;">
+                ${stage} — ${series.seriesStatus || 'Matches'} (${seriesGames.length} games)
+              </div>`;
+
+              const teamDisplays = series.seriesDetails.Teams.map(team => {
+                const isAdvancing = AdvancingTeams.includes(team);
+                const gameWithTeam = seriesGames.find(g => 
+                  g["Lowest Seed"].Name === team || g["Highest Seed"].Name === team);
+                const logo = gameWithTeam ? 
+                  (gameWithTeam["Lowest Seed"].Name === team ? gameWithTeam["Lowest Seed"].Logo : gameWithTeam["Highest Seed"].Logo) : '';
+                const style = isAdvancing ? 'background-color: #0a0; color: white; padding: 2px 6px; border-radius: 4px;' : '';
+                return `<div style="${style}"><img src="${logo}" style="height: 18px; vertical-align: middle;"> ${team}</div>`;
+              });
+
+              const gameScores = seriesGames.map(game => {
+                const t1 = game["Lowest Seed"];
+                const t2 = game["Highest Seed"];
+                const isCompleted = game.Status === "full_time";
+                const isLive = game.Status === "live";
+
+                const date = new Date(game.Date);
+                const gameDate = date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+                const gameTime = date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+
+                const statusBadge = isCompleted ? 
+                  '<div style="background:#0a0;color:white;padding:2px 6px;border-radius:4px;font-size:11px;">FT</div>' : 
+                  (isLive ? '<div style="background:#f80;color:white;padding:2px 6px;border-radius:4px;font-size:11px;">LIVE</div>' : '');
+
+                return `
+                  <div class="game-score" style="flex: 0 0 170px; min-width: 170px; border: 1px solid #444; border-radius: 6px; padding: 8px; background:#222;">
+                    <div style="text-align:center; margin-bottom:6px; font-size:11px;">
+                      <div>${gameDate}</div>
+                      <div>${gameTime}</div>
+                      <div style="color:#aaa;">${game.Venue || ''}</div>
+                    </div>
+                    ${statusBadge}
+                    <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin:8px 0;">
+                      <img src="${t1.Logo}" style="height:18px;"> 
+                      <strong style="font-size:13px;">${t1.Name}</strong>
+                    </div>
+                    <div style="text-align:center; font-size:15px; font-weight:bold; color:#ddd;">
+                      ${t1.Score} - ${t2.Score}
+                    </div>
+                    <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin-top:6px;">
+                      <img src="${t2.Logo}" style="height:18px;"> 
+                      <strong style="font-size:13px;">${t2.Name}</strong>
+                    </div>
+                  </div>`;
+              });
+
+              return `
+                <style>
+                  .scores-container {
+                    display: flex !important;
+                    flex-wrap: nowrap !important;
+                    overflow-x: auto !important;
+                    gap: 12px !important;
+                    padding: 8px 0;
+                    scrollbar-width: thin;
+                    scrollbar-color: #666 #333;
+                  }
+                  .scores-container::-webkit-scrollbar {
+                    height: 10px;
+                  }
+                  .scores-container::-webkit-scrollbar-thumb {
+                    background: #666;
+                    border-radius: 5px;
+                  }
+                  .game-score { flex-shrink: 0; }
+                </style>
+
+                <div style="padding: 8px;">
+                  ${seriesSummary}
+                  <div class="teams-and-scores" style="display: flex; gap: 20px;">
+                    <div style="min-width: 220px;">
+                      <div style="font-weight:bold; margin-bottom:8px; border-bottom:2px solid #555; padding-bottom:4px;">Advances</div>
+                      ${teamDisplays.join('')}
+                    </div>
+                    <div class="scores-container">
+                      ${gameScores.join('')}
+                    </div>
+                  </div>
+                </div>`;
+            })()
   fifa_worldcup:
     card:
       type: custom:flex-table-card
