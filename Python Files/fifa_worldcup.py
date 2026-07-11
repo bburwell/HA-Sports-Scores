@@ -96,7 +96,7 @@ def extract_round_name(stage_or_group):
         "round-of-16": "Round of 16",
         "quarterfinals": "Quarter-finals",
         "semifinals": "Semifinals",
-        "third-place": "3rd-place-match",
+        "3rd-place-match": "third-place",
         "final": "Final"
     }
     return round_map.get(stage_or_group, "Unknown Round")
