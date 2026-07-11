@@ -130,7 +130,7 @@
 - platform: rest
   name: FIFA Worldcup Quarterfinals
   unique_id: sensor.fifa_worldcup_quarterfinals
-  resource:  http://192.168.100.246:8123/local/sports/soccer/fifa.worldcup/fifa_worldcup_quarterfinals_gpt.json
+  resource:  http://192.168.100.246:8123/local/fifa_worldcup_quarterfinals_gpt.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
@@ -138,7 +138,7 @@
 - platform: rest
   name: FIFA Worldcup Semifinals
   unique_id: sensor.fifa_worldcup_semifinal
-  resource:  http://192.168.1.245:8123/local/FIFA/fifa_worldcup_semifinals_gpt.json
+  resource:  http://192.168.1.245:8123/local/fifa_worldcup_semifinals_gpt.json
   value_template: "{{ now()}}"  
   json_attributes: 
    - events
