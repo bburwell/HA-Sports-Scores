@@ -3,7 +3,8 @@ import json
 from datetime import datetime, timezone
 
 # API URL for 2026 FIFA World Cup
-API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719"
+#API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719"
+API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719&limit=200"
 
 # ==================== CONFIGURABLE PATH ====================
 # Change this one line to switch output folder easily
