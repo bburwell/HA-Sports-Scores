@@ -9,7 +9,7 @@ API_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/score
 # ==================== CONFIGURABLE PATH ====================
 # Change this one line to switch output folder easily
 BASE_PATH = "/config/www/sports/soccer/fifa.worldcup"   # ← Change this
- 
+#BASE_PATH = ""   # ← Change this
 # Optional: Add trailing slash if missing
 if BASE_PATH and not BASE_PATH.endswith("/"):
     BASE_PATH += "/"
@@ -96,7 +96,7 @@ def extract_round_name(stage_or_group):
         "round-of-16": "Round of 16",
         "quarterfinals": "Quarter-finals",
         "semifinals": "Semifinals",
-        "third-place": "Third-place match",
+        "third-place": "3rd-place-match",
         "final": "Final"
     }
     return round_map.get(stage_or_group, "Unknown Round")
