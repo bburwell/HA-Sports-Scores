@@ -126,36 +126,13 @@
 
 - platform: rest
   scan_interval: 604800
-  name: NHL West Central
-  unique_id: sensor.nhl_west_central
-  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes_path: "$.[1]['children'][0]['standings']"
-  json_attributes: 
-   - entries   
-  
-
-- platform: rest
-  scan_interval: 604800
-  name: NHL West Pacific
-  unique_id: sensor.nhl_west_pacific
-  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes_path: "$.[1]['children'][1]['standings']"
-  json_attributes: 
-   - entries   
-  
-
-- platform: rest
-  scan_interval: 604800
   name: NHL East Atlantic
   unique_id: sensor.nhl_east_atlantic
   resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[0]['children'][0]['standings']"
-  json_attributes: 
-   - entries   
-  
+  json_attributes_path: "$.children[0].children[0].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
   scan_interval: 604800
@@ -163,10 +140,31 @@
   unique_id: sensor.nhl_east_metropolitan
   resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[0]['children'][1]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[0].children[1].standings"
+  json_attributes:
+    - entries
 
+- platform: rest
+  scan_interval: 604800
+  name: NHL West Central
+  unique_id: sensor.nhl_west_central
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[1].children[0].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  scan_interval: 604800
+  name: NHL West Pacific
+  unique_id: sensor.nhl_west_pacific
+  resource: https://site.web.api.espn.com/apis/v2/sports/hockey/nhl/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[1].children[1].standings"
+  json_attributes:
+    - entries
+
+    
 - platform: rest
   scan_interval: 86400
   name: starstest2_schedule_regular_season
