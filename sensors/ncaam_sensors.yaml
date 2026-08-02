@@ -2,7 +2,7 @@
 ## NCAA Standings
 ###
 - platform: rest
-  scan_interval: 86400
+  #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: NCAAM Standings
   unique_id: sensor.ncaam_standings
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?seasontype=2&type=0&level=3
@@ -13,7 +13,7 @@
 ## College Basketball Standings
 ##
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: College Basketball Standings
   unique_id: sensor.college_Basketball_standings
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
@@ -25,7 +25,7 @@
 ## NCAA Basketball Rankings
 ###
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: NCAAM rank 
   unique_id: sensor.ncaam_rank
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings?seasontype=2&type=0&level=3
@@ -34,22 +34,23 @@
       - rankings
 
 ##
-## NCAA Basketball Mens March Madness
+## NCAA Basketball Mens March Madness (uncomment prior to march madness)
 ###
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: NCAAM March Madness
   unique_id: sensor.ncaam_march_madness
-  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=20250320-20250430&groups=100&limit=500
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=20260314-20260430&groups=100&limit=500
   value_template: "{{ now() }}"
   json_attributes:
       - events   
-      - odds     
+      - odds    
+
 
 ################################################ AP Poll #####################################
 ##NCAA Men's Basketball AP Poll
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_poll_ap_top_25_all
   unique_id: sensor.ncaam_poll_ap_top_25_all
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings?seasontype=2&type=0&level=3
@@ -63,7 +64,7 @@
 ###NCAA Men's Basketball AFCA Coaches Poll        
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_poll_Coaches_top_25_all
   unique_id: sensor.ncaam_poll_Coaches_top_25_all
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings?seasontype=2&type=0&level=3
@@ -74,122 +75,294 @@
    - droppedOut
    - others
    
+################################################ NCAAM Conferences #####################################
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_america_east
+  unique_id: sensor.ncaam_conference_america_east
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[0].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_american_athletic
   unique_id: sensor.ncaam_conference_american_athletic
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[2]['standings']"
-  json_attributes: 
-   - entries
+  json_attributes_path: "$.children[1].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_atlantic_10
+  unique_id: sensor.ncaam_conference_atlantic_10
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[2].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_atlantic_coast
   unique_id: sensor.ncaam_conference_atlantic_coast
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[4]['standings']"
-  json_attributes: 
-   - entries
+  json_attributes_path: "$.children[3].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_atlantic_sun
+  unique_id: sensor.ncaam_conference_atlantic_sun
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[4].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_big_12
   unique_id: sensor.ncaam_conference_big_12
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[5]['standings']"
-  json_attributes: 
-   - entries
+  json_attributes_path: "$.children[5].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_big_east
+  unique_id: sensor.ncaam_conference_big_east
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[6].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_big_sky
+  unique_id: sensor.ncaam_conference_big_sky
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[7].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_big_south
+  unique_id: sensor.ncaam_conference_big_south
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[8].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_big_ten
   unique_id: sensor.ncaam_conference_big_ten
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[9]['standings']"
-  json_attributes: 
-   - entries
-   
+  json_attributes_path: "$.children[9].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_big_west
+  unique_id: sensor.ncaam_conference_big_west
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[10].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_coastal_athletic
+  unique_id: sensor.ncaam_conference_coastal_athletic
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[11].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_conference_usa
   unique_id: sensor.ncaam_conference_conference_usa
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[12]['standings']"
-  json_attributes: 
-   - entries   
-
-#- platform: rest
-  #scan_interval: 86400
-  #name: ncaam_conference_fbs_independents
-  #unique_id: sensor.ncaam_conference_fbs_independents
-  #resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
-  #value_template: "{{ now() }}"
-  #json_attributes_path: "$.[5]['standings']"
-  #json_attributes: 
-   #- entries     
+  json_attributes_path: "$.children[12].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_horizon_league
+  unique_id: sensor.ncaam_conference_horizon_league
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[13].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_ivy_league
+  unique_id: sensor.ncaam_conference_ivy_league
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[14].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_metro
+  unique_id: sensor.ncaam_conference_metro
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[15].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_mid_american
   unique_id: sensor.ncaam_conference_mid_american
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[16]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[16].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_mid_eastern_athletic
+  unique_id: sensor.ncaam_conference_mid_eastern_athletic
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[17].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_missouri_valley
+  unique_id: sensor.ncaam_conference_missouri_valley
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[18].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_mountain_west
   unique_id: sensor.ncaam_conference_mountain_west
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[19]['standings']"
-  json_attributes: 
-   - entries   
-#- platform: rest
-  #scan_interval: 86400
-  #name: ncaam_conference_pac12
-  #unique_id: sensor.ncaam_conference_pac12
-  #resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
-  #value_template: "{{ now() }}"
-  #json_attributes_path: "$.[8]['standings']"
-  #json_attributes: 
-   #- entries   
+  json_attributes_path: "$.children[19].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
+  name: ncaam_conference_northeast
+  unique_id: sensor.ncaam_conference_northeast
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[20].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_ohio_valley
+  unique_id: sensor.ncaam_conference_ohio_valley
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[21].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_patriot_league
+  unique_id: sensor.ncaam_conference_patriot_league
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[22].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
   name: ncaam_conference_southeastern
   unique_id: sensor.ncaam_conference_southeastern
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[23]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[23].standings"
+  json_attributes:
+    - entries
 
-   
 - platform: rest
-  scan_interval: 86400
-  name: ncaam_conference_sun_belt_east
-  unique_id: sensor.ncaam_conference_sun_beltst
+  name: ncaam_conference_southern
+  unique_id: sensor.ncaam_conference_southern
   resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[28]['standings']"
-  json_attributes: 
-   - entries
-    
+  json_attributes_path: "$.children[24].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_southland
+  unique_id: sensor.ncaam_conference_southland
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[25].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_southwestern_athletic
+  unique_id: sensor.ncaam_conference_southwestern_athletic
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[26].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_summit_league
+  unique_id: sensor.ncaam_conference_summit_league
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[27].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_sun_belt
+  unique_id: sensor.ncaam_conference_sun_belt
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[28].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_united_athletic
+  unique_id: sensor.ncaam_conference_united_athletic
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[29].standings"
+  json_attributes:
+    - entries
+
+- platform: rest
+  name: ncaam_conference_west_coast
+  unique_id: sensor.ncaam_conference_west_coast
+  resource: https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.children[30].standings"
+  json_attributes:
+    - entries
+
+
+
 ########
 ##NCAA basketball League schedules
 ####
 ##### Big 12sensor.big_12_conference
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam Big 12 Games 
   unique_id: sensor.ncaam_big_12_games
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=8
@@ -199,7 +372,7 @@
        
 ##### SEC
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam SEC Games 
   unique_id: sensor.ncaam_sec_games
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=23
@@ -209,7 +382,7 @@
        
 ##### ACC
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam ACC Games 
   unique_id: sensor.ncaam_acc_games
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=2
@@ -219,13 +392,23 @@
       
 ##### Big 10
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam Big 10 Games 
   unique_id: sensor.ncaam_big_10_games
   resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=7
   value_template: "{{ now() }}"
   json_attributes:
-      - events    
+      - events   
+      
+##### Big 10
+- platform: rest
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
+  name: ncaam Mountain West Games 
+  unique_id: sensor.ncaam_mountain_west_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=44
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events   
       
 ##
 ## NCAA Teams
@@ -239,10 +422,10 @@
   name: "ncaam University of Arizona"
   
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_university_of_arizona
   unique_id: sensor.ncaam_schedule_big_12_university_of_arizona
-  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/ARIZ/schedule
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/12/schedule
   value_template: "{{ now() }}"
   json_attributes:
       - team
@@ -256,10 +439,10 @@
   conference_id: 8
   name: "ncaam Arizona State University"
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_arizona_state_university
   unique_id: sensor.ncaam_schedule_big_12_arizona_state_university
-  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/ASU/schedule?seasontype=2&type=0&level=3
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/9/schedule?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
   json_attributes:
       - team
@@ -274,10 +457,10 @@
   name: "ncaam Baylor University"
   
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_baylor_university
   unique_id: sensor.ncaam_schedule_big_12_baylor_university
-  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/BAY/schedule?seasontype=2&type=0&level=3
+  resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/239/schedule?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
   json_attributes:
       - team
@@ -292,7 +475,7 @@
   name: "ncaam Brigham Young University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_brigham_young_university
   unique_id: sensor.ncaam_schedule_big_12_brigham_young_university
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/BYU/schedule?seasontype=2&type=0&level=3
@@ -311,7 +494,7 @@
   name: "ncaam University of Central Florida"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_university_of_central_florida
   unique_id: sensor.ncaam_schedule_big_12_university_of_central_florida
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/UCF/schedule?seasontype=2&type=0&level=3
@@ -329,7 +512,7 @@
   name: "ncaam University of Cincinnati"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_university_of_cincinnati
   unique_id: sensor.ncaam_schedule_big_12_university_of_cincinnati
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/CIN/schedule?seasontype=2&type=0&level=3
@@ -347,7 +530,7 @@
   name: "ncaam University of Colorado Boulder"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_university_colorado
   unique_id: sensor.ncaam_schedule_big_12_university_colorado
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/COLO/schedule?seasontype=2&type=0&level=3
@@ -365,7 +548,7 @@
   name: "ncaam University of Houston"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_university_of_houston
   unique_id: sensor.ncaam_schedule_big_12_university_of_houston
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/HOU/schedule?seasontype=2&type=0&level=3
@@ -383,7 +566,7 @@
   name: "ncaam Iowa State University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_iowa_state_university
   unique_id: sensor.ncaam_schedule_big_12_iowa_state_university
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/ISU/schedule?seasontype=2&type=0&level=3
@@ -401,7 +584,7 @@
   name: "ncaam University of Kansas"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_univeristy_of_kansas
   unique_id: sensor.ncaam_schedule_big_12_univeristy_of_kansas
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/KU/schedule?seasontype=2&type=0&level=3
@@ -419,7 +602,7 @@
   name: "ncaam Kansas State University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_kansas_state_university
   unique_id: sensor.ncaam_schedule_big_12_kansas_state_university
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/KSU/schedule?seasontype=2&type=0&level=3
@@ -437,7 +620,7 @@
   name: "ncaam Oklahoma State University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_oklahoma_state_university
   unique_id: sensor.ncaam_schedule_big_12_oklahoma_state_university
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/OKST/schedule?seasontype=2&type=0&level=3
@@ -455,7 +638,7 @@
   name: "ncaam Texas Christian University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_texas_christian_university
   unique_id: sensor.ncaam_schedule_big_12_texas_christian_university
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/TCU/schedule?seasontype=2&type=0&level=3
@@ -473,7 +656,7 @@
   name: "ncaam Texas Tech University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_texas_tech_university
   unique_id: sensor.ncaam_schedule_big_12_texas_tech_university
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/TTU/schedule?seasontype=2&type=0&level=3
@@ -491,7 +674,7 @@
   name: "ncaam University of Utah"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_university_of_utah
   unique_id: sensor.ncaam_schedule_big_12_university_of_utah
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/UTAH/schedule?seasontype=2&type=0&level=3
@@ -509,7 +692,7 @@
   name: "ncaam West Virginia University"
   
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaam_scan_interval') | int }}"
   name: ncaam_schedule_big_12_west_virginia_university
   unique_id: sensor.ncaam_schedule_big_12_west_virginia_university
   resource: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/WVU/schedule?seasontype=2&type=0&level=3
