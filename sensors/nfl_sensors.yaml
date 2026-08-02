@@ -1,6 +1,34 @@
 ##
 ## NFL Playoff Standings
 ##
+- platform: rest
+  name: NFL Playoff Standings
+  unique_id: sensor.nfl_playoff_standings
+  resource: http://192.168.100.245:8123/local/nfl_standings.json
+  value_template: "{{ now() }}"  
+  json_attributes:
+    - NFL_Data
+
+##
+## NFL Transactions
+##
+- platform: rest
+  scan_interval: 14400
+  name: NFL Transactions
+  unique_id: sensor.nfl_transactions
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/transactions
+  value_template: "{{ now() }}"  
+  json_attributes:
+    - transactions
+    
+- platform: rest
+  scan_interval: 14400
+  name: NFL News
+  unique_id: sensor.nfl_news
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/news
+  value_template: "{{ now() }}"  
+  json_attributes:
+    - articles
 
 ##
 ## NFL Standings
@@ -13,13 +41,12 @@
   value_template: "{{ now() }}"
   json_attributes:
       - children
-
+      
 ######################### Post Season Playoffs Superbowl
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 14400
   name: NFL Playoffs Superbowl
   unique_id: sensor.nfl_playoffs_superbowl
-  #2025 resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20250111-20250215
   resource: https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20260103-20260208
   value_template: "{{ now() }}"
   json_attributes:
@@ -27,86 +54,167 @@
       - events
 
 ######################### Post Season Playoffs Superbowl
+
       
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL AFC East
+  #unique_id: sensor.nfl_afc_east
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[0]['children'][0]['standings']"
+  #json_attributes: 
+   #- entries   
+
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL AFC North
+  #unique_id: sensor.nfl_afc_north
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[0]['children'][1]['standings']"
+  #json_attributes: 
+   #- entries 
+   
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL AFC South
+  #unique_id: sensor.nfl_afc_south
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[0]['children'][2]['standings']"
+  #json_attributes: 
+   #- entries 
+   
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL AFC West
+  #unique_id: sensor.nfl_afc_west
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[0]['children'][3]['standings']"
+  #json_attributes: 
+   #- entries 
+   
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL NFC East
+  #unique_id: sensor.nfl_nfc_east
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[1]['children'][0]['standings']"
+  #json_attributes: 
+   #- entries 
+   
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL NFC North
+  #unique_id: sensor.nfl_nfc_north
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[1]['children'][1]['standings']"
+  #json_attributes: 
+   #- entries 
+   
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL NFC South
+  #unique_id: sensor.nfl_nfc_south
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[1]['children'][2]['standings']"
+  #json_attributes: 
+   #- entries 
+   
+#- platform: rest
+  #scan_interval: 604800
+  #name: NFL NFC West
+  #unique_id: sensor.nfl_nfc_west
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[1]['children'][3]['standings']"
+  #json_attributes: 
+   #- entries 
+
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL AFC East
   unique_id: sensor.nfl_afc_east
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[0]['children'][0]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[0].children[0].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL AFC North
   unique_id: sensor.nfl_afc_north
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[0]['children'][1]['standings']"
-  json_attributes: 
-   - entries 
-   
+  json_attributes_path: "$.children[0].children[1].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL AFC South
   unique_id: sensor.nfl_afc_south
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[0]['children'][2]['standings']"
-  json_attributes: 
-   - entries 
-   
+  json_attributes_path: "$.children[0].children[2].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL AFC West
   unique_id: sensor.nfl_afc_west
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[0]['children'][3]['standings']"
-  json_attributes: 
-   - entries 
-   
+  json_attributes_path: "$.children[0].children[3].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL NFC East
   unique_id: sensor.nfl_nfc_east
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[1]['children'][0]['standings']"
-  json_attributes: 
-   - entries 
-   
+  json_attributes_path: "$.children[1].children[0].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL NFC North
   unique_id: sensor.nfl_nfc_north
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[1]['children'][1]['standings']"
-  json_attributes: 
-   - entries 
-   
+  json_attributes_path: "$.children[1].children[1].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL NFC South
   unique_id: sensor.nfl_nfc_south
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[1]['children'][2]['standings']"
-  json_attributes: 
-   - entries 
-   
+  json_attributes_path: "$.children[1].children[2].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 604800
+  scan_interval: 3600
   name: NFL NFC West
   unique_id: sensor.nfl_nfc_west
   resource: https://site.web.api.espn.com/apis/v2/sports/football/nfl/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[1]['children'][3]['standings']"
-  json_attributes: 
-   - entries 
+  json_attributes_path: "$.children[1].children[3].standings"
+  json_attributes:
+    - entries
 
 ###NFL Schedules
 - platform: rest
@@ -518,4 +626,3 @@
   league_id: NFL
   team_id: SEA
   name: Seattle Seahawks
-
