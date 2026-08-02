@@ -2,7 +2,7 @@
 ## NCAA Standings
 ###
 - platform: rest
-  scan_interval: 600
+  #scan_interval: 3600
   name: NCAA Standings
   unique_id: sensor.ncaa_standings
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?seasontype=2&type=0&level=3
@@ -13,7 +13,7 @@
 ## College Football Standings
 ##
 - platform: rest
-  scan_interval: 86400
+  ###scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: College Football Standings
   unique_id: sensor.college_football_standings
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
@@ -21,59 +21,12 @@
   json_attributes:
     - children      
 
-##
-## College Football Standings Post Season Bowls
-##
+################################################ Polls #####################################
+####################NCAA Men's Football CFP
 - platform: rest
-  scan_interval: 86400
-  name: College Football Standings Post Season Bowls
-  unique_id: sensor.college_football_standings_post_season_bowls
-  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?seasontype=3
-  value_template: "{{ now() }}"
-  json_attributes:
-    - events    
-
-###########################NCAAF Bowl Games    
-### NCAAF Bowl Games
-- platform: rest
-  name: NCAAF Regular Bowl Games
-  unique_id: sensor.ncaaf_regular_bowl_games
-  resource:  http://192.168.xxx.xxx:8123/local/cfb_regular_bowls.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events   
-
-### CFP Bowl Games
-- platform: rest
-  name: NCAAF CFP Playoffs Bowl Games
-  unique_id: sensor.ncaaf_cfp_playoffs_bowl_games
-  resource:  http://192.168.xxx.xxx:8123/local/cfb_cfp_playoffs.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-  
-### CFP Championship Bowl Game
-- platform: rest
-  name: NCAAF CFP Championship Bowl Game
-  unique_id: sensor.ncaaf_cfp_championship_bowl_game
-  resource:  http://192.168.xxx.xxx:8123/local/cfb_championship.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-
-### NCAAF All bowl Games
-- platform: rest
-  name: NCAAF All Bowl Games
-  unique_id: sensor.ncaaf_all_bowl_games
-  resource:  http://192.168.xxx.xxx:8123/local/cfb_all_bowls.json
-  value_template: "{{ now()}}"  
-  json_attributes: 
-   - events
-################################################ CFP Poll #####################################
-##NCAA Men's Football CFP
-- platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_poll_cfp_top_25_all
+  scan_interval: 3600
   unique_id: sensor.ncaaf_poll_cfp_top_25_all
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
@@ -86,7 +39,8 @@
 - platform: rest
   name: NCAAF CFP rankings
   unique_id: sensor.ncaaf_cfp_rankings
-  resource: http://192.168.100.226:8123/local/cfp_final_rankings.json
+  scan_interval: 3600
+  resource: http://192.168.100.245:8123/local/cfp_final_rankings.json
   value_template: "{{ now() }}"  
   json_attributes:
     - teams
@@ -94,83 +48,72 @@
 - platform: rest
   name: NCAAF Power Index
   unique_id: sensor.ncaaf_espn_power_index
-  resource: http://192.168.100.226:8123/local/college_football_fpi.json
+  scan_interval: 3600
+  resource: http://192.168.100.245:8123/local/college_football_fpi.json
   value_template: "{{ now() }}"  
   json_attributes:
     - teams
     
 ################################################ AP Poll #####################################
-##NCAA Men's Football AP Poll
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_poll_ap_top_25_all
   unique_id: sensor.ncaaf_poll_ap_top_25_all
+  scan_interval: 3600
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.['rankings'][1]"
-  json_attributes: 
-   - ranks
-   - droppedOut
-   - others
-################################################ AFCA Coaches Poll #####################################
-###NCAA Men's Football AFCA Coaches Poll        
-
-- platform: rest
-  scan_interval: 86400
-  name: ncaaf_poll_Coaches_top_25_all
-  unique_id: sensor.ncaaf_poll_Coaches_top_25_all
-  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes_path: "$.['rankings'][2]"
-  json_attributes: 
-   - ranks
-   - droppedOut
-   - others
-################################################ FCS Coaches#####################################
-##NCAA Men's Football FCS Coaches
- 
-- platform: rest
-  scan_interval: 86400
-  name: ncaaf_poll_fcs_coaches_top_25_all
-  unique_id: sensor.ncaaf_poll_fcs_coaches_top_25_all
-  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
-  value_template: "{{ now() }}"
-  json_attributes_path: "$.['rankings'][3]"
-  json_attributes: 
-   - ranks
-   - droppedOut
-   - others
-
-################################################ DIV II Top 25#####################################
-
- 
--  platform: rest
-   scan_interval: 86400
-   name: NCAA AFCA DIV II Football Top 25
-   unique_id: sensor.ncaa_AFCA_DIV_II_football_top_25   
-   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
-   value_template: "{{ now() }}"
-   json_attributes_path: "$.['rankings'][4]"
-   json_attributes: 
+  json_attributes_path: "$.rankings[0]"
+  json_attributes:
     - ranks
     - droppedOut
     - others
-    
-################################################ DIV III Top 25 #####################################
-
-  
+################################################ AFCA Coaches Poll #####################################
 - platform: rest
-  scan_interval: 86400
-  name: NCAA AFCA Div III Coaches Poll Football Top 25
-  unique_id: sensor.ncaa_AFCA_DIV_III_football_top_25  
+  name: ncaaf_poll_Coaches_top_25_all
+  unique_id: sensor.ncaaf_poll_Coaches_top_25_all
+  scan_interval: 3600
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.['rankings'][5]"
-  json_attributes: 
-   - ranks
-   - droppedOut
-   - others    
-   
+  json_attributes_path: "$.rankings[1]"
+  json_attributes:
+    - ranks
+    - droppedOut
+    - others
+################################################ FCS Coaches #####################################
+- platform: rest
+  name: ncaaf_poll_fcs_coaches_top_25_all
+  unique_id: sensor.ncaaf_poll_fcs_coaches_top_25_all
+  scan_interval: 3600
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.rankings[2]"
+  json_attributes:
+    - ranks
+    - droppedOut
+    - others
+################################################ DIV II Top 25 #####################################
+- platform: rest
+  name: NCAA AFCA DIV II Football Top 25
+  unique_id: sensor.ncaa_AFCA_DIV_II_football_top_25
+  scan_interval: 3600
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.rankings[3]"
+  json_attributes:
+    - ranks
+    - droppedOut
+    - others
+################################################ DIV III Top 25 #####################################
+- platform: rest
+  name: NCAA AFCA Div III Coaches Poll Football Top 25
+  unique_id: sensor.ncaa_AFCA_DIV_III_football_top_25
+  scan_interval: 3600
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
+  value_template: "{{ now() }}"
+  json_attributes_path: "$.rankings[4]"
+  json_attributes:
+    - ranks
+    - droppedOut
+    - others
 ################################################ FCS Coaches#####################################
 ##NCAA Men's Football Latest News
  
@@ -184,129 +127,258 @@
   json_attributes: 
     - articles
 
+
+######################### Post Season Bowl Games 
+#- platform: rest
+  #scan_interval: 900
+  #name: NCAAF Bowl Games
+  #unique_id: sensor.ncaaf_bowl_games
+  #resource:  http://192.168.100.245:8123/local/regular_bowl_games.json
+  #value_template: "{{ now() }}"
+  #json_attributes:
+      #- events
+      
+#- platform: rest
+  #scan_interval: 900
+  #name: NCAAF CFP Bowl Games
+  #unique_id: sensor.ncaaf_cfp_bowl_games
+  #resource:  http://192.168.100.245:8123/local/cfp_bowl_games.json
+  #value_template: "{{ now() }}"
+  #json_attributes:
+      #- events
 #####################
 ##### Moving Sensors from Template to REST   
 
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_american_athletic
+  #unique_id: sensor.ncaaf_conference_american_athletic
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[0]['standings']"
+  #json_attributes: 
+   #- entries
+
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_atlantic_coast
+  #unique_id: sensor.ncaaf_conference_atlantic_coast
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[1]['standings']"
+  #json_attributes: 
+   #- entries
+
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_big_12
+  #unique_id: sensor.ncaaf_conference_big_12
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[2]['standings']"
+  #json_attributes: 
+   #- entries
+
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_big_ten
+  #unique_id: sensor.ncaaf_conference_big_ten
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[3]['standings']"
+  #json_attributes: 
+   #- entries
+   
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_conference_usa
+  #unique_id: sensor.ncaaf_conference_conference_usa
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[4]['standings']"
+  #json_attributes: 
+   #- entries   
+
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_fbs_independents
+  #unique_id: sensor.ncaaf_conference_fbs_independents
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[5]['standings']"
+  #json_attributes: 
+   #- entries     
+
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_mid_american
+  #unique_id: sensor.ncaaf_conference_mid_american
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[6]['standings']"
+  #json_attributes: 
+   #- entries   
+
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_mountain_west
+  #unique_id: sensor.ncaaf_conference_mountain_west
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[7]['standings']"
+  #json_attributes: 
+   #- entries   
+   
+   
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_pac12
+  #unique_id: sensor.ncaaf_conference_pac12
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[8]['standings']"
+  #json_attributes: 
+   #- entries   
+
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_southeastern
+  #unique_id: sensor.ncaaf_conference_southeastern
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[9]['standings']"
+  #json_attributes: 
+   #- entries   
+
+   
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_sun_belt_east
+  #unique_id: sensor.ncaaf_conference_sun_belt_east
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[10]['children'][0]['standings']"
+  #json_attributes: 
+   #- entries
+   
+#- platform: rest
+ ##scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  #name: ncaaf_conference_sun_belt_west
+  #unique_id: sensor.ncaaf_conference_sun_belt_west
+  #resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
+  #value_template: "{{ now() }}"
+  #json_attributes_path: "$.[10]['children'][1]['standings']"
+  #json_attributes: 
+   #- entries   
+
+
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_american_athletic
   unique_id: sensor.ncaaf_conference_american_athletic
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[0]['standings']"
-  json_attributes: 
-   - entries
+  json_attributes_path: "$.children[0].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_atlantic_coast
   unique_id: sensor.ncaaf_conference_atlantic_coast
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[1]['standings']"
-  json_attributes: 
-   - entries
+  json_attributes_path: "$.children[1].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_big_12
   unique_id: sensor.ncaaf_conference_big_12
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[2]['standings']"
-  json_attributes: 
-   - entries
+  json_attributes_path: "$.children[2].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_big_ten
   unique_id: sensor.ncaaf_conference_big_ten
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[3]['standings']"
-  json_attributes: 
-   - entries
-   
+  json_attributes_path: "$.children[3].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_conference_usa
   unique_id: sensor.ncaaf_conference_conference_usa
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[4]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[4].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_fbs_independents
   unique_id: sensor.ncaaf_conference_fbs_independents
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[5]['standings']"
-  json_attributes: 
-   - entries     
+  json_attributes_path: "$.children[5].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_mid_american
   unique_id: sensor.ncaaf_conference_mid_american
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[6]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[6].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_mountain_west
   unique_id: sensor.ncaaf_conference_mountain_west
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[7]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[7].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_pac12
   unique_id: sensor.ncaaf_conference_pac12
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[8]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[8].standings"
+  json_attributes:
+    - entries
 
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_southeastern
   unique_id: sensor.ncaaf_conference_southeastern
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[9]['standings']"
-  json_attributes: 
-   - entries   
+  json_attributes_path: "$.children[9].standings"
+  json_attributes:
+    - entries
 
-   
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_sun_belt_east
   unique_id: sensor.ncaaf_conference_sun_belt_east
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[10]['children'][0]['standings']"
-  json_attributes: 
-   - entries
-   
+  json_attributes_path: "$.children[10].children[0].standings"
+  json_attributes:
+    - entries
+
 - platform: rest
-  scan_interval: 86400
   name: ncaaf_conference_sun_belt_west
   unique_id: sensor.ncaaf_conference_sun_belt_west
   resource: https://site.web.api.espn.com/apis/v2/sports/football/college-football/standings?seasontype=2&type=0&level=3
   value_template: "{{ now() }}"
-  json_attributes_path: "$.[10]['children'][1]['standings']"
-  json_attributes: 
-   - entries   
-   
+  json_attributes_path: "$.children[10].children[1].standings"
+  json_attributes:
+    - entries   
 
  
 
@@ -315,7 +387,7 @@
 ## NCAA Football Scoreboard for Top 25
 ###
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: NCAAf Games 
   unique_id: sensor.ncaaf_games
   #resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings
@@ -330,7 +402,7 @@
 ## NCAA Football Rankings
 ###
 - platform: rest
-  scan_interval: 36000
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: NCAAf rank 
   unique_id: sensor.ncaaf_rank
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings?seasontype=2&type=0&level=3
@@ -345,7 +417,7 @@
 ####
 ##### Big 12sensor.big_12_conference
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: NCAAf Big 12 Games 
   unique_id: sensor.ncaaf_big_12_games
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=4
@@ -355,7 +427,7 @@
        
 ##### SEC
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: NCAAf SEC Games 
   unique_id: sensor.ncaaf_sec_games
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=8
@@ -365,7 +437,7 @@
        
 ##### ACC
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: NCAAf ACC Games 
   unique_id: sensor.ncaaf_acc_games
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=1
@@ -375,13 +447,23 @@
       
 ##### Big 10
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: NCAAf Big 10 Games 
   unique_id: sensor.ncaaf_big_10_games
   resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=5
   value_template: "{{ now() }}"
   json_attributes:
       - events    
+ 
+##### Mountain West
+- platform: rest
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  name: NCAAf Mountain West Games 
+  unique_id: sensor.ncaaf_mountain_west_games
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=17
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
       
 ##
 ## NCAA Teams
@@ -394,7 +476,7 @@
   conference_id: 4
   name: "NCAAF University of Arizona"
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_university_of_arizona
   unique_id: sensor.ncaaf_schedule_big_12_university_of_arizona
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ARIZ/schedule?seasontype=2&type=0&level=3
@@ -411,7 +493,7 @@
   conference_id: 4
   name: "NCAAF Arizona State University"
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_arizona_state_university
   unique_id: sensor.ncaaf_schedule_big_12_arizona_state_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ASU/schedule?seasontype=2&type=0&level=3
@@ -419,6 +501,15 @@
   json_attributes:
       - team
       - events 
+      
+- platform: rest
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  name: ncaaf_roster_big_12_arizona_state_university
+  unique_id: sensor.ncaaf_roster_big_12_arizona_state_university
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ASU/roster
+  value_template: "{{ now() }}"
+  json_attributes:
+      - athletes
 
 - platform: rest
   name: ncaaf_big_12_news_arizona_state_university
@@ -439,7 +530,7 @@
   name: "NCAAF Baylor University"
   
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_baylor_university
   unique_id: sensor.ncaaf_schedule_big_12_baylor_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/BAY/schedule?seasontype=2&type=0&level=3
@@ -457,7 +548,7 @@
   name: "NCAAF Brigham Young University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_brigham_young_university
   unique_id: sensor.ncaaf_schedule_big_12_brigham_young_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/BYU/schedule?seasontype=2&type=0&level=3
@@ -475,7 +566,7 @@
   name: "NCAAF University of Central Florida"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_university_of_central_florida
   unique_id: sensor.ncaaf_schedule_big_12_university_of_central_florida
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/UCF/schedule?seasontype=2&type=0&level=3
@@ -493,7 +584,7 @@
   name: "NCAAF University of Cincinnati"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_university_of_cincinnati
   unique_id: sensor.ncaaf_schedule_big_12_university_of_cincinnati
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/CIN/schedule?seasontype=2&type=0&level=3
@@ -511,7 +602,7 @@
   name: "NCAAF University of Colorado Boulder"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_university_colorado
   unique_id: sensor.ncaaf_schedule_big_12_university_colorado
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/COLO/schedule?seasontype=2&type=0&level=3
@@ -529,7 +620,7 @@
   name: "NCAAF University of Houston"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_university_of_houston
   unique_id: sensor.ncaaf_schedule_big_12_university_of_houston
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/HOU/schedule?seasontype=2&type=0&level=3
@@ -547,7 +638,7 @@
   name: "NCAAF Iowa State University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_iowa_state_university
   unique_id: sensor.ncaaf_schedule_big_12_iowa_state_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/ISU/schedule?seasontype=2&type=0&level=3
@@ -565,7 +656,7 @@
   name: "NCAAF University of Kansas"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_univeristy_of_kansas
   unique_id: sensor.ncaaf_schedule_big_12_univeristy_of_kansas
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/KU/schedule?seasontype=2&type=0&level=3
@@ -583,7 +674,7 @@
   name: "NCAAF Kansas State University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_kansas_state_university
   unique_id: sensor.ncaaf_schedule_big_12_kansas_state_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/KSU/schedule?seasontype=2&type=0&level=3
@@ -601,7 +692,7 @@
   name: "NCAAF Oklahoma State University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_oklahoma_state_university
   unique_id: sensor.ncaaf_schedule_big_12_oklahoma_state_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/OKST/schedule?seasontype=2&type=0&level=3
@@ -619,7 +710,7 @@
   name: "NCAAF Texas Christian University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_texas_christian_university
   unique_id: sensor.ncaaf_schedule_big_12_texas_christian_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/TCU/schedule?seasontype=2&type=0&level=3
@@ -637,7 +728,7 @@
   name: "NCAAF Texas Tech University"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_texas_tech_university
   unique_id: sensor.ncaaf_schedule_big_12_texas_tech_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/TTU/schedule?seasontype=2&type=0&level=3
@@ -655,7 +746,7 @@
   name: "NCAAF University of Utah"
 
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_university_of_utah
   unique_id: sensor.ncaaf_schedule_big_12_university_of_utah
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/UTAH/schedule?seasontype=2&type=0&level=3
@@ -673,7 +764,7 @@
   name: "NCAAF West Virginia University"
   
 - platform: rest
-  scan_interval: 86400
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
   name: ncaaf_schedule_big_12_west_virginia_university
   unique_id: sensor.ncaaf_schedule_big_12_west_virginia_university
   resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/WVU/schedule?seasontype=2&type=0&level=3
@@ -1549,5 +1640,62 @@
   league_path: "college-football"   
   conference_id: 37
   name: "NCAAF Coastal Carolina Chanticleers"
+  
+##
+## College Football Standings Post Season Bowls
+##
+- platform: rest
+ #scan_interval: "{{ states('input_number.ncaaf_scan_interval') | int }}"
+  name: College Football Standings Post Season Bowls
+  unique_id: sensor.college_football_standings_post_season_bowls
+  resource: https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?seasontype=3
+  value_template: "{{ now() }}"
+  json_attributes:
+    - events    
 
+- platform: rest
+  name: College Football Bowl Games
+  unique_id: sensor.college_football_bowl_games
+  #resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=20251220-20260101
+  #resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=20241220-20250201
+  resource: http://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=20261218-20270225
+  value_template: "{{ now() }}"
+  json_attributes:
+    - events        
 
+###########################NCAAF Bowl Games    
+### NCAAF Bowl Games
+- platform: rest
+  name: NCAAF Regular Bowl Games
+  unique_id: sensor.ncaaf_regular_bowl_games
+  resource:  http://192.168.100.245:8123/local/cfb_regular_bowls.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events   
+
+### CFP Bowl Games
+- platform: rest
+  name: NCAAF CFP Playoffs Bowl Games
+  unique_id: sensor.ncaaf_cfp_playoffs_bowl_games
+  resource:  http://192.168.100.245:8123/local/cfb_cfp_playoffs.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+  
+### CFP Championship Bowl Game
+- platform: rest
+  name: NCAAF CFP Championship Bowl Game
+  unique_id: sensor.ncaaf_cfp_championship_bowl_game
+  resource:  http://192.168.100.245:8123/local/cfb_championship.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
+
+### NCAAF All bowl Games
+- platform: rest
+  name: NCAAF All Bowl Games
+  unique_id: sensor.ncaaf_all_bowl_games
+  resource:  http://192.168.100.245:8123/local/cfb_all_bowls.json
+  value_template: "{{ now()}}"  
+  json_attributes: 
+   - events
