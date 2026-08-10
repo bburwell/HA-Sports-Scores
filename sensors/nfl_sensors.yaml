@@ -41,7 +41,185 @@
   value_template: "{{ now() }}"
   json_attributes:
       - children
+######################### Preseason Weeks 1-4 Scoreboard
+- platform: rest
+  scan_interval: 432000
+  name: NFL Pre-season Week 1
+  unique_id: sensor.nfl_pre_season_week_1
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=1&week=1
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Pre-season Week 2
+  unique_id: sensor.nfl_pre_season_week_2
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=1&week=2
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Pre-season Week 3
+  unique_id: sensor.nfl_pre_season_week_3
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=1&week=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Pre-season Week 4
+  unique_id: sensor.nfl_pre_season_week_4
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=1&week=4
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
       
+######################### Weeks 1-17 Scoreboard
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 1
+  unique_id: sensor.nfl_week_1
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=1
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 2
+  unique_id: sensor.nfl_week_2
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=2
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 3
+  unique_id: sensor.nfl_week_3
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=3
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 4
+  unique_id: sensor.nfl_week_4
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=4
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 5
+  unique_id: sensor.nfl_week_5
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=5
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 6
+  unique_id: sensor.nfl_week_6
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=6
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 7
+  unique_id: sensor.nfl_week_7
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=7
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 8
+  unique_id: sensor.nfl_week_8
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=8
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 9
+  unique_id: sensor.nfl_week_9
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=9
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 10
+  unique_id: sensor.nfl_week_10
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=10
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 11
+  unique_id: sensor.nfl_week_11
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=11
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 12
+  unique_id: sensor.nfl_week_12
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=12
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+      - platform: rest
+  scan_interval: 432000
+  name: NFL Week 13
+  unique_id: sensor.nfl_week_13
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=13
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 14
+  unique_id: sensor.nfl_week_14
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=14
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+      - platform: rest
+  scan_interval: 432000
+  name: NFL Week 15
+  unique_id: sensor.nfl_week_15
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=15
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 16
+  unique_id: sensor.nfl_week_16
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=16
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 17
+  unique_id: sensor.nfl_week_17
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=17
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events    
+- platform: rest
+  scan_interval: 432000
+  name: NFL Week 18
+  unique_id: sensor.nfl_week_18
+  resource: https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=18
+  value_template: "{{ now() }}"
+  json_attributes:
+      - events      
 ######################### Post Season Playoffs Superbowl
 - platform: rest
   scan_interval: 14400
