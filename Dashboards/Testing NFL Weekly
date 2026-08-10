@@ -1,0 +1,431 @@
+decluttering_templates:
+  nfl_week_scoreboard:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: >
+          display: block !important; width: 100% !important; border-collapse:
+          separate; border-spacing: 0; box-sizing: border-box;
+        thead: 'display: none !important;'
+        tbody: >
+          display: grid !important; grid-template-columns: repeat(auto-fit,
+          minmax(min(100%, 230px), 1fr)); gap: 10px; padding: 10px; width: 100%
+          !important; box-sizing: border-box;
+        tbody tr: >
+          display: block !important; background: rgba(255,255,255,0.04); border:
+          1px solid #333; border-radius: 8px; overflow: hidden; min-width: 0;
+          transition: background 0.15s;
+        tbody tr:hover: 'background: rgba(255,255,255,0.08) !important;'
+        tbody tr td: >
+          display: block !important; padding: 0 !important; border: none
+          !important; min-width: 0;
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: hidden;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+              width: 100% !important;
+              max-width: 100% !important;
+              box-sizing: border-box;
+              background-color: #1a1a1a;
+              color: white;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px !important;
+              font-size: 15px !important;
+              font-weight: bold !important;
+            }
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ''
+          data: events
+          modify: |-
+            (() => {
+              if (!x || !x.competitions || !x.competitions[0]) {
+                return `<div style="padding:14px;color:#aaa;text-align:center;">No data</div>`;
+              }
+
+              const event = x;
+              const comp  = event.competitions[0];
+
+              const status      = (comp.status && comp.status.type) || (event.status && event.status.type) || {};
+              const state       = status.state || 'pre';
+              const shortDetail = status.shortDetail || status.detail || '';
+              const isFinal     = state === 'post';
+              const isLive      = state === 'in';
+
+              // Teams
+              const home = (comp.competitors || []).find(c => c.homeAway === 'home') || {};
+              const away = (comp.competitors || []).find(c => c.homeAway === 'away') || {};
+              const homeTeam = home.team || {};
+              const awayTeam = away.team || {};
+
+              const homeScore = (home.score !== undefined && home.score !== null && home.score !== '') ? home.score : '-';
+              const awayScore = (away.score !== undefined && away.score !== null && away.score !== '') ? away.score : '-';
+
+              // Score colors
+              let awayColor = '#ccc', homeColor = '#ccc';
+              if (isFinal) {
+                const a = Number(awayScore), h = Number(homeScore);
+                awayColor = a > h ? '#4caf50' : (a < h ? '#ef5350' : '#ccc');
+                homeColor = h > a ? '#4caf50' : (h < a ? '#ef5350' : '#ccc');
+              } else if (isLive) {
+                awayColor = homeColor = '#fff';
+              }
+
+              // Date / time
+              const d = new Date(event.date);
+              const gameDate = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+              const gameTime = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+              // Broadcast
+              let broadcast = '';
+              if (comp.broadcasts && comp.broadcasts.length) {
+                broadcast = (comp.broadcasts[0].names || []).join(', ');
+              } else if (comp.broadcast) {
+                broadcast = comp.broadcast;
+              }
+
+              // Venue
+              const venue = (comp.venue && comp.venue.fullName) || '';
+              const city  = (comp.venue && comp.venue.address && comp.venue.address.city) || '';
+              const st    = (comp.venue && comp.venue.address && comp.venue.address.state) || '';
+              const venueLine = venue ? `${venue}${city ? ' · ' + city + (st ? ', ' + st : '') : ''}` : '';
+
+              // Status badge
+              let badge = '';
+              if (isFinal) {
+                badge = `<span style="background:#fff;color:#000;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;">FINAL</span>`;
+              } else if (isLive) {
+                badge = `<span style="background:#4caf50;color:#fff;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;">LIVE · ${shortDetail}</span>`;
+              } else {
+                badge = `<span style="color:#999;font-size:12px;">${shortDetail || 'Scheduled'}</span>`;
+              }
+
+              // Records
+              const awayRec = (away.records && away.records[0] && away.records[0].summary)
+                ? `<span style="color:#777;font-size:11px;"> (${away.records[0].summary})</span>` : '';
+              const homeRec = (home.records && home.records[0] && home.records[0].summary)
+                ? `<span style="color:#777;font-size:11px;"> (${home.records[0].summary})</span>` : '';
+
+              // Odds
+              let odds = '';
+              if (comp.odds && comp.odds[0]) {
+                const o = comp.odds[0];
+                odds = [o.details, o.overUnder ? `O/U ${o.overUnder}` : ''].filter(Boolean).join(' · ');
+              }
+
+              return `
+                <div style="display:flex;flex-direction:column;gap:8px;padding:12px;height:100%;box-sizing:border-box;">
+                  <!-- Top bar -->
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <div style="font-size:12px;color:#aaa;">
+                      ${gameDate} · ${gameTime}
+                      ${broadcast ? ' · ' + broadcast : ''}
+                    </div>
+                    <div>${badge}</div>
+                  </div>
+
+                  <!-- Teams + Score -->
+                  <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+                    <!-- Away -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                        <img src="${awayTeam.logo || ''}" style="height:26px;width:26px;flex-shrink:0;object-fit:contain;" onerror="this.style.display='none'">
+                        <div style="min-width:0;">
+                          <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${awayTeam.abbreviation || awayTeam.shortDisplayName || 'TBD'}${awayRec}
+                          </div>
+                          <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${awayTeam.displayName || ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="font-size:20px;font-weight:700;color:${awayColor};min-width:28px;text-align:right;">
+                        ${awayScore}
+                      </div>
+                    </div>
+
+                    <!-- Home -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                        <img src="${homeTeam.logo || ''}" style="height:26px;width:26px;flex-shrink:0;object-fit:contain;" onerror="this.style.display='none'">
+                        <div style="min-width:0;">
+                          <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${homeTeam.abbreviation || homeTeam.shortDisplayName || 'TBD'}${homeRec}
+                          </div>
+                          <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${homeTeam.displayName || ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="font-size:20px;font-weight:700;color:${homeColor};min-width:28px;text-align:right;">
+                        ${homeScore}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom info -->
+                  <div style="font-size:11px;color:#666;margin-top:auto;padding-top:4px;border-top:1px solid #2a2a2a;">
+                    <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${venueLine}</div>
+                    ${odds ? `<div style="color:#888;margin-top:2px;">${odds}</div>` : ''}
+                  </div>
+                </div>
+              `;
+            })()
+views:
+  - title: NFL Season
+    path: nfl-season
+    type: panel
+    icon: mdi:football
+    badges: []
+    cards:
+      - type: custom:mod-card
+        card_mod:
+          style:
+            tabbed-card $: |
+              mwc-tab {
+                background: #111;
+                color: silver;
+                border: 1px solid #333;
+                border-radius: 8px 8px 0 0;
+                overflow: hidden;
+              }
+              mwc-tab[active] {
+                background: white !important;
+                color: black !important;
+              }
+        card:
+          type: custom:tabbed-card
+          styles:
+            --mdc-theme-primary: black
+            --mdc-tab-text-label-color-default: silver
+            --mdc-typography-button-font-size: 13px
+          tabs:
+            - attributes:
+                label: Pre-Season Week 1
+                icon: mdi:numeric-1-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Pre-Season Week 1
+                  - color: '#013369'
+                  - entity: sensor.nfl_pre_season_week_1
+            - attributes:
+                label: Pre-Season Week 2
+                icon: mdi:numeric-2-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Pre-Season Week 2
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_pre_season_week_2
+            - attributes:
+                label: Pre-Season Week 3
+                icon: mdi:numeric-3-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Pre-Season Week 3
+                  - color: '#013369'
+                  - entity: sensor.nfl_pre_season_week_3
+            - attributes:
+                label: Pre-Season Week 4
+                icon: mdi:numeric-4-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Pre-Season Week 4
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_pre_season_week_4
+            - attributes:
+                label: Week 1
+                icon: mdi:numeric-1-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 1
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_1
+            - attributes:
+                label: Week 2
+                icon: mdi:numeric-2-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 2
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_2
+            - attributes:
+                label: Week 3
+                icon: mdi:numeric-3-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 3
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_3
+            - attributes:
+                label: Week 4
+                icon: mdi:numeric-4-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 4
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_4
+            - attributes:
+                label: Week 5
+                icon: mdi:numeric-5-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 5
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_5
+            - attributes:
+                label: Week 6
+                icon: mdi:numeric-6-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 6
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_6
+            - attributes:
+                label: Week 7
+                icon: mdi:numeric-7-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 7
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_7
+            - attributes:
+                label: Week 8
+                icon: mdi:numeric-8-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 8
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_8
+            - attributes:
+                label: Week 9
+                icon: mdi:numeric-9-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 9
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_9
+            - attributes:
+                label: Week 10
+                icon: mdi:numeric-10-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 10
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_10
+            - attributes:
+                label: Week 11
+                icon: mdi:numeric-11-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 11
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_11
+            - attributes:
+                label: Week 12
+                icon: mdi:numeric-12-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 12
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_12
+            - attributes:
+                label: Week 13
+                icon: mdi:numeric-13-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 13
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_13
+            - attributes:
+                label: Week 14
+                icon: mdi:numeric-14-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 14
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_14
+            - attributes:
+                label: Week 15
+                icon: mdi:numeric-15-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 15
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_15
+            - attributes:
+                label: Week 16
+                icon: mdi:numeric-16-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 16
+                  - color: '#D50A0A'
+                  - entity: sensor.nfl_week_16
+            - attributes:
+                label: Week 17
+                icon: mdi:numeric-17-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 17
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_17
+            - attributes:
+                label: Week 18
+                icon: mdi:numeric-18-circle
+              card:
+                type: custom:decluttering-card
+                template: nfl_week_scoreboard
+                variables:
+                  - title: NFL Week 18
+                  - color: '#013369'
+                  - entity: sensor.nfl_week_18
