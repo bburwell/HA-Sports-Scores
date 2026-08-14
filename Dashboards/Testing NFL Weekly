@@ -363,7 +363,7 @@ decluttering_templates:
                 </div>
               `;
             })()            
-  espn_scoreboard:
+  espn_schedules_scoreboard:
     card:
       type: custom:flex-table-card
       title: '[[title]]'
@@ -613,7 +613,7 @@ views:
                 icon: mdi:numeric-1-circle
               card:
                 type: custom:decluttering-card
-                template: espn_scoreboard
+                template: espn_schedules_scoreboard
                 variables:
                   - title: San Diego Padres
                   - entity: sensor.mlb_schedule_san_diego_padres
@@ -623,7 +623,7 @@ views:
                 icon: mdi:numeric-2-circle
               card:
                 type: custom:decluttering-card
-                template: espn_scoreboard
+                template: espn_schedules_scoreboard
                 variables:
                   - title: San Diego Padres
                   - entity: sensor.nfl_schedule_denver_broncos
