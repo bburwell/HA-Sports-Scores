@@ -180,6 +180,405 @@ decluttering_templates:
                 </div>
               `;
             })()
+  mlb_team_scoreboard:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: >
+          display: block !important; width: 100% !important; border-collapse:
+          separate; border-spacing: 0; box-sizing: border-box;
+        thead: 'display: none !important;'
+        tbody: >
+          display: grid !important; grid-template-columns: repeat(auto-fit,
+          minmax(min(100%, 230px), 1fr)); gap: 10px; padding: 10px; width: 100%
+          !important; box-sizing: border-box;
+        tbody tr: >
+          display: block !important; background: rgba(255,255,255,0.04); border:
+          1px solid #333; border-radius: 8px; overflow: hidden; min-width: 0;
+          transition: background 0.15s;
+        tbody tr:hover: 'background: rgba(255,255,255,0.08) !important;'
+        tbody tr td: >
+          display: block !important; padding: 0 !important; border: none
+          !important; min-width: 0;
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: hidden;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+              width: 100% !important;
+              max-width: 100% !important;
+              box-sizing: border-box;
+              background-color: #1a1a1a;
+              color: white;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px !important;
+              font-size: 15px !important;
+              font-weight: bold !important;
+            }
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ''
+          data: events
+          modify: |-
+            (() => {
+              if (!x || !x.competitions || !x.competitions[0]) {
+                return `<div style="padding:14px;color:#aaa;text-align:center;">No data</div>`;
+              }
+
+              const event = x;
+              const comp = event.competitions[0];
+              const status = (comp.status && comp.status.type) || (event.status && event.status.type) || {};
+              const state = status.state || 'pre';
+              const shortDetail = status.shortDetail || status.detail || '';
+              const isFinal = state === 'post';
+              const isLive = state === 'in';
+
+              // Teams
+              const home = (comp.competitors || []).find(c => c.homeAway === 'home') || {};
+              const away = (comp.competitors || []).find(c => c.homeAway === 'away') || {};
+              const homeTeam = home.team || {};
+              const awayTeam = away.team || {};
+
+              // Score (MLB uses object)
+              const homeScore = (home.score && (home.score.value ?? home.score.displayValue)) ?? '-';
+              const awayScore = (away.score && (away.score.value ?? away.score.displayValue)) ?? '-';
+
+              // Score colors
+              let awayColor = '#ccc', homeColor = '#ccc';
+              if (isFinal) {
+                const a = Number(awayScore), h = Number(homeScore);
+                awayColor = a > h ? '#4caf50' : (a < h ? '#ef5350' : '#ccc');
+                homeColor = h > a ? '#4caf50' : (h < a ? '#ef5350' : '#ccc');
+              } else if (isLive) {
+                awayColor = homeColor = '#fff';
+              }
+
+              // Date / time
+              const d = new Date(event.date);
+              const gameDate = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+              const gameTime = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+              // Broadcast (MLB structure)
+              let broadcast = '';
+              if (comp.broadcasts && comp.broadcasts.length) {
+                broadcast = comp.broadcasts
+                  .map(b => (b.media && b.media.shortName) || (b.names && b.names[0]) || '')
+                  .filter(Boolean)
+                  .join(', ');
+              }
+
+              // Venue
+              const venue = (comp.venue && comp.venue.fullName) || '';
+              const city = (comp.venue && comp.venue.address && comp.venue.address.city) || '';
+              const st = (comp.venue && comp.venue.address && comp.venue.address.state) || '';
+              const venueLine = venue ? `${venue}${city ? ' · ' + city + (st ? ', ' + st : '') : ''}` : '';
+
+              // Status badge
+              let badge = '';
+              if (isFinal) {
+                badge = `<span style="background:#fff;color:#000;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;">FINAL</span>`;
+              } else if (isLive) {
+                badge = `<span style="background:#4caf50;color:#fff;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;">LIVE · ${shortDetail}</span>`;
+              } else {
+                badge = `<span style="color:#999;font-size:12px;">${shortDetail || 'Scheduled'}</span>`;
+              }
+
+              // Records (MLB uses "record" array)
+              const getRecord = (compObj) => {
+                if (!compObj.record || !compObj.record.length) return '';
+                const total = compObj.record.find(r => r.type === 'total') || compObj.record[0];
+                return total && total.displayValue
+                  ? `<span style="color:#777;font-size:11px;"> (${total.displayValue})</span>`
+                  : '';
+              };
+              const awayRec = getRecord(away);
+              const homeRec = getRecord(home);
+
+              // Logos (MLB uses logos array)
+              const awayLogo = (awayTeam.logos && awayTeam.logos[0] && awayTeam.logos[0].href) || '';
+              const homeLogo = (homeTeam.logos && homeTeam.logos[0] && homeTeam.logos[0].href) || '';
+
+              return `
+                <div style="display:flex;flex-direction:column;gap:8px;padding:12px;height:100%;box-sizing:border-box;">
+                  <!-- Top bar -->
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <div style="font-size:12px;color:#aaa;">
+                      ${gameDate} · ${gameTime}
+                      ${broadcast ? ' · ' + broadcast : ''}
+                    </div>
+                    <div>${badge}</div>
+                  </div>
+
+                  <!-- Teams + Score -->
+                  <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+                    <!-- Away -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                        <img src="${awayLogo}" style="height:26px;width:26px;flex-shrink:0;object-fit:contain;" onerror="this.style.display='none'">
+                        <div style="min-width:0;">
+                          <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${awayTeam.abbreviation || awayTeam.shortDisplayName || 'TBD'}${awayRec}
+                          </div>
+                          <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${awayTeam.displayName || ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="font-size:20px;font-weight:700;color:${awayColor};min-width:28px;text-align:right;">
+                        ${awayScore}
+                      </div>
+                    </div>
+
+                    <!-- Home -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                        <img src="${homeLogo}" style="height:26px;width:26px;flex-shrink:0;object-fit:contain;" onerror="this.style.display='none'">
+                        <div style="min-width:0;">
+                          <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${homeTeam.abbreviation || homeTeam.shortDisplayName || 'TBD'}${homeRec}
+                          </div>
+                          <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${homeTeam.displayName || ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="font-size:20px;font-weight:700;color:${homeColor};min-width:28px;text-align:right;">
+                        ${homeScore}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom info -->
+                  <div style="font-size:11px;color:#666;margin-top:auto;padding-top:4px;border-top:1px solid #2a2a2a;">
+                    <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${venueLine}</div>
+                  </div>
+                </div>
+              `;
+            })()            
+  espn_scoreboard:
+    card:
+      type: custom:flex-table-card
+      title: '[[title]]'
+      css:
+        table+: >
+          display: block !important; width: 100% !important; border-collapse:
+          separate; border-spacing: 0; box-sizing: border-box;
+        thead: 'display: none !important;'
+        tbody: >
+          display: grid !important; grid-template-columns: repeat(auto-fit,
+          minmax(min(100%, 230px), 1fr)); gap: 10px; padding: 10px; width: 100%
+          !important; box-sizing: border-box;
+        tbody tr: >
+          display: block !important; background: rgba(255,255,255,0.04); border:
+          1px solid #333; border-radius: 8px; overflow: hidden; min-width: 0;
+          transition: background 0.15s;
+        tbody tr:hover: 'background: rgba(255,255,255,0.08) !important;'
+        tbody tr td: >
+          display: block !important; padding: 0 !important; border: none
+          !important; min-width: 0;
+      card_mod:
+        style:
+          .: |
+            ha-card {
+              overflow: hidden;
+              border: 2px solid [[color]];
+              border-radius: 8px;
+              width: 100% !important;
+              max-width: 100% !important;
+              box-sizing: border-box;
+              background-color: #1a1a1a;
+              color: white;
+            }
+          $: |
+            .card-header {
+              background-color: [[color]];
+              color: white;
+              padding: 8px !important;
+              font-size: 15px !important;
+              font-weight: bold !important;
+            }
+      entities:
+        include: '[[entity]]'
+      columns:
+        - name: ''
+          data: events
+          modify: |-
+            (() => {
+              if (!x || !x.competitions || !x.competitions[0]) {
+                return `<div style="padding:14px;color:#aaa;text-align:center;">No data</div>`;
+              }
+
+              const event = x;
+              const comp = event.competitions[0];
+              const status = (comp.status && comp.status.type) || (event.status && event.status.type) || {};
+              const state = status.state || 'pre';
+              const shortDetail = status.shortDetail || status.detail || '';
+              const isFinal = state === 'post';
+              const isLive = state === 'in';
+
+              // Teams
+              const home = (comp.competitors || []).find(c => c.homeAway === 'home') || {};
+              const away = (comp.competitors || []).find(c => c.homeAway === 'away') || {};
+              const homeTeam = home.team || {};
+              const awayTeam = away.team || {};
+
+              // ===== SCORE (handles both NFL plain value and MLB object) =====
+              const getScore = (s) => {
+                if (s === undefined || s === null || s === '') return '-';
+                if (typeof s === 'object') return s.value ?? s.displayValue ?? '-';
+                return s;
+              };
+              const homeScore = getScore(home.score);
+              const awayScore = getScore(away.score);
+
+              // Score colors
+              let awayColor = '#ccc', homeColor = '#ccc';
+              if (isFinal) {
+                const a = Number(awayScore), h = Number(homeScore);
+                awayColor = a > h ? '#4caf50' : (a < h ? '#ef5350' : '#ccc');
+                homeColor = h > a ? '#4caf50' : (h < a ? '#ef5350' : '#ccc');
+              } else if (isLive) {
+                awayColor = homeColor = '#fff';
+              }
+
+              // Date / time
+              const d = new Date(event.date);
+              const gameDate = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+              const gameTime = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+              // ===== BROADCAST (handles both styles) =====
+              let broadcast = '';
+              if (comp.broadcasts && comp.broadcasts.length) {
+                broadcast = comp.broadcasts
+                  .map(b => {
+                    // MLB style
+                    if (b.media && b.media.shortName) return b.media.shortName;
+                    // NFL style
+                    if (b.names && b.names.length) return b.names.join(', ');
+                    return '';
+                  })
+                  .filter(Boolean)
+                  .join(', ');
+              } else if (comp.broadcast) {
+                broadcast = comp.broadcast;
+              }
+
+              // Venue
+              const venue = (comp.venue && comp.venue.fullName) || '';
+              const city = (comp.venue && comp.venue.address && comp.venue.address.city) || '';
+              const st = (comp.venue && comp.venue.address && comp.venue.address.state) || '';
+              const venueLine = venue ? `${venue}${city ? ' · ' + city + (st ? ', ' + st : '') : ''}` : '';
+
+              // Status badge
+              let badge = '';
+              if (isFinal) {
+                badge = `<span style="background:#fff;color:#000;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;">FINAL</span>`;
+              } else if (isLive) {
+                badge = `<span style="background:#4caf50;color:#fff;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;">LIVE · ${shortDetail}</span>`;
+              } else {
+                badge = `<span style="color:#999;font-size:12px;">${shortDetail || 'Scheduled'}</span>`;
+              }
+
+              // ===== RECORDS (handles both NFL "records" and MLB "record") =====
+              const getRecord = (obj) => {
+                // MLB style
+                if (obj.record && obj.record.length) {
+                  const total = obj.record.find(r => r.type === 'total') || obj.record[0];
+                  if (total && total.displayValue) {
+                    return `<span style="color:#777;font-size:11px;"> (${total.displayValue})</span>`;
+                  }
+                }
+                // NFL style
+                if (obj.records && obj.records[0] && obj.records[0].summary) {
+                  return `<span style="color:#777;font-size:11px;"> (${obj.records[0].summary})</span>`;
+                }
+                return '';
+              };
+              const awayRec = getRecord(away);
+              const homeRec = getRecord(home);
+
+              // ===== LOGOS (handles both NFL "logo" and MLB "logos[]") =====
+              const getLogo = (team) => {
+                if (team.logo) return team.logo;                          // NFL
+                if (team.logos && team.logos[0] && team.logos[0].href) return team.logos[0].href; // MLB
+                return '';
+              };
+              const awayLogo = getLogo(awayTeam);
+              const homeLogo = getLogo(homeTeam);
+
+              // Odds (NFL mostly)
+              let odds = '';
+              if (comp.odds && comp.odds[0]) {
+                const o = comp.odds[0];
+                odds = [o.details, o.overUnder ? `O/U ${o.overUnder}` : ''].filter(Boolean).join(' · ');
+              }
+
+              return `
+                <div style="display:flex;flex-direction:column;gap:8px;padding:12px;height:100%;box-sizing:border-box;">
+                  <!-- Top bar -->
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <div style="font-size:12px;color:#aaa;">
+                      ${gameDate} · ${gameTime}
+                      ${broadcast ? ' · ' + broadcast : ''}
+                    </div>
+                    <div>${badge}</div>
+                  </div>
+
+                  <!-- Teams + Score -->
+                  <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+                    <!-- Away -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                        <img src="${awayLogo}" style="height:26px;width:26px;flex-shrink:0;object-fit:contain;" onerror="this.style.display='none'">
+                        <div style="min-width:0;">
+                          <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${awayTeam.abbreviation || awayTeam.shortDisplayName || 'TBD'}${awayRec}
+                          </div>
+                          <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${awayTeam.displayName || ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="font-size:20px;font-weight:700;color:${awayColor};min-width:28px;text-align:right;">
+                        ${awayScore}
+                      </div>
+                    </div>
+
+                    <!-- Home -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                        <img src="${homeLogo}" style="height:26px;width:26px;flex-shrink:0;object-fit:contain;" onerror="this.style.display='none'">
+                        <div style="min-width:0;">
+                          <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${homeTeam.abbreviation || homeTeam.shortDisplayName || 'TBD'}${homeRec}
+                          </div>
+                          <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            ${homeTeam.displayName || ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="font-size:20px;font-weight:700;color:${homeColor};min-width:28px;text-align:right;">
+                        ${homeScore}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom info -->
+                  <div style="font-size:11px;color:#666;margin-top:auto;padding-top:4px;border-top:1px solid #2a2a2a;">
+                    <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${venueLine}</div>
+                    ${odds ? `<div style="color:#888;margin-top:2px;">${odds}</div>` : ''}
+                  </div>
+                </div>
+              `;
+            })()
 views:
   - title: NFL Season
     path: nfl-season
@@ -209,6 +608,26 @@ views:
             --mdc-tab-text-label-color-default: silver
             --mdc-typography-button-font-size: 13px
           tabs:
+            - attributes:
+                label: MLB/NFL Team Schedule
+                icon: mdi:numeric-1-circle
+              card:
+                type: custom:decluttering-card
+                template: espn_scoreboard
+                variables:
+                  - title: San Diego Padres
+                  - entity: sensor.mlb_schedule_san_diego_padres
+                  - color: '#2F241D'
+            - attributes:
+                label: MLB/NFL Team Schedule
+                icon: mdi:numeric-2-circle
+              card:
+                type: custom:decluttering-card
+                template: espn_scoreboard
+                variables:
+                  - title: San Diego Padres
+                  - entity: sensor.nfl_schedule_denver_broncos
+                  - color: '#2F241D'
             - attributes:
                 label: Pre-Season Week 1
                 icon: mdi:numeric-1-circle
