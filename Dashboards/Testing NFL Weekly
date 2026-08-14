@@ -625,9 +625,9 @@ views:
                 type: custom:decluttering-card
                 template: espn_schedules_scoreboard
                 variables:
-                  - title: San Diego Padres
+                  - title: Denver Broncos
                   - entity: sensor.nfl_schedule_denver_broncos
-                  - color: '#2F241D'
+                  - color: '#FB4F14'
             - attributes:
                 label: Pre-Season Week 1
                 icon: mdi:numeric-1-circle
